@@ -567,28 +567,126 @@ p {
 }
 
 /* ---------- Mobile Responsive ---------- */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  /* Hide nav dots on mobile — too small to tap */
+  .nav-dots {
+    display: none;
+  }
+
+  /* Music toggle — smaller on mobile, stays out of way */
+  #music-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
+
+  /* Bigger tap targets for all buttons */
+  .btn, .nav-btn, .yes-btn, .replay-btn {
+    min-height: 48px;
+  }
+
+  /* Cards — tighter padding on mobile */
+  .reason-card {
+    padding: 1.2rem 1.2rem;
+    margin-top: 1rem;
+  }
+
+  /* Bilingual text — tighter on mobile */
+  .bilingual .en {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+  }
+  .bilingual .kr {
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+  }
+
+  /* Character sizes */
   .character-stage {
-    height: 240px;
+    height: 220px;
   }
   .character-stage.tall {
-    height: 320px;
+    height: 280px;
   }
-  #honeybee-char { width: 75px; height: 75px; }
-  #sunflower-char { width: 100px; height: 160px; }
+  #honeybee-char { width: 70px; height: 70px; }
+  #sunflower-char { width: 90px; height: 145px; }
 
-  .nav-dots {
-    right: 0.7rem;
-  }
-
-  .reason-card {
-    padding: 1.2rem 1.4rem;
-  }
-
+  /* YES buttons — stack vertically on small screens */
   .btn-yes {
     font-size: 1.1rem;
     padding: 0.9em 1.8em;
+    width: 100%;
+    max-width: 300px;
   }
+
+  /* Scene padding reduction */
+  .scene {
+    gap: 1.2rem;
+    padding: 1rem 0.8rem;
+  }
+
+  /* Progress stem — hide on mobile */
+  .progress-stem, .progress-flower {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small phones (iPhone SE, Galaxy A series) */
+  html { font-size: 14px; }
+
+  #music-toggle {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+
+  .reason-card {
+    padding: 1rem 1rem;
+    border-radius: 14px;
+  }
+
+  .reason-card::before {
+    font-size: 1.4rem;
+  }
+
+  .wish-text {
+    font-size: clamp(1.5rem, 7vw, 2.5rem);
+  }
+
+  .celebrate-text {
+    font-size: clamp(1.8rem, 10vw, 3.5rem);
+  }
+
+  /* Make YES buttons full width on tiny screens */
+  .btn-yes {
+    width: 90%;
+    max-width: none;
+  }
+}
+
+/* ---------- Landing Page Mobile ---------- */
+@media (max-width: 768px) {
+  .garden-strip { height: 18vh !important; }
+  .nope-flower { bottom: 12vh !important; font-size: clamp(1.6rem, 6vw, 2.5rem) !important; }
+  .nope-flower.nope-3 { left: 68% !important; }
+  .nope-flower.nope-4 { left: 82% !important; }
+  #main-sunflower { bottom: 10vh !important; width: clamp(90px, 22vw, 140px) !important; }
+  .sunflower-glow { bottom: 14vh !important; width: clamp(120px, 36vw, 200px) !important; height: clamp(120px, 36vw, 200px) !important; }
+  #begin-btn { bottom: 24vh !important; font-size: clamp(1rem, 4.5vw, 1.4rem) !important; padding: 0.85em 1.8em !important; min-height: 52px !important; }
+  .landing-text { top: 4% !important; padding: 1rem 1.2rem !important; }
+  .landing-title { font-size: clamp(1.6rem, 7vw, 2.6rem) !important; }
+  .moon { width: 44px !important; height: 44px !important; top: 4% !important; right: 5% !important; }
+}
+
+@media (max-width: 480px) {
+  .garden-strip { height: 15vh !important; }
+  .nope-flower { bottom: 9vh !important; font-size: clamp(1.4rem, 7vw, 2rem) !important; }
+  #main-sunflower { bottom: 8vh !important; width: clamp(80px, 25vw, 120px) !important; }
+  #begin-btn { bottom: 20vh !important; }
+  .landing-text { top: 3% !important; }
 }
 
 /* ---------- Utility ---------- */

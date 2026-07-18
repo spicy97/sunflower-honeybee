@@ -74,6 +74,19 @@
       50% { transform: translateY(-18px) rotate(4deg); }
     }
 
+    /* ---- Mobile ---- */
+    @media (max-width: 768px) {
+      .ch3-wrapper { padding: 3rem 1rem 4rem; justify-content: flex-start; padding-top: 4rem; }
+      .lantern { font-size: clamp(2.5rem, 12vw, 4rem); }
+      .wish-line { font-size: clamp(1.5rem, 6vw, 2.8rem); }
+      .yes-section { flex-direction: column; align-items: center; gap: 1rem; }
+      .yes-section .btn-yes { width: 85%; max-width: 320px; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .ch3-wrapper { padding-top: 3rem; }
+      .wish-line { font-size: clamp(1.3rem, 7vw, 2.2rem); }
+    }
+
     /* ---- Wish text lines ---- */
     .wish-section {
       position: relative;

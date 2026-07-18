@@ -32,6 +32,12 @@
       justify-content: center;
     }
 
+    /* Mobile: allow scrolling if content overflows */
+    @media (max-width: 768px) {
+      body { overflow: auto; }
+      .landing-wrapper { height: 100svh; min-height: 100vh; }
+    }
+
     /* Stars layer */
     #stars-bg {
       position: absolute;

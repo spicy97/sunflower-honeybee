@@ -79,6 +79,20 @@
       transform: translateY(0);
     }
 
+    /* ---- Mobile ---- */
+    @media (max-width: 768px) {
+      .resp-wrapper { padding: 2.5rem 1rem 4rem; gap: 0; }
+      .yes-headline { font-size: clamp(3.5rem, 16vw, 7rem); margin-bottom: 0.1rem; }
+      .yes-emoji-row { font-size: clamp(1.6rem, 7vw, 3rem); letter-spacing: 0.15em; margin-bottom: 1rem; }
+      .message-card { padding: 1.6rem 1.2rem; }
+      .message-en { font-size: clamp(1.1rem, 4.5vw, 1.8rem); }
+      .resp-characters { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .yes-headline { font-size: clamp(3rem, 18vw, 6rem); }
+      .message-card { padding: 1.2rem 1rem; }
+    }
+
     /* ---- Message card ---- */
     .message-card {
       max-width: 580px;

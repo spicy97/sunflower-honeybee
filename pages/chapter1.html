@@ -115,6 +115,17 @@
       transform: translateX(80px);
     }
 
+    @media (max-width: 768px) {
+      .ch1-bee, .ch1-sf { margin-bottom: 20px; width: clamp(70px, 20vw, 110px); }
+      .ch1-stage { height: 200px; }
+      .ch1-text-section { padding: 1.4rem 1.2rem; margin-top: 1.5rem; }
+      .ch1-ground { height: 14vh; }
+    }
+    @media (max-width: 480px) {
+      .ch1-bee, .ch1-sf { margin-bottom: 10px; width: clamp(60px, 22vw, 90px); }
+      .ch1-stage { height: 160px; }
+    }
+
     /* ---- Text section ---- */
     .ch1-text-section {
       position: relative;
