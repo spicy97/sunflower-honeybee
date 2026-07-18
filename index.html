@@ -11,126 +11,195 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
 
-  <!-- Global Styles -->
   <link rel="stylesheet" href="assets/css/styles.css" />
 
   <style>
-    /* ---- Landing Page Specific ---- */
-    body {
-      overflow: hidden; /* No scroll on landing — it's a full-screen cinematic scene */
+    /* =============================================
+       SINGLE PAGE — ALL SECTIONS
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* SPA — we control scrolling per section */
+      font-family: 'Nanum Myeongjo', Georgia, serif;
     }
 
-    .landing-wrapper {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      background: radial-gradient(ellipse at 50% 20%, #0d2060 0%, #022658 50%, #010e2a 100%);
-      overflow: hidden;
+    /* Each section is full-screen, hidden by default */
+    .section {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+      z-index: 1;
+    }
+
+    .section.active {
+      opacity: 1;
+      pointer-events: all;
+      z-index: 2;
+    }
+
+    /* ---- Music toggle (global, always on top) ---- */
+    #music-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,247,120,0.15);
+      border: 2px solid #FFF778;
+      color: #FFF778;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
       justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s ease;
     }
+    #music-toggle:hover { background: rgba(255,247,120,0.3); }
+    #music-toggle.day { border-color: #022658; color: #022658; background: rgba(2,38,88,0.1); }
+    #music-toggle.day:hover { background: rgba(2,38,88,0.2); }
 
-    /* Mobile: allow scrolling if content overflows */
-    @media (max-width: 768px) {
-      body { overflow: auto; }
-      .landing-wrapper { height: 100svh; min-height: 100vh; }
-    }
-
-    /* Stars layer */
-    #stars-bg {
-      position: absolute;
+    /* ---- Canvas ---- */
+    #particle-canvas {
+      position: fixed;
       inset: 0;
+      pointer-events: none;
       z-index: 0;
     }
 
-    /* Ground / garden strip */
+    /* ========================
+       SECTION 0 — LANDING
+       ======================== */
+    #s0 {
+      background: radial-gradient(ellipse at 50% 20%, #0d2060 0%, #022658 50%, #010e2a 100%);
+      justify-content: center;
+    }
+
+    .moon {
+      position: absolute;
+      top: 5%;
+      right: 7%;
+      width: clamp(44px, 8vw, 80px);
+      height: clamp(44px, 8vw, 80px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FFFDE7, #FFF59D);
+      box-shadow: 0 0 30px rgba(255,247,120,0.4);
+      z-index: 1;
+      animation: moon-glow 4s ease-in-out infinite;
+    }
+    @keyframes moon-glow {
+      0%,100% { box-shadow: 0 0 30px rgba(255,247,120,0.4); }
+      50% { box-shadow: 0 0 50px rgba(255,247,120,0.7); }
+    }
+
+    .firefly {
+      position: absolute;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #FFF778;
+      box-shadow: 0 0 6px 2px rgba(255,247,120,0.8);
+      animation: firefly-float var(--fdur,6s) ease-in-out infinite var(--fdel,0s);
+    }
+    @keyframes firefly-float {
+      0%   { transform: translate(0,0) scale(0.8); opacity:0.2; }
+      25%  { transform: translate(var(--fx1,20px),var(--fy1,-30px)) scale(1.2); opacity:1; }
+      50%  { transform: translate(var(--fx2,-15px),var(--fy2,-60px)) scale(0.9); opacity:0.6; }
+      75%  { transform: translate(var(--fx3,30px),var(--fy3,-40px)) scale(1.1); opacity:0.9; }
+      100% { transform: translate(0,0) scale(0.8); opacity:0.2; }
+    }
+
     .garden-strip {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 22vh;
+      bottom: 0; left: 0; width: 100%;
+      height: 20vh;
       background: linear-gradient(180deg, #2d6e2d 0%, #1d4e1d 60%, #0f2e0f 100%);
       border-radius: 40% 40% 0 0 / 15% 15% 0 0;
       z-index: 2;
     }
 
-    /* Grass blades */
     .grass-blade {
-      position: absolute;
-      bottom: 100%;
+      position: absolute; bottom: 100%;
       width: 4px;
-      height: 30px;
       background: linear-gradient(180deg, #4ebe4e, #2d6e2d);
       border-radius: 2px 2px 0 0;
       transform-origin: bottom center;
       animation: sway-grass 2.5s ease-in-out infinite;
     }
+    @keyframes sway-grass { 0%,100% { transform:rotate(-5deg); } 50% { transform:rotate(5deg); } }
 
-    @keyframes sway-grass {
-      0%, 100% { transform: rotate(-5deg); }
-      50% { transform: rotate(5deg); }
-    }
-
-    /* Nope flowers */
     .nope-flower {
       position: absolute;
-      bottom: 16vh;
-      font-size: clamp(2rem, 5vw, 3.5rem);
+      bottom: 14vh;
+      font-size: clamp(1.6rem, 5vw, 3rem);
       z-index: 3;
-      transition: transform 0.3s ease, filter 0.5s ease;
-      cursor: default;
       transform-origin: bottom center;
+      animation: sway-flower 3s ease-in-out infinite;
+      transition: filter 0.5s ease, transform 0.3s ease;
     }
+    .nope-flower.rejected { filter: grayscale(0.7) opacity(0.5); transform: rotate(-15deg); }
+    .nope-flower.nope-1 { left:6%; }
+    .nope-flower.nope-2 { left:20%; }
+    .nope-flower.nope-3 { left:70%; }
+    .nope-flower.nope-4 { left:83%; }
+    @keyframes sway-flower { 0%,100% { transform:rotate(-4deg); } 50% { transform:rotate(4deg); } }
 
-    .nope-flower.rejected {
-      filter: grayscale(0.7) opacity(0.5);
-      transform: rotate(-15deg);
-    }
-
-    .nope-flower.nope-1 { left: 6%; animation: sway-flower 3.2s ease-in-out infinite; }
-    .nope-flower.nope-2 { left: 20%; animation: sway-flower 2.8s ease-in-out infinite 0.4s; }
-    .nope-flower.nope-3 { left: 72%; animation: sway-flower 3.5s ease-in-out infinite 0.2s; }
-    .nope-flower.nope-4 { left: 85%; animation: sway-flower 2.6s ease-in-out infinite 0.7s; }
-
-    @keyframes sway-flower {
-      0%, 100% { transform: rotate(-4deg); }
-      50% { transform: rotate(4deg); }
-    }
-
-    /* Main sunflower (the hero) */
     #main-sunflower {
       position: absolute;
-      bottom: 14vh;
-      left: 50%;
+      bottom: 12vh; left: 50%;
       transform: translateX(-50%);
-      width: clamp(110px, 18vw, 180px);
+      width: clamp(90px, 18vw, 160px);
       height: auto;
       z-index: 4;
       opacity: 0;
       transform-origin: bottom center;
     }
 
-    /* Honeybee character */
-    #main-bee {
+    .sunflower-glow {
       position: absolute;
-      width: clamp(70px, 10vw, 110px);
+      bottom: 16vh; left: 50%;
+      transform: translateX(-50%);
+      width: clamp(140px, 28vw, 260px);
+      height: clamp(140px, 28vw, 260px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,247,120,0.22) 0%, transparent 70%);
+      z-index: 3;
+      opacity: 0;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { transform:translateX(-50%) scale(1); opacity:0.7; }
+      50% { transform:translateX(-50%) scale(1.1); opacity:1; }
+    }
+
+    #main-bee {
+      position: fixed;
+      width: clamp(65px, 10vw, 100px);
       height: auto;
       z-index: 10;
       opacity: 0;
-      top: 30%;
-      left: -150px;
+      top: 30%; left: -150px;
     }
 
-    /* Bee speech bubble (nope!) */
     #speech-bubble {
-      position: absolute;
+      position: fixed;
       background: white;
       color: #022658;
       font-family: 'Nanum Pen Script', cursive;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       padding: 0.4em 0.8em;
       border-radius: 12px;
       z-index: 11;
@@ -138,468 +207,1033 @@
       pointer-events: none;
       white-space: nowrap;
     }
-
     #speech-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 14px;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid white;
+      content:''; position:absolute;
+      bottom:-8px; left:14px;
+      border:8px solid transparent;
+      border-top-color: white;
+      border-bottom: none;
     }
 
-    /* Glow halo around main sunflower */
-    .sunflower-glow {
-      position: absolute;
-      bottom: 20vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: clamp(160px, 26vw, 280px);
-      height: clamp(160px, 26vw, 280px);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,247,120,0.25) 0%, rgba(255,247,120,0) 70%);
-      z-index: 3;
-      opacity: 0;
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
-      50% { transform: translateX(-50%) scale(1.12); opacity: 1; }
-    }
-
-    /* Center text content */
     .landing-text {
-      position: relative;
-      z-index: 6;
+      position: absolute;
+      top: 5%; left: 50%;
+      transform: translateX(-50%);
+      width: 90%; max-width: 480px;
       text-align: center;
-      padding: 1.5rem 2rem;
-      background: rgba(1, 14, 42, 0.55);
+      padding: 1.4rem 1.8rem;
+      background: rgba(1,14,42,0.55);
       backdrop-filter: blur(6px);
       border-radius: 20px;
-      border: 1px solid rgba(255, 247, 120, 0.15);
-      max-width: 500px;
-      width: 90%;
-      /* positioned at top-center, above garden */
-      position: absolute;
-      top: 6%;
-      left: 50%;
-      transform: translateX(-50%);
+      border: 1px solid rgba(255,247,120,0.15);
+      z-index: 6;
       opacity: 0;
     }
-
     .landing-title {
       font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(2rem, 6vw, 3.8rem);
+      font-size: clamp(1.8rem, 6vw, 3.5rem);
       color: #FFF778;
-      line-height: 1.2;
       text-shadow: 0 0 20px rgba(255,247,120,0.6);
     }
-
     .landing-subtitle {
       font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.85rem, 2vw, 1.05rem);
-      color: rgba(255, 247, 120, 0.7);
-      margin-top: 0.4rem;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      color: rgba(255,247,120,0.7);
+      margin-top: 0.3rem;
       letter-spacing: 0.08em;
     }
 
-    /* Begin button — appears after animation */
     #begin-btn {
       position: absolute;
-      bottom: 28vh;
-      left: 50%;
+      bottom: 25vh; left: 50%;
       transform: translateX(-50%);
       z-index: 15;
       opacity: 0;
       pointer-events: none;
-      font-size: clamp(1.1rem, 3vw, 1.6rem);
-      padding: 0.9em 2.4em;
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      padding: 0.9em 2.2em;
       background: linear-gradient(135deg, #FFF778, #F5C518);
       color: #022658;
-      border: none;
-      border-radius: 50px;
+      border: none; border-radius: 50px;
       font-family: 'Nanum Pen Script', cursive;
       cursor: pointer;
       box-shadow: 0 6px 30px rgba(255,247,120,0.5);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     #begin-btn.visible {
       opacity: 1;
       pointer-events: all;
-      animation: pulse-btn 2.2s ease-in-out infinite;
+      animation: pulse-btn 2s ease-in-out infinite;
+    }
+    @keyframes pulse-btn {
+      0%,100% { box-shadow:0 6px 30px rgba(255,247,120,0.5); transform:translateX(-50%) translateY(0); }
+      50% { box-shadow:0 10px 40px rgba(255,247,120,0.8); transform:translateX(-50%) translateY(-4px); }
+    }
+    #begin-btn:hover { animation:none; transform:translateX(-50%) translateY(-5px) scale(1.05); }
+    .btn-kr { display:block; font-size:0.58em; font-family:'Noto Serif KR',serif; opacity:0.75; margin-top:0.1em; letter-spacing:0.05em; }
+
+    /* ========================
+       SECTION 1 — CHAPTER 1
+       ======================== */
+    #s1 {
+      background: linear-gradient(180deg, #b8e4f9 0%, #dff0fa 30%, #e8f5e9 60%, #c8e6c9 100%);
+      color: #022658;
+      justify-content: flex-start;
+      padding-bottom: 4rem;
     }
 
-    #begin-btn:hover {
-      transform: translateX(-50%) translateY(-4px) scale(1.06);
-      box-shadow: 0 10px 40px rgba(255,247,120,0.8);
-      animation: none;
-    }
-
-    .btn-kr {
-      display: block;
-      font-size: 0.6em;
-      font-family: 'Noto Serif KR', serif;
-      opacity: 0.75;
-      margin-top: 0.1em;
-      letter-spacing: 0.06em;
-    }
-
-    /* Fireflies */
-    .firefly {
+    .cloud {
       position: absolute;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #FFF778;
-      z-index: 3;
-      animation: firefly-float var(--fdur, 6s) ease-in-out infinite;
-      animation-delay: var(--fdel, 0s);
-      box-shadow: 0 0 6px 2px rgba(255,247,120,0.8);
-    }
-
-    @keyframes firefly-float {
-      0%   { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
-      25%  { transform: translate(var(--fx1, 20px), var(--fy1, -30px)) scale(1.2); opacity: 1; }
-      50%  { transform: translate(var(--fx2, -15px), var(--fy2, -60px)) scale(0.9); opacity: 0.6; }
-      75%  { transform: translate(var(--fx3, 30px), var(--fy3, -40px)) scale(1.1); opacity: 0.9; }
-      100% { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
-    }
-
-    /* Moon */
-    .moon {
-      position: absolute;
-      top: 6%;
-      right: 8%;
-      width: clamp(50px, 8vw, 90px);
-      height: clamp(50px, 8vw, 90px);
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #FFFDE7, #FFF59D);
-      box-shadow: 0 0 30px rgba(255,247,120,0.4), 0 0 60px rgba(255,247,120,0.15);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.85);
+      animation: drift-cloud var(--cdur,18s) linear infinite;
+      filter: blur(1px);
       z-index: 1;
-      animation: moon-glow 4s ease-in-out infinite;
+    }
+    @keyframes drift-cloud { from { transform:translateX(-120%); } to { transform:translateX(110vw); } }
+
+    .ch1-ground {
+      position: absolute; bottom:0; left:0; width:100%;
+      height: 16vh;
+      background: linear-gradient(180deg, #66bb6a 0%, #388e3c 100%);
+      border-radius: 50% 50% 0 0 / 8% 8% 0 0;
+      z-index: 2;
+    }
+    .ground-flower {
+      position: absolute; bottom:100%;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      animation: sway-sm 3s ease-in-out infinite;
+    }
+    @keyframes sway-sm { 0%,100%{transform:rotate(-4deg);} 50%{transform:rotate(4deg);} }
+
+    .ch1-text-card {
+      position: relative; z-index:10;
+      width:90%; max-width:620px;
+      margin: 5rem auto 1.5rem;
+      text-align: center;
+      padding: 2rem 1.8rem;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      border: 1px solid rgba(2,38,88,0.1);
+      box-shadow: 0 8px 32px rgba(2,38,88,0.08);
+    }
+    .ch1-main { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.4rem,4.5vw,2.8rem); color:#022658; line-height:1.4; margin-bottom:0.5rem; }
+    .ch1-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.82rem,2vw,1.05rem); color:rgba(2,38,88,0.6); line-height:1.8; }
+    .quote-block { background:rgba(2,38,88,0.05); border-left:4px solid #FFF778; border-radius:0 12px 12px 0; padding:1rem 1.3rem; margin:1.2rem 0; text-align:left; }
+    .quote-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1rem,2.5vw,1.5rem); color:#022658; line-height:1.5; }
+    .quote-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.75rem,1.8vw,0.95rem); color:rgba(2,38,88,0.55); margin-top:0.3rem; }
+
+    .ch1-stage {
+      position: relative; z-index:5;
+      width:100%; max-width:600px;
+      height: 200px;
+      display:flex; align-items:flex-end; justify-content:space-around;
+      margin-top: auto;
+    }
+    .ch1-bee, .ch1-sf { width:clamp(65px,15vw,110px); height:auto; opacity:0; }
+
+    /* ========================
+       SECTION 2 — CHAPTER 2
+       ======================== */
+    #s2 {
+      background: linear-gradient(160deg, #022658 0%, #0d3a7a 40%, #1a3a6e 70%, #2d1b6e 100%);
+      color: #fffef0;
+      justify-content: flex-start;
+      padding-bottom: 4rem;
     }
 
-    @keyframes moon-glow {
-      0%, 100% { box-shadow: 0 0 30px rgba(255,247,120,0.4), 0 0 60px rgba(255,247,120,0.15); }
-      50% { box-shadow: 0 0 40px rgba(255,247,120,0.6), 0 0 80px rgba(255,247,120,0.25); }
+    .ch2-header { text-align:center; margin:4rem 0 0.5rem; position:relative; z-index:5; width:100%; }
+    .ch2-tag { font-family:'Noto Serif KR',serif; font-size:0.82rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,247,120,0.5); }
+    .ch2-title { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.8rem,5vw,3.2rem); color:#FFF778; text-shadow:0 0 20px rgba(255,247,120,0.5); margin-top:0.3rem; }
+    .ch2-title-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.85rem,2vw,1.1rem); color:rgba(255,247,120,0.6); margin-top:0.2rem; letter-spacing:0.06em; }
+
+    .cards-container { display:flex; flex-direction:column; align-items:center; gap:1.5rem; width:100%; max-width:540px; padding:0 1rem; position:relative; z-index:5; margin-top:1.5rem; }
+    .reason-card {
+      background:rgba(255,247,120,0.07);
+      border:1px solid rgba(255,247,120,0.25);
+      border-radius:20px;
+      padding:1.4rem 1.6rem;
+      width:100%;
+      text-align:center;
+      backdrop-filter:blur(10px);
+      box-shadow:0 4px 28px rgba(0,0,0,0.25);
+      opacity:0;
+      transform:translateY(50px);
+      transition:opacity 0.7s ease, transform 0.7s ease;
+      position:relative;
+    }
+    .reason-card.visible { opacity:1; transform:translateY(0); }
+    .reason-card::before { content:attr(data-icon); position:absolute; top:-1rem; left:50%; transform:translateX(-50%); font-size:1.6rem; line-height:1; }
+    .card-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1rem,3vw,1.55rem); color:#FFF778; line-height:1.5; margin-bottom:0.4rem; }
+    .card-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.75rem,1.8vw,0.95rem); color:rgba(255,247,120,0.65); line-height:1.8; }
+
+    .ch2-chars { display:flex; justify-content:center; align-items:flex-end; gap:2rem; margin:2rem 0 1rem; position:relative; z-index:5; }
+    .ch2-bee { width:clamp(65px,11vw,100px); height:auto; opacity:0; animation:float-bee 3s ease-in-out infinite; }
+    .ch2-sf  { width:clamp(80px,14vw,120px); height:auto; opacity:0; }
+    @keyframes float-bee { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(3deg);} }
+
+    .closing-quote {
+      max-width:500px; width:90%;
+      text-align:center; margin:1.5rem auto;
+      padding:1.5rem 1.8rem;
+      background:rgba(255,247,120,0.06);
+      border:1px solid rgba(255,247,120,0.2);
+      border-radius:20px;
+      position:relative; z-index:5;
+      opacity:0; transform:translateY(30px);
+      transition:opacity 0.8s ease, transform 0.8s ease;
+    }
+    .closing-quote.visible { opacity:1; transform:translateY(0); }
+    .cq-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.1rem,3vw,1.7rem); color:#FFF778; line-height:1.5; }
+    .cq-kr  { font-family:'Noto Serif KR',serif; font-size:clamp(0.78rem,1.8vw,1rem); color:rgba(255,247,120,0.6); margin-top:0.6rem; line-height:1.8; }
+
+    /* ========================
+       SECTION 3 — CHAPTER 3
+       ======================== */
+    #s3 {
+      background: radial-gradient(ellipse at 50% 30%, #0d1a4a 0%, #020e2e 60%, #010818 100%);
+      color: #fffef0;
+      justify-content: center;
     }
 
-    /* Hidden YT player div */
-    #yt-player { position: fixed; top: -9999px; left: -9999px; }
+    .ch3-inner { position:relative; z-index:5; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center; width:90%; max-width:640px; padding:4rem 0 3rem; }
+    .ch3-tag { font-family:'Noto Serif KR',serif; font-size:0.8rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,247,120,0.4); margin-bottom:0.5rem; }
+    .lantern { font-size:clamp(3rem,10vw,5rem); display:inline-block; animation:float-lantern 3.5s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(255,200,80,0.7)); }
+    @keyframes float-lantern { 0%,100%{transform:translateY(0) rotate(-4deg);} 50%{transform:translateY(-16px) rotate(4deg);} }
+
+    .wish-line {
+      font-family:'Nanum Pen Script',cursive;
+      font-size:clamp(1.6rem,5.5vw,3.5rem);
+      color:#FFF778; line-height:1.4;
+      opacity:0; transform:translateY(24px);
+      transition:opacity 0.8s ease, transform 0.8s ease;
+      text-shadow:0 0 24px rgba(255,247,120,0.5);
+    }
+    .wish-line.show { opacity:1; transform:translateY(0); }
+    .wish-line.glow-strong { text-shadow:0 0 30px rgba(255,247,120,0.9), 0 0 60px rgba(255,247,120,0.4); }
+    .wish-sub { font-family:'Noto Serif KR',serif; font-size:clamp(0.82rem,2vw,1.05rem); color:rgba(255,247,120,0.6); opacity:0; transform:translateY(14px); transition:opacity 0.7s ease, transform 0.7s ease; letter-spacing:0.06em; }
+    .wish-sub.show { opacity:1; transform:translateY(0); }
+    .shimmer-pause { width:60px; height:2px; margin:0.8rem auto; background:linear-gradient(90deg,transparent,#FFF778,transparent); opacity:0; transition:opacity 0.6s ease; }
+    .shimmer-pause.show { opacity:1; }
+
+    .ch3-stage { position:relative; z-index:5; width:100%; max-width:560px; display:flex; justify-content:space-around; align-items:flex-end; min-height:180px; margin:1rem 0; }
+    .ch3-bee { width:clamp(70px,13vw,115px); height:auto; opacity:0; transform:translateX(-60px); filter:drop-shadow(0 8px 20px rgba(255,247,120,0.2)); animation:float-bee-ch3 3s ease-in-out infinite; }
+    .ch3-sf  { width:clamp(85px,15vw,130px); height:auto; opacity:0; transform:translateX(60px); filter:drop-shadow(0 8px 20px rgba(255,247,120,0.3)); }
+    @keyframes float-bee-ch3 { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+    .hearts-between { position:absolute; bottom:60%; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; gap:0.3rem; align-items:center; opacity:0; transition:opacity 0.8s ease; }
+    .hearts-between.show { opacity:1; }
+    .float-heart { font-size:1.5rem; animation:heart-float-up var(--hdur,2s) ease-in-out infinite var(--hdel,0s); }
+    @keyframes heart-float-up { 0%{transform:translateY(0) scale(0.8);opacity:0.6;} 50%{transform:translateY(-20px) scale(1.1);opacity:1;} 100%{transform:translateY(-40px) scale(0.6);opacity:0;} }
+
+    .question-section { width:90%; max-width:560px; text-align:center; opacity:0; transform:translateY(30px); transition:opacity 0.9s ease, transform 0.9s ease; position:relative; z-index:5; }
+    .question-section.show { opacity:1; transform:translateY(0); }
+    .question-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.6rem,5vw,3.2rem); color:#FFF778; line-height:1.4; text-shadow:0 0 30px rgba(255,247,120,0.7); margin-bottom:0.4rem; }
+    .question-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.85rem,2vw,1.1rem); color:rgba(255,247,120,0.65); letter-spacing:0.06em; line-height:1.9; margin-bottom:2rem; }
+
+    .btn-row { display:flex; justify-content:center; gap:1.2rem; flex-wrap:wrap; opacity:0; transform:translateY(20px); transition:opacity 0.8s ease, transform 0.8s ease; }
+    .btn-row.show { opacity:1; transform:translateY(0); }
+    .yes-btn { padding:0.9em 2.5em; border-radius:50px; font-family:'Nanum Pen Script',cursive; font-size:clamp(1.1rem,3.5vw,1.8rem); cursor:pointer; border:none; display:flex; flex-direction:column; align-items:center; transition:all 0.3s ease; min-height:52px; }
+    .yes-btn-kr { font-family:'Noto Serif KR',serif; font-size:0.5em; opacity:0.8; margin-top:0.15em; }
+    .yes-btn-1 { background:linear-gradient(135deg,#FFF778,#F5C518); color:#022658; box-shadow:0 6px 32px rgba(255,247,120,0.55); animation:pulse-yes 2s ease-in-out infinite; }
+    .yes-btn-2 { background:linear-gradient(135deg,#022658,#0d3a7a); color:#FFF778; border:2px solid rgba(255,247,120,0.5); box-shadow:0 6px 32px rgba(2,38,88,0.5); animation:pulse-yes 2s ease-in-out infinite 0.3s; }
+    @keyframes pulse-yes { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-6px) scale(1.03);} }
+    .yes-btn-1:hover,.yes-btn-2:hover { transform:translateY(-8px) scale(1.07)!important; animation:none; box-shadow:0 12px 40px rgba(255,247,120,0.8); }
+
+    @media (max-width:540px) {
+      .btn-row { flex-direction:column; align-items:center; }
+      .yes-btn { width:85%; max-width:300px; justify-content:center; }
+    }
+
+    /* ========================
+       SECTION 4 — RESPONSE
+       ======================== */
+    #s4 {
+      background: radial-gradient(ellipse at 50% 40%, #0d1f5a 0%, #022658 50%, #010f2e 100%);
+      color: #fffef0;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .yes-headline {
+      font-family:'Nanum Pen Script',cursive;
+      font-size:clamp(3.5rem,14vw,9rem);
+      color:#FFF778;
+      text-align:center;
+      text-shadow:0 0 30px rgba(255,247,120,0.9),0 0 70px rgba(255,247,120,0.5);
+      line-height:1;
+      opacity:0;
+      transform:scale(0.4) rotate(-8deg);
+      transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
+      position:relative; z-index:10;
+      margin-bottom:0.2rem;
+    }
+    .yes-headline.show { opacity:1; transform:scale(1) rotate(0deg); }
+
+    .yes-emoji-row { font-size:clamp(1.6rem,6vw,3.5rem); text-align:center; opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; position:relative; z-index:10; letter-spacing:0.25em; margin-bottom:1rem; }
+    .yes-emoji-row.show { opacity:1; transform:translateY(0); }
+
+    .dance-stage { position:relative; z-index:10; display:flex; justify-content:center; align-items:flex-end; gap:clamp(1rem,5vw,3.5rem); margin:1rem 0; width:100%; max-width:440px; }
+    .dance-bee { width:clamp(75px,14vw,120px); height:auto; opacity:0; animation:dance-bee 0.6s ease-in-out infinite alternate; filter:drop-shadow(0 0 18px rgba(255,247,120,0.5)); }
+    .dance-sf  { width:clamp(85px,16vw,135px); height:auto; opacity:0; animation:dance-sf 0.5s ease-in-out infinite alternate 0.1s; filter:drop-shadow(0 0 18px rgba(255,247,120,0.4)); }
+    @keyframes dance-bee { from{transform:translateY(0) rotate(-8deg) scale(1);} to{transform:translateY(-16px) rotate(8deg) scale(1.07);} }
+    @keyframes dance-sf  { from{transform:translateY(-4px) rotate(5deg) scale(1.04);} to{transform:translateY(4px) rotate(-5deg) scale(1);} }
+    .dance-heart { position:absolute; top:0; left:50%; transform:translateX(-50%); font-size:2.2rem; opacity:0; animation:heart-dance-float 1.5s ease-in-out infinite; }
+    @keyframes heart-dance-float { 0%{transform:translateX(-50%) translateY(0) scale(0.8);opacity:0;} 30%{opacity:1;} 60%{transform:translateX(-50%) translateY(-35px) scale(1.2);opacity:1;} 100%{transform:translateX(-50%) translateY(-70px) scale(0.6);opacity:0;} }
+
+    .message-card {
+      max-width:540px; width:92%;
+      background:rgba(255,247,120,0.07);
+      border:1px solid rgba(255,247,120,0.25);
+      border-radius:24px;
+      padding:1.8rem 1.6rem;
+      text-align:center;
+      backdrop-filter:blur(12px);
+      position:relative; z-index:10;
+      opacity:0; transform:translateY(40px);
+      transition:opacity 0.9s ease, transform 0.9s ease;
+    }
+    .message-card.show { opacity:1; transform:translateY(0); }
+    .message-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.1rem,3.5vw,2rem); color:#FFF778; line-height:1.6; margin-bottom:0.8rem; }
+    .message-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.8rem,2vw,1.05rem); color:rgba(255,247,120,0.65); line-height:2; }
+
+    .secondary-msg { max-width:480px; width:92%; text-align:center; position:relative; z-index:10; opacity:0; transform:translateY(24px); transition:opacity 0.8s ease, transform 0.8s ease; margin-top:0.8rem; }
+    .secondary-msg.show { opacity:1; transform:translateY(0); }
+    .secondary-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(0.95rem,2.8vw,1.6rem); color:rgba(255,247,120,0.85); line-height:1.6; }
+    .secondary-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.75rem,1.8vw,0.95rem); color:rgba(255,247,120,0.5); margin-top:0.4rem; line-height:1.9; }
+
+    .signature { position:relative; z-index:10; text-align:center; margin-top:1rem; opacity:0; transition:opacity 1s ease; }
+    .signature.show { opacity:1; }
+    .signature-en { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.2rem,3.5vw,2rem); color:#FFF778; text-shadow:0 0 15px rgba(255,247,120,0.5); }
+    .signature-kr { font-family:'Noto Serif KR',serif; font-size:clamp(0.78rem,1.8vw,0.95rem); color:rgba(255,247,120,0.55); margin-top:0.2rem; }
+    .bee-sign { font-size:1.8rem; display:inline-block; animation:sign-bounce 1s ease-in-out infinite alternate; margin-top:0.3rem; }
+    @keyframes sign-bounce { from{transform:rotate(-10deg) scale(0.95);} to{transform:rotate(10deg) scale(1.1);} }
+
+    .replay-btn { position:relative; z-index:10; margin-top:1.5rem; padding:0.8em 2em; border-radius:50px; font-family:'Nanum Pen Script',cursive; font-size:clamp(0.95rem,2.5vw,1.3rem); cursor:pointer; border:1.5px solid rgba(255,247,120,0.35); background:rgba(255,247,120,0.1); color:#FFF778; display:inline-flex; flex-direction:column; align-items:center; opacity:0; transition:opacity 0.8s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+    .replay-btn.show { opacity:1; }
+    .replay-btn:hover { background:rgba(255,247,120,0.2); transform:translateY(-3px); box-shadow:0 6px 24px rgba(255,247,120,0.25); }
+    .replay-btn-kr { font-family:'Noto Serif KR',serif; font-size:0.5em; opacity:0.65; margin-top:0.1em; }
+
+    /* Night glow orb */
+    .night-glow { position:absolute; top:10%; left:50%; transform:translateX(-50%); width:clamp(180px,38vw,360px); height:clamp(180px,38vw,360px); border-radius:50%; background:radial-gradient(circle,rgba(255,247,120,0.06) 0%,transparent 70%); z-index:0; animation:night-glow-pulse 5s ease-in-out infinite; }
+    @keyframes night-glow-pulse { 0%,100%{opacity:0.7;transform:translateX(-50%) scale(1);} 50%{opacity:1;transform:translateX(-50%) scale(1.08);} }
+
+    /* ========================
+       NAV BUTTONS
+       ======================== */
+    .nav-row {
+      display: flex; justify-content:center; gap:1rem; flex-wrap:wrap;
+      margin: 1.5rem 0 2rem;
+      position: relative; z-index:20;
+    }
+    .nav-btn {
+      padding:0.7em 1.8em; border-radius:50px;
+      font-family:'Nanum Pen Script',cursive;
+      font-size:clamp(0.95rem,2.5vw,1.3rem);
+      cursor:pointer; border:none;
+      text-decoration:none; min-height:48px;
+      transition:all 0.3s ease;
+      display:inline-flex; flex-direction:column; align-items:center;
+    }
+    .nav-btn-primary { background:linear-gradient(135deg,#FFF778,#F5C518); color:#022658; box-shadow:0 4px 20px rgba(245,197,24,0.4); }
+    .nav-btn-primary:hover { transform:translateY(-3px) scale(1.05); box-shadow:0 8px 30px rgba(245,197,24,0.6); }
+    .nav-btn-ghost-dark { background:transparent; color:rgba(2,38,88,0.55); border:1.5px solid rgba(2,38,88,0.2); }
+    .nav-btn-ghost-dark:hover { background:rgba(2,38,88,0.07); color:#022658; }
+    .nav-btn-ghost-light { background:transparent; color:rgba(255,247,120,0.55); border:1.5px solid rgba(255,247,120,0.25); }
+    .nav-btn-ghost-light:hover { background:rgba(255,247,120,0.08); color:#FFF778; }
+    .nav-btn-kr { font-family:'Noto Serif KR',serif; font-size:0.55em; opacity:0.7; margin-top:0.1em; }
+
+    /* Stars */
+    .stars-layer { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* Glow rings */
+    .glow-ring { position:absolute; border-radius:50%; border:2px solid rgba(255,247,120,0.12); animation:ring-expand 3s ease-out infinite; pointer-events:none; z-index:3; }
+    @keyframes ring-expand { 0%{transform:translate(-50%,-50%) scale(0.4);opacity:0.8;} 100%{transform:translate(-50%,-50%) scale(2.5);opacity:0;} }
+
+    /* Divider */
+    .divider { width:70px; height:2px; background:linear-gradient(90deg,transparent,currentColor,transparent); margin:1rem auto; border-radius:2px; opacity:0.5; }
+
+    /* Mobile tweaks */
+    @media (max-width: 768px) {
+      .ch1-text-card { margin-top:3.5rem; padding:1.4rem 1.1rem; }
+      .ch1-stage { height:160px; }
+      .ch1-bee,.ch1-sf { width:clamp(60px,18vw,90px)!important; margin-bottom:10px!important; }
+      .ch2-header { margin-top:2.5rem; }
+      .ch3-inner { padding:3rem 0 2rem; }
+      .cards-container { gap:1.2rem; }
+      .reason-card { padding:1.2rem 1rem; }
+    }
+    @media (max-width: 480px) {
+      html { font-size:14px; }
+      .landing-title { font-size:clamp(1.6rem,8vw,2.5rem); }
+      .ch2-title { font-size:clamp(1.6rem,7vw,2.5rem); }
+      .wish-line { font-size:clamp(1.3rem,7vw,2.2rem); }
+      .yes-headline { font-size:clamp(3rem,18vw,6rem); }
+      .message-en { font-size:clamp(1rem,4.5vw,1.6rem); }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Particle Canvas -->
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+<!-- Persistent canvas & music -->
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
+<button id="music-toggle" aria-label="Toggle music">🎵</button>
+<div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
 
-  <!-- Music Toggle -->
-  <button id="music-toggle" aria-label="Play music">🎵</button>
+<!-- Stars layers (shown on dark sections) -->
+<div id="stars-layer" class="stars-layer"></div>
 
-  <!-- Hidden YouTube Player -->
-  <div id="yt-player"></div>
+<!-- ============================================================
+     SECTION 0 — LANDING
+     ============================================================ -->
+<section id="s0" class="section active">
+  <div class="moon" aria-hidden="true"></div>
 
-  <!-- Landing Scene -->
-  <div class="landing-wrapper">
+  <!-- Fireflies -->
+  <div class="firefly" style="left:12%;bottom:38%;--fdur:7s;--fdel:0s;--fx1:25px;--fy1:-35px;--fx2:-10px;--fy2:-55px;--fx3:20px;--fy3:-40px;"></div>
+  <div class="firefly" style="left:28%;bottom:50%;--fdur:5.5s;--fdel:1.2s;--fx1:-20px;--fy1:-25px;--fx2:15px;--fy2:-50px;--fx3:-10px;--fy3:-35px;"></div>
+  <div class="firefly" style="left:65%;bottom:44%;--fdur:8s;--fdel:0.5s;--fx1:15px;--fy1:-40px;--fx2:-25px;--fy2:-65px;--fx3:20px;--fy3:-45px;"></div>
+  <div class="firefly" style="left:80%;bottom:54%;--fdur:6.5s;--fdel:2s;--fx1:-15px;--fy1:-30px;--fx2:20px;--fy2:-50px;--fx3:-10px;--fy3:-38px;"></div>
 
-    <!-- Stars -->
-    <div id="stars-bg" class="stars"></div>
-
-    <!-- Moon -->
-    <div class="moon" aria-hidden="true"></div>
-
-    <!-- Fireflies -->
-    <div class="firefly" style="left:12%;bottom:40%;--fdur:7s;--fdel:0s;--fx1:25px;--fy1:-35px;--fx2:-10px;--fy2:-55px;--fx3:20px;--fy3:-40px;" aria-hidden="true"></div>
-    <div class="firefly" style="left:28%;bottom:52%;--fdur:5.5s;--fdel:1.2s;--fx1:-20px;--fy1:-25px;--fx2:15px;--fy2:-50px;--fx3:-10px;--fy3:-35px;" aria-hidden="true"></div>
-    <div class="firefly" style="left:65%;bottom:45%;--fdur:8s;--fdel:0.5s;--fx1:15px;--fy1:-40px;--fx2:-25px;--fy2:-65px;--fx3:20px;--fy3:-45px;" aria-hidden="true"></div>
-    <div class="firefly" style="left:80%;bottom:55%;--fdur:6.5s;--fdel:2s;--fx1:-15px;--fy1:-30px;--fx2:20px;--fy2:-50px;--fx3:-10px;--fy3:-38px;" aria-hidden="true"></div>
-    <div class="firefly" style="left:45%;bottom:60%;--fdur:9s;--fdel:0.8s;--fx1:22px;--fy1:-28px;--fx2:-18px;--fy2:-55px;--fx3:12px;--fy3:-42px;" aria-hidden="true"></div>
-
-    <!-- Title Text (top) -->
-    <div class="landing-text" id="landing-text" aria-label="For my Sunflower">
-      <div class="landing-title" id="landing-title">For my Sunflower...</div>
-      <div class="landing-subtitle" id="landing-subtitle">나의 해바라기에게...</div>
-    </div>
-
-    <!-- "Nope" Flowers in garden -->
-    <div class="nope-flower nope-1" id="nope1" aria-hidden="true" title="Not this one...">🌹</div>
-    <div class="nope-flower nope-2" id="nope2" aria-hidden="true" title="Not this one...">🌷</div>
-    <div class="nope-flower nope-3" id="nope3" aria-hidden="true" title="Not this one...">🌸</div>
-    <div class="nope-flower nope-4" id="nope4" aria-hidden="true" title="Not this one...">💐</div>
-
-    <!-- Sunflower glow halo -->
-    <div class="sunflower-glow" id="sf-glow" aria-hidden="true"></div>
-
-    <!-- Main Sunflower Character -->
-    <img
-      id="main-sunflower"
-      src="assets/svg/sunflower.svg"
-      alt="Sunflower character — she blooms when the bee arrives"
-      draggable="false"
-    />
-
-    <!-- Honeybee Character -->
-    <img
-      id="main-bee"
-      src="assets/svg/honeybee.svg"
-      alt="Honeybee character — searching for his perfect flower"
-      draggable="false"
-    />
-
-    <!-- Speech Bubble -->
-    <div id="speech-bubble" role="status" aria-live="polite">🚫 Nope...</div>
-
-    <!-- Garden Ground -->
-    <div class="garden-strip" aria-hidden="true">
-      <!-- Grass blades generated by JS -->
-    </div>
-
-    <!-- Begin Button -->
-    <button id="begin-btn" aria-label="Begin the journey — 여정을 시작해요">
-      Begin our story 🌻
-      <span class="btn-kr">우리의 이야기를 시작해요</span>
-    </button>
-
+  <!-- Title text -->
+  <div class="landing-text" id="landing-text">
+    <div class="landing-title">For my Sunflower...</div>
+    <div class="landing-subtitle">나의 해바라기에게...</div>
   </div>
 
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Nope flowers -->
+  <div class="nope-flower nope-1" id="nope1" aria-hidden="true">🌹</div>
+  <div class="nope-flower nope-2" id="nope2" aria-hidden="true">🌷</div>
+  <div class="nope-flower nope-3" id="nope3" aria-hidden="true">🌸</div>
+  <div class="nope-flower nope-4" id="nope4" aria-hidden="true">💐</div>
 
-  <!-- Our Scripts -->
-  <script src="assets/js/particles.js"></script>
-  <script src="assets/js/main.js"></script>
+  <!-- Sunflower glow -->
+  <div class="sunflower-glow" id="sf-glow" aria-hidden="true"></div>
 
-  <script>
-    // =====================================================
-    // LANDING PAGE ANIMATION SEQUENCE
-    // =====================================================
+  <!-- Main sunflower -->
+  <img id="main-sunflower" src="assets/svg/sunflower.svg" alt="Sunflower character" draggable="false" />
 
-    const bee = document.getElementById('main-bee');
-    const sf = document.getElementById('main-sunflower');
-    const sfGlow = document.getElementById('sf-glow');
-    const landingText = document.getElementById('landing-text');
-    const beginBtn = document.getElementById('begin-btn');
-    const bubble = document.getElementById('speech-bubble');
-    const nopes = [
-      document.getElementById('nope1'),
-      document.getElementById('nope2'),
-      document.getElementById('nope3'),
-      document.getElementById('nope4'),
-    ];
+  <!-- Bee -->
+  <img id="main-bee" src="assets/svg/honeybee.svg" alt="Honeybee character" draggable="false" />
 
-    // Generate stars
-    generateStars('stars-bg', 80);
+  <!-- Speech bubble -->
+  <div id="speech-bubble">🚫 Nope...</div>
 
-    // Generate grass blades
-    const gardenStrip = document.querySelector('.garden-strip');
-    for (let i = 0; i < 28; i++) {
-      const blade = document.createElement('div');
-      blade.className = 'grass-blade';
-      blade.style.left = (2 + i * 3.5) + '%';
-      blade.style.height = (20 + Math.random() * 20) + 'px';
-      blade.style.animationDelay = (Math.random() * 2) + 's';
-      blade.style.animationDuration = (2 + Math.random() * 1.5) + 's';
-      gardenStrip.appendChild(blade);
-    }
+  <!-- Garden -->
+  <div class="garden-strip" id="garden-strip" aria-hidden="true"></div>
 
-    // Start particle system (stars + sparkles)
-    const particles = new ParticleSystem('particle-canvas');
-    particles.start('stars');
+  <!-- Begin button -->
+  <button id="begin-btn" aria-label="Begin the story">
+    Begin our story 🌻
+    <span class="btn-kr">우리의 이야기를 시작해요</span>
+  </button>
+</section>
 
-    // ---- Helper: move bee to a nope flower ----
-    function flyToFlower(flower, index, done) {
-      const rect = flower.getBoundingClientRect();
-      // Target: hover above the flower
-      const tx = rect.left + rect.width / 2 - bee.offsetWidth / 2;
-      const ty = rect.top - bee.offsetHeight - 20;
+<!-- ============================================================
+     SECTION 1 — CHAPTER 1: HOW IT STARTED
+     ============================================================ -->
+<section id="s1" class="section">
+  <!-- Clouds -->
+  <div class="cloud" style="width:140px;height:42px;top:7%;--cdur:22s;animation-delay:-5s;" aria-hidden="true"></div>
+  <div class="cloud" style="width:90px;height:30px;top:13%;--cdur:17s;animation-delay:-10s;" aria-hidden="true"></div>
+  <div class="cloud" style="width:170px;height:52px;top:4%;--cdur:28s;animation-delay:-18s;" aria-hidden="true"></div>
 
-      gsap.to(bee, {
-        left: tx + 'px',
-        top: ty + 'px',
-        duration: 1.1,
-        ease: 'power1.inOut',
-        onStart: () => {
-          // Reset bubble
-          gsap.to(bubble, { opacity: 0, duration: 0.15 });
-        },
-        onComplete: () => {
-          // Show speech bubble near bee
-          const beeRect = bee.getBoundingClientRect();
-          bubble.style.left = (beeRect.left + beeRect.width / 2 - 40) + 'px';
-          bubble.style.top = (beeRect.top - 50) + 'px';
+  <!-- Text card -->
+  <div class="ch1-text-card">
+    <div class="ch1-main">"From the moment I met you..."</div>
+    <div class="ch1-kr">"처음 만난 그 순간부터..."</div>
 
-          const nopeTexts = ['🚫 Nope...', '😕 Not quite...', '🤔 Hmm...', '💭 Almost...'];
-          bubble.textContent = nopeTexts[index] || '🚫 Nope...';
+    <div class="divider" style="color:#022658;"></div>
 
-          // Bee shake (head shake)
-          gsap.timeline()
-            .to(bubble, { opacity: 1, duration: 0.2 })
-            .to(bee, { rotation: -12, duration: 0.08, ease: 'none' })
-            .to(bee, { rotation: 12, duration: 0.08, ease: 'none' })
-            .to(bee, { rotation: -10, duration: 0.08, ease: 'none' })
-            .to(bee, { rotation: 8, duration: 0.08, ease: 'none' })
-            .to(bee, { rotation: 0, duration: 0.08, ease: 'none' })
-            .to(bubble, { opacity: 0, duration: 0.3, delay: 0.4 })
-            .call(() => {
-              flower.classList.add('rejected');
-              done();
-            });
-        }
-      });
+    <div style="font-size:2.5rem;margin:0.8rem 0;">🌻✨🐝</div>
 
-      // Bob up and down while flying
-      gsap.to(bee, {
-        top: '-=8',
-        duration: 0.4,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-    }
+    <div class="ch1-main" style="font-size:clamp(1.2rem,3.5vw,2.2rem);">"...everything felt a little brighter."</div>
+    <div class="ch1-kr">"...모든 것이 조금 더 빛나 보였어."</div>
 
-    // ---- Main animation sequence ----
-    function runLandingSequence() {
-      const masterTl = gsap.timeline();
+    <div class="divider" style="color:#022658;margin:1.2rem auto;"></div>
 
-      // 1. Fade in title text
-      masterTl.to(landingText, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' });
+    <div class="quote-block">
+      <div class="quote-en">"You wandered into my world like sunshine through a window — unexpected, warm, and impossible to ignore."</div>
+      <div class="quote-kr">"너는 창문을 통해 들어오는 햇살처럼 내 세상에 불쑥 나타났어 — 예상치 못하게, 따뜻하게, 그리고 무시할 수 없게."</div>
+    </div>
+    <div class="quote-block">
+      <div class="quote-en">"I had been searching for something special for so long — and then there you were. 🌻"</div>
+      <div class="quote-kr">"오랫동안 특별한 무언가를 찾고 있었어 — 그리고 바로 거기 네가 있었어. 🌻"</div>
+    </div>
+  </div>
 
-      // 2. Bee flies in from left
-      masterTl.call(() => {
-        gsap.set(bee, {
-          opacity: 1,
-          left: '-120px',
-          top: (window.innerHeight * 0.32) + 'px',
-          position: 'fixed',
-          rotation: 0,
-        });
-        bee.style.position = 'fixed';
-        bubble.style.position = 'fixed';
-      });
+  <!-- Characters -->
+  <div class="ch1-stage">
+    <img class="ch1-bee" id="ch1-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" style="margin-bottom:16px;transform:translateX(-80px);" />
+    <img class="ch1-sf"  id="ch1-sf"  src="assets/svg/sunflower.svg" alt="Sunflower" draggable="false" style="margin-bottom:16px;transform:translateX(80px);" />
+  </div>
 
-      masterTl.to(bee, {
-        left: '8%',
-        duration: 1.3,
-        ease: 'power2.out',
-      }, '+=0.5');
+  <!-- Ground -->
+  <div class="ch1-ground" aria-hidden="true">
+    <div class="ground-flower" style="left:5%;">🌼</div>
+    <div class="ground-flower" style="left:20%;animation-delay:0.6s;">🌿</div>
+    <div class="ground-flower" style="left:35%;animation-delay:0.3s;">🌱</div>
+    <div class="ground-flower" style="left:60%;animation-delay:0.9s;">🌱</div>
+    <div class="ground-flower" style="left:75%;animation-delay:0.5s;">🌿</div>
+    <div class="ground-flower" style="left:90%;animation-delay:0.1s;">🌼</div>
+  </div>
 
-      // 3. Visit nope flowers one by one
-      // We chain these manually with a custom promise-like callback queue
-      masterTl.call(() => {
-        let i = 0;
+  <!-- Nav -->
+  <div class="nav-row" style="margin-top:auto;padding-top:0.5rem;">
+    <button class="nav-btn nav-btn-ghost-dark" onclick="goToSection(0)" aria-label="Back">
+      ← Back <span class="nav-btn-kr">처음으로</span>
+    </button>
+    <button class="nav-btn nav-btn-primary" onclick="goToSection(2)" aria-label="Next chapter">
+      Next → <span class="nav-btn-kr">다음으로</span>
+    </button>
+  </div>
+</section>
 
-        function visitNext() {
-          if (i >= nopes.length) {
-            // Done with nopes — fly to sunflower
-            afterNopes();
-            return;
-          }
-          gsap.killTweensOf(bee, 'top'); // stop bobbing
-          flyToFlower(nopes[i], i, () => {
-            i++;
-            setTimeout(visitNext, 200);
-          });
-        }
+<!-- ============================================================
+     SECTION 2 — CHAPTER 2: WHAT YOU MEAN TO ME
+     ============================================================ -->
+<section id="s2" class="section">
+  <div class="ch2-header">
+    <div class="ch2-tag">Chapter 2 · 제 2장</div>
+    <div class="ch2-title">What You Mean to Me</div>
+    <div class="ch2-title-kr">당신이 내게 어떤 의미인지</div>
+  </div>
 
-        visitNext();
-      });
+  <div class="cards-container" id="ch2-cards">
+    <div class="reason-card" data-icon="☀️"><div class="card-en">"Your smile makes the whole world glow."</div><div class="card-kr">"네 미소가 온 세상을 빛나게 해."</div></div>
+    <div class="reason-card" data-icon="🌻"><div class="card-en">"You are my favorite kind of sunshine — warm, golden, and always welcome."</div><div class="card-kr">"너는 내가 가장 좋아하는 햇살이야 — 따뜻하고, 황금빛이고, 언제나 반가운."</div></div>
+    <div class="reason-card" data-icon="🐝"><div class="card-en">"Wherever you are, that's where I want to be."</div><div class="card-kr">"네가 있는 곳이라면 어디든 함께하고 싶어."</div></div>
+    <div class="reason-card" data-icon="💛"><div class="card-en">"You make ordinary moments feel magical just by being in them."</div><div class="card-kr">"너는 그냥 함께 있는 것만으로 평범한 순간을 마법처럼 만들어줘."</div></div>
+    <div class="reason-card" data-icon="✨"><div class="card-en">"I feel like the luckiest bee in the world when I'm around you."</div><div class="card-kr">"네 곁에 있을 때면 세상에서 가장 운 좋은 꿀벌이 된 것 같아."</div></div>
+    <div class="reason-card" data-icon="🌸"><div class="card-en">"You are kind, beautiful, and so full of light — inside and out."</div><div class="card-kr">"너는 친절하고, 아름답고, 안팎이 모두 빛으로 가득해."</div></div>
+    <div class="reason-card" data-icon="🍯"><div class="card-en">"Every day with you feels sweeter than the last."</div><div class="card-kr">"너와 함께하는 매일매일이 전날보다 더 달콤하게 느껴져."</div></div>
+  </div>
 
-      function afterNopes() {
-        // 4. Pause — bee looks confused/sad
-        gsap.timeline()
-          .to(bee, { rotation: -15, duration: 0.3, ease: 'power1.out' })
-          .to(bee, { rotation: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)', delay: 0.3 })
+  <div class="ch2-chars">
+    <img class="ch2-bee" id="ch2-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
+    <img class="ch2-sf"  id="ch2-sf"  src="assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
+  </div>
 
-          // 5. Sunflower blooms in center
-          .call(() => {
-            gsap.set(sf, { opacity: 0, scale: 0.3, transformOrigin: 'bottom center' });
-            sf.style.display = 'block';
-            gsap.to(sf, {
-              opacity: 1,
-              scale: 1,
-              duration: 1.2,
-              ease: 'elastic.out(1, 0.6)',
-              onStart: () => {
-                sfGlow.style.opacity = '0';
-                gsap.to(sfGlow, { opacity: 1, duration: 1.5 });
-              }
-            });
-          }, null, null, '+=0.5')
+  <div class="closing-quote" id="ch2-closing">
+    <div class="cq-en">"There's a whole world out there, but my favorite place<br/>is wherever you happen to be. 🌻🐝"</div>
+    <div class="cq-kr">"세상이 넓고 넓지만, 내가 가장 좋아하는 곳은<br/>바로 네가 있는 그 자리야. 🌻🐝"</div>
+  </div>
 
-          // 6. Bee freezes, does double-take
-          .call(() => {
-            gsap.killTweensOf(bee);
-            gsap.timeline()
-              .to(bee, { scale: 1.15, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 })
-              .to(bee, { rotation: 10, duration: 0.15, ease: 'none', yoyo: true, repeat: 1 });
-          }, null, null, '+=1.2')
+  <div class="nav-row">
+    <button class="nav-btn nav-btn-ghost-light" onclick="goToSection(1)" aria-label="Back">
+      ← Back <span class="nav-btn-kr">이전으로</span>
+    </button>
+    <button class="nav-btn nav-btn-primary" onclick="goToSection(3)" aria-label="Next">
+      Next → <span class="nav-btn-kr">다음으로</span>
+    </button>
+  </div>
+</section>
 
-          // 7. Bee zooms to sunflower with heart eyes
-          .call(() => {
-            const sfRect = sf.getBoundingClientRect();
-            const targetLeft = sfRect.left + sfRect.width / 2 - bee.offsetWidth / 2 - 60;
-            const targetTop = sfRect.top + sfRect.height * 0.1;
+<!-- ============================================================
+     SECTION 3 — CHAPTER 3: THE QUESTION
+     ============================================================ -->
+<section id="s3" class="section">
+  <div class="night-glow" aria-hidden="true"></div>
 
-            gsap.killTweensOf(bee);
-            gsap.to(bee, {
-              left: targetLeft + 'px',
-              top: targetTop + 'px',
-              duration: 1.2,
-              ease: 'power2.inOut',
-              onComplete: () => {
-                // Heart eyes!
-                const img = bee;
-                // Show a heart bubble above bee
-                bubble.innerHTML = '💛 Found her!';
-                const br = bee.getBoundingClientRect();
-                bubble.style.left = (br.left - 10) + 'px';
-                bubble.style.top = (br.top - 55) + 'px';
-                gsap.timeline()
-                  .to(bubble, { opacity: 1, scale: 1.1, duration: 0.3, ease: 'back.out(2)' })
-                  .to(bubble, { opacity: 0, duration: 0.4, delay: 1 });
+  <div class="ch3-inner">
+    <div class="ch3-tag" id="ch3-tag">Chapter 3 · 제 3장</div>
 
-                // Bee bounces with joy
-                gsap.to(bee, {
-                  y: -20,
-                  duration: 0.3,
-                  ease: 'power1.out',
-                  yoyo: true,
-                  repeat: 3,
-                  onComplete: showBeginBtn
-                });
+    <div class="lantern" aria-hidden="true">🏮</div>
 
-                // Particle hearts burst
-                particles.setMode('mixed');
-                particles.burst(br.left + br.width / 2, br.top + br.height / 2, 15, 'heart');
-              }
-            });
-          }, null, null, '+=0.6');
+    <div class="wish-line" id="wish1">"I have one wish left..."</div>
+    <div class="wish-sub" id="wish1-kr">"나에게 소원이 하나 남아있어..."</div>
+    <div class="shimmer-pause" id="shimmer1"></div>
+    <div class="wish-line glow-strong" id="wish2" style="font-size:clamp(1.4rem,4.5vw,3rem);">"...for you to be my girlfriend."</div>
+    <div class="wish-sub" id="wish2-kr">"...네가 내 여자친구가 되어주는 것."</div>
+
+    <div class="ch3-stage">
+      <img class="ch3-bee" id="ch3-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
+      <div class="hearts-between" id="hearts-between">
+        <span class="float-heart" style="--hdur:2.2s;--hdel:0s;">💛</span>
+        <span class="float-heart" style="--hdur:2.8s;--hdel:0.5s;">🌻</span>
+        <span class="float-heart" style="--hdur:2s;--hdel:1s;">💛</span>
+      </div>
+      <img class="ch3-sf" id="ch3-sf" src="assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
+    </div>
+
+    <div class="question-section" id="question-section">
+      <div class="question-en">"So... will you be my girlfriend? 🌻🐝"</div>
+      <div class="question-kr">"그래서... 내 여자친구가 되어줄래? 🌻🐝"</div>
+      <div class="btn-row" id="btn-row">
+        <button class="yes-btn yes-btn-1" id="yes1" onclick="handleYes(event)">Yes! 🌻<span class="yes-btn-kr">응! 당연하지!</span></button>
+        <button class="yes-btn yes-btn-2" id="yes2" onclick="handleYes(event)">Of course! 💛<span class="yes-btn-kr">물론이지! 🐝</span></button>
+      </div>
+    </div>
+
+    <button class="nav-btn nav-btn-ghost-light" style="margin-top:1.5rem;font-size:0.9rem;opacity:0.6;" onclick="goToSection(2)">← go back · 이전으로</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 — RESPONSE / CELEBRATION
+     ============================================================ -->
+<section id="s4" class="section">
+  <div class="glow-ring" style="width:280px;height:280px;top:35%;left:50%;animation-delay:0s;" aria-hidden="true"></div>
+  <div class="glow-ring" style="width:280px;height:280px;top:35%;left:50%;animation-delay:1s;" aria-hidden="true"></div>
+  <div class="glow-ring" style="width:280px;height:280px;top:35%;left:50%;animation-delay:2s;" aria-hidden="true"></div>
+
+  <div class="yes-headline" id="yes-headline">She said YES! 🎉</div>
+  <div class="yes-emoji-row" id="yes-emojis">🌻 💛 🐝 💛 🌻</div>
+
+  <div class="dance-stage">
+    <img class="dance-bee" id="dance-bee" src="assets/svg/honeybee.svg" alt="Honeybee dancing" draggable="false" />
+    <div class="dance-heart" id="dance-heart">💛</div>
+    <img class="dance-sf" id="dance-sf" src="assets/svg/sunflower.svg" alt="Sunflower dancing" draggable="false" />
+  </div>
+
+  <div class="message-card" id="message-card">
+    <div class="message-en">"I'm the luckiest honeybee in the whole world. 🐝🌻<br/>Thank you for saying yes —<br/>I promise to make every day as bright as you are."</div>
+    <div class="message-kr">"나는 세상에서 가장 운이 좋은 꿀벌이에요. 🐝🌻<br/>응 해줘서 고마워 —<br/>네가 빛나는 것처럼 매일을 빛나게 만들어줄게."</div>
+  </div>
+
+  <div class="secondary-msg" id="secondary-msg">
+    <div class="secondary-en">"My Sunflower, from this moment on,<br/>you're not just the flower I searched for —<br/>you're the whole garden. 🌻"</div>
+    <div class="secondary-kr">"나의 해바라기, 이 순간부터<br/>너는 내가 찾던 꽃이 아니라 —<br/>온 정원이야. 🌻"</div>
+  </div>
+
+  <div class="signature" id="signature">
+    <div class="signature-en">With all my heart,</div>
+    <div class="signature-kr">온 마음을 다해서</div>
+    <div class="bee-sign">🐝💛</div>
+  </div>
+
+  <button class="replay-btn" id="replay-btn" onclick="restartExperience()">
+    ↩ Again from the beginning
+    <span class="replay-btn-kr">처음부터 다시 🌻</span>
+  </button>
+</section>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="assets/js/particles.js"></script>
+
+<script>
+/* ================================================================
+   SINGLE-PAGE APP — ALL LOGIC
+   ================================================================ */
+
+// ---- Section management ----
+let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+
+function goToSection(n) {
+  sections[currentSection].classList.remove('active');
+  sections[n].classList.add('active');
+  // Scroll new section to top
+  sections[n].scrollTop = 0;
+  currentSection = n;
+  onSectionEnter(n);
+}
+
+function onSectionEnter(n) {
+  // Update music toggle color
+  const mt = document.getElementById('music-toggle');
+  mt.className = n === 1 ? 'day' : '';
+
+  // Toggle stars visibility
+  document.getElementById('stars-layer').style.display = (n === 1) ? 'none' : '';
+
+  if (n === 1) animateChapter1();
+  if (n === 2) animateChapter2();
+  if (n === 3) animateChapter3();
+  if (n === 4) animateResponse();
+}
+
+// ---- Particle system ----
+const particles = new ParticleSystem('particle-canvas');
+particles.start('stars');
+
+// ---- Stars ----
+(function generateStars() {
+  const container = document.getElementById('stars-layer');
+  for (let i = 0; i < 90; i++) {
+    const star = document.createElement('div');
+    const size = 1 + Math.random() * 3;
+    star.className = 'star';
+    star.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*4}s;opacity:${0.1+Math.random()*0.9};position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur) ease-in-out infinite var(--delay);`;
+    container.appendChild(star);
+  }
+})();
+
+// ---- YouTube Music ----
+const MusicPlayer = (() => {
+  let player = null, ready = false, muted = false, started = false;
+
+  function loadAPI() {
+    if (document.getElementById('yt-api-script')) return;
+    const tag = document.createElement('script');
+    tag.id = 'yt-api-script';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+
+  window.onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('yt-player', {
+      height:'1', width:'1',
+      videoId: 'ApXoWvfEYVU', // Sunflower — Post Malone & Swae Lee
+      playerVars: { autoplay:0, loop:1, playlist:'ApXoWvfEYVU', controls:0, disablekb:1, fs:0, iv_load_policy:3, modestbranding:1, rel:0 },
+      events: {
+        onReady: e => { ready = true; e.target.setVolume(40); if (started) e.target.playVideo(); },
+        onStateChange: e => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
       }
-
-      function showBeginBtn() {
-        beginBtn.classList.add('visible');
-        particles.setMode('mixed');
-      }
-    }
-
-    // ---- Begin Button Click ---- //
-    beginBtn.addEventListener('click', () => {
-      // Start music on interaction
-      MusicPlayer.play();
-      particles.setMode('celebration');
-      gsap.to(beginBtn, { opacity: 0, scale: 0.8, duration: 0.4 });
-      // Navigate to chapter 1
-      setTimeout(() => navigateTo('pages/chapter1.html'), 700);
     });
+  };
 
-    // ---- Easter Egg on bee ----
-    initEasterEgg(bee);
+  function play() {
+    started = true;
+    if (player && ready) { player.playVideo(); player.unMute(); muted = false; updateBtn(); }
+  }
 
-    // ---- Start the sequence after a brief moment ----
-    setTimeout(runLandingSequence, 600);
-  </script>
+  function toggleMute() {
+    if (!player || !ready) return;
+    muted ? (player.unMute(), player.setVolume(40), muted=false) : (player.mute(), muted=true);
+    updateBtn();
+  }
+
+  function updateBtn() {
+    const btn = document.getElementById('music-toggle');
+    if (btn) btn.textContent = muted ? '🔇' : '🎵';
+  }
+
+  loadAPI();
+  document.getElementById('music-toggle').addEventListener('click', () => {
+    if (!started) play(); else toggleMute();
+  });
+
+  return { play };
+})();
+
+// ---- Heart click effect ----
+document.addEventListener('click', e => {
+  const el = document.createElement('span');
+  el.style.cssText = `position:fixed;pointer-events:none;z-index:9999;font-size:1.8rem;left:${e.clientX-16}px;top:${e.clientY-16}px;animation:heart-rise 1.2s ease-out forwards;`;
+  el.textContent = ['💛','🌻','✨','🐝'][Math.floor(Math.random()*4)];
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+});
+
+// ========================
+// LANDING ANIMATION (S0)
+// ========================
+const bee = document.getElementById('main-bee');
+const sf  = document.getElementById('main-sunflower');
+const sfGlow = document.getElementById('sf-glow');
+const landingText = document.getElementById('landing-text');
+const beginBtn = document.getElementById('begin-btn');
+const bubble = document.getElementById('speech-bubble');
+const nopes = [document.getElementById('nope1'),document.getElementById('nope2'),document.getElementById('nope3'),document.getElementById('nope4')];
+
+// Grass blades
+const gardenStrip = document.getElementById('garden-strip');
+for (let i = 0; i < 24; i++) {
+  const blade = document.createElement('div');
+  blade.className = 'grass-blade';
+  blade.style.cssText = `left:${2+i*4}%;height:${18+Math.random()*18}px;animation-delay:${Math.random()*2}s;animation-duration:${2+Math.random()*1.5}s;`;
+  gardenStrip.appendChild(blade);
+}
+
+function flyBeeToFlower(flower, index, done) {
+  const rect = flower.getBoundingClientRect();
+  const tx = rect.left + rect.width/2 - bee.offsetWidth/2;
+  const ty = rect.top - bee.offsetHeight - 18;
+  gsap.to(bubble, { opacity:0, duration:0.15 });
+  gsap.to(bee, {
+    left: tx+'px', top: ty+'px', duration:1.0, ease:'power1.inOut',
+    onComplete: () => {
+      const br = bee.getBoundingClientRect();
+      bubble.style.left = (br.left + br.width/2 - 40)+'px';
+      bubble.style.top  = (br.top - 48)+'px';
+      bubble.textContent = ['🚫 Nope...','😕 Not quite...','🤔 Hmm...','💭 Almost...'][index];
+      gsap.timeline()
+        .to(bubble, {opacity:1, duration:0.2})
+        .to(bee, {rotation:-12, duration:0.08}, '<')
+        .to(bee, {rotation:12, duration:0.08})
+        .to(bee, {rotation:-8, duration:0.08})
+        .to(bee, {rotation:0, duration:0.1})
+        .to(bubble, {opacity:0, duration:0.3, delay:0.4})
+        .call(() => { flower.classList.add('rejected'); done(); });
+    }
+  });
+  gsap.to(bee, {top:'-=8', duration:0.4, ease:'sine.inOut', yoyo:true, repeat:-1});
+}
+
+function runLandingSequence() {
+  // Fade in title
+  gsap.to(landingText, {opacity:1, duration:1, ease:'power2.out', delay:0.4});
+
+  // Fly bee in
+  setTimeout(() => {
+    gsap.set(bee, {opacity:1, left:'-120px', top:(window.innerHeight*0.32)+'px', position:'fixed', rotation:0});
+    bubble.style.position = 'fixed';
+    gsap.to(bee, {left:'8%', duration:1.2, ease:'power2.out'});
+  }, 1200);
+
+  // Visit nope flowers
+  setTimeout(() => {
+    let i = 0;
+    function visitNext() {
+      if (i >= nopes.length) { afterNopes(); return; }
+      gsap.killTweensOf(bee, 'top');
+      flyBeeToFlower(nopes[i], i, () => { i++; setTimeout(visitNext, 180); });
+    }
+    visitNext();
+  }, 2800);
+
+  function afterNopes() {
+    gsap.timeline()
+      .to(bee, {rotation:-15, duration:0.3, ease:'power1.out'})
+      .to(bee, {rotation:0, duration:0.5, ease:'elastic.out(1,0.5)', delay:0.3})
+      .call(() => {
+        gsap.set(sf, {opacity:0, scale:0.3, transformOrigin:'bottom center'});
+        gsap.to(sf, {opacity:1, scale:1, duration:1.2, ease:'elastic.out(1,0.6)',
+          onStart: () => gsap.to(sfGlow, {opacity:1, duration:1.5})
+        });
+      }, null, null, '+=0.4')
+      .call(() => {
+        gsap.killTweensOf(bee);
+        const sfRect = sf.getBoundingClientRect();
+        const tx = sfRect.left + sfRect.width/2 - bee.offsetWidth/2 - 55;
+        const ty = sfRect.top + sfRect.height*0.1;
+        gsap.to(bee, {
+          left:tx+'px', top:ty+'px', duration:1.1, ease:'power2.inOut',
+          onComplete: () => {
+            bubble.innerHTML = '💛 Found her!';
+            const br = bee.getBoundingClientRect();
+            bubble.style.left = (br.left-10)+'px';
+            bubble.style.top  = (br.top-52)+'px';
+            gsap.timeline()
+              .to(bubble, {opacity:1, scale:1.1, duration:0.3, ease:'back.out(2)'})
+              .to(bubble, {opacity:0, duration:0.4, delay:0.9});
+            gsap.to(bee, {y:-18, duration:0.28, ease:'power1.out', yoyo:true, repeat:3, onComplete: showBeginBtn});
+            particles.burst(br.left+br.width/2, br.top+br.height/2, 12, 'heart');
+          }
+        });
+      }, null, null, '+=1.5');
+  }
+
+  function showBeginBtn() {
+    beginBtn.classList.add('visible');
+  }
+}
+
+// Begin button
+beginBtn.addEventListener('click', () => {
+  MusicPlayer.play();
+  particles.setMode('mixed');
+  gsap.to(beginBtn, {opacity:0, scale:0.8, duration:0.4});
+  gsap.to(document.getElementById('s0'), {opacity:0, duration:0.7, onComplete:() => goToSection(1)});
+  // Prevent double click
+  beginBtn.disabled = true;
+});
+
+// Start landing sequence
+setTimeout(runLandingSequence, 400);
+
+
+// ========================
+// CHAPTER 1 ANIMATION
+// ========================
+let ch1Done = false;
+function animateChapter1() {
+  if (ch1Done) return;
+  ch1Done = true;
+  particles.setMode('petals');
+  const b = document.getElementById('ch1-bee');
+  const s = document.getElementById('ch1-sf');
+  if (window.gsap) {
+    setTimeout(() => {
+      gsap.to(b, {opacity:1, x:0, duration:1.2, ease:'power2.out'});
+      gsap.to(s, {opacity:1, x:0, duration:1.2, ease:'power2.out', delay:0.3,
+        onComplete: () => gsap.to(b, {rotation:12, duration:0.5, ease:'power1.inOut', yoyo:true, repeat:1})
+      });
+    }, 200);
+  } else {
+    b.style.opacity='1'; b.style.transform='none';
+    s.style.opacity='1'; s.style.transform='none';
+  }
+}
+
+
+// ========================
+// CHAPTER 2 ANIMATION
+// ========================
+let ch2Done = false;
+function animateChapter2() {
+  if (ch2Done) return;
+  ch2Done = true;
+  particles.setMode('hearts');
+
+  // Stagger cards
+  const cards = document.querySelectorAll('#ch2-cards .reason-card');
+  cards.forEach((card, i) => { card.style.transitionDelay = (i * 0.1)+'s'; });
+
+  const cardObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const rect = entry.target.getBoundingClientRect();
+        particles.burst(rect.left+rect.width/2, rect.top+rect.height/2, 4, 'heart');
+        cardObs.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.2, root: document.getElementById('s2')});
+  cards.forEach(c => cardObs.observe(c));
+
+  const cqObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) { document.getElementById('ch2-closing').classList.add('visible'); cqObs.disconnect(); }});
+  }, {threshold:0.3, root: document.getElementById('s2')});
+  cqObs.observe(document.getElementById('ch2-closing'));
+
+  // Trigger first cards visible (they may already be in view)
+  setTimeout(() => {
+    cards.forEach((c,i) => { if(i < 2) c.classList.add('visible'); });
+  }, 300);
+
+  if (window.gsap) {
+    setTimeout(() => {
+      gsap.to('#ch2-bee', {opacity:1, duration:1, ease:'power2.out'});
+      gsap.to('#ch2-sf',  {opacity:1, duration:1, ease:'power2.out', delay:0.4});
+    }, 400);
+  }
+}
+
+
+// ========================
+// CHAPTER 3 ANIMATION
+// ========================
+let ch3Done = false;
+function animateChapter3() {
+  if (ch3Done) return;
+  ch3Done = true;
+  particles.setMode('stars');
+
+  setTimeout(() => { document.getElementById('wish1').classList.add('show'); document.getElementById('wish1-kr').classList.add('show'); }, 600);
+  setTimeout(() => { document.getElementById('shimmer1').classList.add('show'); }, 2000);
+  setTimeout(() => {
+    document.getElementById('wish2').classList.add('show');
+    document.getElementById('wish2-kr').classList.add('show');
+    particles.setMode('mixed');
+    particles.burst(window.innerWidth/2, window.innerHeight*0.45, 18, 'sparkle');
+  }, 3200);
+  setTimeout(() => {
+    if (window.gsap) {
+      gsap.to('#ch3-bee', {opacity:1, x:0, duration:1.1, ease:'power2.out'});
+      gsap.to('#ch3-sf',  {opacity:1, x:0, duration:1.1, ease:'power2.out', delay:0.25});
+    } else {
+      document.getElementById('ch3-bee').style.opacity='1';
+      document.getElementById('ch3-sf').style.opacity='1';
+    }
+    setTimeout(() => { document.getElementById('hearts-between').classList.add('show'); }, 900);
+  }, 4500);
+  setTimeout(() => {
+    document.getElementById('question-section').classList.add('show');
+    setTimeout(() => { document.getElementById('btn-row').classList.add('show'); particles.setMode('hearts'); }, 500);
+  }, 5800);
+}
+
+function handleYes(e) {
+  document.getElementById('yes1').disabled = true;
+  document.getElementById('yes2').disabled = true;
+  if (window.gsap) gsap.to(e.currentTarget, {scale:1.3, duration:0.3, ease:'back.out(3)', yoyo:true, repeat:1});
+  particles.setMode('celebration');
+  particles.burst(e.clientX, e.clientY, 22, 'heart');
+  particles.burst(e.clientX, e.clientY, 12, 'sparkle');
+  setTimeout(() => goToSection(4), 500);
+}
+
+
+// ========================
+// RESPONSE / CELEBRATION
+// ========================
+function animateResponse() {
+  particles.setMode('celebration');
+
+  // Confetti
+  if (window.confetti) {
+    const colors = ['#FFF778','#F5C518','#022658','#ff6b9d','#FFFFFF'];
+    confetti({particleCount:120, spread:100, origin:{x:0.5,y:0.4}, colors, startVelocity:50});
+    setTimeout(() => {
+      confetti({particleCount:60, angle:60, spread:60, origin:{x:0,y:0.6}, colors});
+      confetti({particleCount:60, angle:120, spread:60, origin:{x:1,y:0.6}, colors});
+    }, 300);
+    const end = Date.now() + 5000;
+    (function shower() {
+      confetti({particleCount:4, angle:60, spread:55, origin:{x:0}, colors, gravity:0.8});
+      confetti({particleCount:4, angle:120, spread:55, origin:{x:1}, colors, gravity:0.8});
+      if (Date.now() < end) requestAnimationFrame(shower);
+    })();
+  }
+
+  setTimeout(() => { document.getElementById('yes-headline').classList.add('show'); particles.burst(window.innerWidth/2, window.innerHeight*0.3, 28, 'heart'); }, 250);
+  setTimeout(() => { document.getElementById('yes-emojis').classList.add('show'); }, 850);
+  setTimeout(() => {
+    if (window.gsap) {
+      gsap.to('#dance-bee', {opacity:1, duration:0.7, ease:'back.out(2)'});
+      gsap.to('#dance-sf',  {opacity:1, duration:0.7, ease:'back.out(2)', delay:0.2});
+      gsap.to('#dance-heart',{opacity:1, duration:0.5, delay:0.5});
+    } else {
+      document.getElementById('dance-bee').style.opacity='1';
+      document.getElementById('dance-sf').style.opacity='1';
+      document.getElementById('dance-heart').style.opacity='1';
+    }
+    setTimeout(() => particles.burst(window.innerWidth/2, window.innerHeight*0.5, 18, 'heart'), 700);
+  }, 1400);
+  setTimeout(() => { document.getElementById('message-card').classList.add('show'); }, 2200);
+  setTimeout(() => { document.getElementById('secondary-msg').classList.add('show'); }, 3000);
+  setTimeout(() => { document.getElementById('signature').classList.add('show'); }, 3700);
+  setTimeout(() => { document.getElementById('replay-btn').classList.add('show'); }, 4400);
+  setTimeout(() => {
+    if(window.confetti) confetti({particleCount:80, spread:120, origin:{x:0.5,y:0.5}, colors:['#FFF778','#F5C518','#ff6b9d','#FFFFFF'], startVelocity:40});
+    particles.burst(window.innerWidth/2, window.innerHeight/2, 35, 'heart');
+  }, 4200);
+}
+
+function restartExperience() {
+  // Reset all animated states
+  ch1Done = ch2Done = ch3Done = false;
+  document.querySelectorAll('.wish-line,.wish-sub,.shimmer-pause').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('.question-section,.btn-row,#hearts-between').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('.yes-headline,.yes-emoji-row,.message-card,.secondary-msg,.signature,.replay-btn').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('#ch2-cards .reason-card,.closing-quote').forEach(e=>e.classList.remove('visible'));
+  document.querySelectorAll('#ch1-bee,#ch1-sf,#ch2-bee,#ch2-sf,#ch3-bee,#ch3-sf,#dance-bee,#dance-sf,#dance-heart').forEach(e=>{e.style.opacity='0';});
+  document.getElementById('yes1').disabled=false; document.getElementById('yes2').disabled=false;
+
+  // Reset landing
+  document.querySelectorAll('.nope-flower').forEach(e=>e.classList.remove('rejected'));
+  document.getElementById('main-sunflower').style.opacity='0';
+  document.getElementById('sf-glow').style.opacity='0';
+  document.getElementById('main-bee').style.opacity='0';
+  document.getElementById('speech-bubble').style.opacity='0';
+  document.getElementById('begin-btn').disabled=false;
+  document.getElementById('begin-btn').classList.remove('visible');
+  document.getElementById('landing-text').style.opacity='0';
+
+  // Back to section 0
+  sections[currentSection].classList.remove('active');
+  currentSection = 0;
+  sections[0].classList.add('active');
+  sections[0].scrollTop=0;
+
+  particles.setMode('stars');
+  document.getElementById('music-toggle').className = '';
+
+  setTimeout(runLandingSequence, 400);
+}
+
+// ---- Global CSS for heart-rise ----
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+  @keyframes heart-rise { 0%{opacity:1;transform:translateY(0) scale(1);} 100%{opacity:0;transform:translateY(-110px) scale(0.5);} }
+  @keyframes twinkle { 0%,100%{opacity:0.1;transform:scale(0.8);} 50%{opacity:1;transform:scale(1.2);} }
+`;
+document.head.appendChild(styleEl);
+</script>
 </body>
 </html>
