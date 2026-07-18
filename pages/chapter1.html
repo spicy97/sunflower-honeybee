@@ -367,44 +367,37 @@
     const particles = new ParticleSystem('particle-canvas');
     particles.start('petals');
 
-    // Animate characters in
-    window.addEventListener('load', () => {
+    function revealPage() {
       const beeCh1 = document.getElementById('ch1-bee');
       const sfCh1  = document.getElementById('ch1-sf');
 
       if (window.gsap) {
-        // Delay slightly so page settle first
         setTimeout(() => {
-          gsap.to(beeCh1, {
-            opacity: 1,
-            x: 0,
-            duration: 1.2,
-            ease: 'power2.out',
-          });
+          gsap.to(beeCh1, { opacity: 1, x: 0, duration: 1.2, ease: 'power2.out' });
           gsap.to(sfCh1, {
-            opacity: 1,
-            x: 0,
-            duration: 1.2,
-            ease: 'power2.out',
-            delay: 0.3,
+            opacity: 1, x: 0, duration: 1.2, ease: 'power2.out', delay: 0.3,
             onComplete: () => {
-              // Bee tilts toward sunflower
-              gsap.to(beeCh1, {
-                rotation: 12,
-                duration: 0.5,
-                ease: 'power1.inOut',
-                yoyo: true,
-                repeat: 1,
-              });
+              gsap.to(beeCh1, { rotation: 12, duration: 0.5, ease: 'power1.inOut', yoyo: true, repeat: 1 });
             }
           });
-        }, 400);
+        }, 200);
       } else {
         beeCh1.style.opacity = '1';
         beeCh1.style.transform = 'none';
         sfCh1.style.opacity = '1';
         sfCh1.style.transform = 'none';
       }
+    }
+
+    // Show tap overlay — music starts on tap, then page reveals
+    window.addEventListener('load', () => {
+      showTapOverlay({
+        bg: 'linear-gradient(160deg, #b8e4f9 0%, #dff0fa 40%, #e8f5e9 100%)',
+        emoji: '🌻',
+        text: 'Chapter 1: How It Started',
+        textKr: '제 1장: 시작된 이야기',
+        onReveal: revealPage,
+      });
     });
   </script>
 </body>

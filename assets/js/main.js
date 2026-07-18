@@ -24,11 +24,11 @@ const MusicPlayer = (() => {
     player = new YT.Player('yt-player', {
       height: '1',
       width: '1',
-      videoId: '3tmd-ClpJxA', // "Sunflower" by Post Malone & Swae Lee
+      videoId: 'ApXoWvfEYVU', // "Sunflower" by Post Malone & Swae Lee
       playerVars: {
         autoplay: 0,
         loop: 1,
-        playlist: '3tmd-ClpJxA',
+        playlist: 'ApXoWvfEYVU',
         controls: 0,
         disablekb: 1,
         fs: 0,
@@ -367,6 +367,101 @@ function initEasterEgg(beeEl) {
 }
 
 
+/* ---- Tap-to-Reveal Overlay ---- */
+/**
+ * showTapOverlay(options)
+ *   options.bg       — CSS background for overlay (default: deep navy)
+ *   options.emoji    — big emoji shown (default: '🌻')
+ *   options.text     — main tap prompt text (default: 'Tap anywhere to continue...')
+ *   options.textKr   — Korean subtitle (default: '계속하려면 탭하세요...')
+ *   options.onReveal — callback fired after tap (start music + page animations here)
+ */
+function showTapOverlay({ bg, emoji = '🌻', text, textKr, onReveal } = {}) {
+  // Build overlay element
+  const overlay = document.createElement('div');
+  overlay.id = 'tap-overlay';
+  overlay.setAttribute('role', 'button');
+  overlay.setAttribute('aria-label', 'Tap to continue');
+  overlay.tabIndex = 0;
+
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    background: ${bg || 'radial-gradient(ellipse at 50% 40%, #0d1a4a 0%, #022658 60%, #010e2a 100%)'};
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+  `;
+
+  overlay.innerHTML = `
+    <div id="tap-emoji" style="
+      font-size: clamp(4rem, 15vw, 7rem);
+      animation: tap-pulse 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 24px rgba(255,247,120,0.7));
+    ">${emoji}</div>
+    <div style="
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      color: #FFF778;
+      text-align: center;
+      text-shadow: 0 0 16px rgba(255,247,120,0.5);
+      padding: 0 2rem;
+    ">${text || 'Tap anywhere to continue...'}</div>
+    <div style="
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 3vw, 1.1rem);
+      color: rgba(255,247,120,0.6);
+      text-align: center;
+      letter-spacing: 0.08em;
+    ">${textKr || '계속하려면 탭하세요...'}</div>
+    <style>
+      @keyframes tap-pulse {
+        0%, 100% { transform: scale(1) rotate(-4deg); }
+        50%       { transform: scale(1.12) rotate(4deg); }
+      }
+    </style>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Hide page content behind overlay until tapped
+  document.body.style.overflow = 'hidden';
+
+  function reveal() {
+    // Remove listener immediately to prevent double-fire
+    overlay.removeEventListener('click', reveal);
+    overlay.removeEventListener('keydown', onKey);
+
+    // Start music — this tap IS the user interaction
+    MusicPlayer.play();
+
+    // Fade out overlay
+    overlay.style.transition = 'opacity 0.7s ease';
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }, 700);
+
+    // Fire the page reveal callback
+    if (typeof onReveal === 'function') onReveal();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter' || e.key === ' ') reveal();
+  }
+
+  overlay.addEventListener('click', reveal);
+  overlay.addEventListener('keydown', onKey);
+}
+
+
 /* ---- Init on DOM Ready ---- */
 document.addEventListener('DOMContentLoaded', () => {
   pageEntrance();
@@ -402,3 +497,4 @@ window.animateMeet = animateMeet;
 window.animateWishReveal = animateWishReveal;
 window.triggerCelebration = triggerCelebration;
 window.initEasterEgg = initEasterEgg;
+window.showTapOverlay = showTapOverlay;

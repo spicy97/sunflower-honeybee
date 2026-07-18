@@ -566,8 +566,16 @@
     // ---- Easter egg ----
     initEasterEgg(document.getElementById('ch3-bee'));
 
-    // ---- Start sequence ----
-    runReveal();
+    // ---- Start sequence — triggered after tap overlay ----
+    window.addEventListener('load', () => {
+      showTapOverlay({
+        bg: 'radial-gradient(ellipse at 50% 30%, #0d1a4a 0%, #020e2e 60%, #010818 100%)',
+        emoji: '🏮',
+        text: 'Chapter 3: One Wish Left...',
+        textKr: '제 3장: 마지막 소원...',
+        onReveal: runReveal,
+      });
+    });
   </script>
 </body>
 </html>

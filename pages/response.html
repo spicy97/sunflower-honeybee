@@ -545,10 +545,15 @@
       }, 4500);
     }
 
-    // Start on load
+    // Show tap overlay first, then celebrate
     window.addEventListener('load', () => {
-      // Small delay for fonts to load
-      setTimeout(runCelebration, 200);
+      showTapOverlay({
+        bg: 'radial-gradient(ellipse at 50% 40%, #0d1f5a 0%, #022658 50%, #010f2e 100%)',
+        emoji: '🎉',
+        text: 'Tap to celebrate! 🌻💛',
+        textKr: '탭해서 축하해요!',
+        onReveal: () => setTimeout(runCelebration, 200),
+      });
     });
 
     // Easter egg on dancing bee

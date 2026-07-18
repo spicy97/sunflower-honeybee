@@ -409,20 +409,28 @@
     }, { threshold: 0.3 });
     closingObserver.observe(document.getElementById('closing-quote'));
 
-    // Animate characters in
-    window.addEventListener('load', () => {
+    function revealPage() {
       const bee = document.getElementById('ch2-bee');
       const sf  = document.getElementById('ch2-sf');
-
       if (window.gsap) {
         setTimeout(() => {
           gsap.to(bee, { opacity: 1, duration: 1, ease: 'power2.out' });
           gsap.to(sf,  { opacity: 1, duration: 1, ease: 'power2.out', delay: 0.4 });
-        }, 600);
+        }, 300);
       } else {
         bee.style.opacity = '1';
         sf.style.opacity = '1';
       }
+    }
+
+    window.addEventListener('load', () => {
+      showTapOverlay({
+        bg: 'linear-gradient(160deg, #022658 0%, #0d3a7a 40%, #1a3a6e 70%, #2d1b6e 100%)',
+        emoji: '🐝',
+        text: 'Chapter 2: What You Mean to Me',
+        textKr: '제 2장: 당신이 내게 어떤 의미인지',
+        onReveal: revealPage,
+      });
     });
   </script>
 </body>
