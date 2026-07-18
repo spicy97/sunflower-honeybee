@@ -474,12 +474,33 @@
     .yes-emoji-row { font-size:clamp(1.6rem,6vw,3.5rem); text-align:center; opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; position:relative; z-index:10; letter-spacing:0.25em; margin-bottom:1rem; }
     .yes-emoji-row.show { opacity:1; transform:translateY(0); }
 
-    .dance-stage { position:relative; z-index:10; display:flex; justify-content:center; align-items:flex-end; gap:clamp(1rem,5vw,3.5rem); margin:1rem 0; width:100%; max-width:440px; }
-    .dance-bee { width:clamp(75px,14vw,120px); height:auto; opacity:0; animation:dance-bee 0.6s ease-in-out infinite alternate; filter:drop-shadow(0 0 18px rgba(255,247,120,0.5)); }
-    .dance-sf  { width:clamp(85px,16vw,135px); height:auto; opacity:0; animation:dance-sf 0.5s ease-in-out infinite alternate 0.1s; filter:drop-shadow(0 0 18px rgba(255,247,120,0.4)); }
-    @keyframes dance-bee { from{transform:translateY(0) rotate(-8deg) scale(1);} to{transform:translateY(-16px) rotate(8deg) scale(1.07);} }
-    @keyframes dance-sf  { from{transform:translateY(-4px) rotate(5deg) scale(1.04);} to{transform:translateY(4px) rotate(-5deg) scale(1);} }
-    .dance-heart { position:absolute; top:0; left:50%; transform:translateX(-50%); font-size:2.2rem; opacity:0; animation:heart-dance-float 1.5s ease-in-out infinite; }
+    /* Hug stage */
+    .dance-stage { position:relative; z-index:10; display:flex; justify-content:center; align-items:flex-end; margin:1rem 0; width:100%; max-width:360px; height: clamp(160px, 28vw, 220px); }
+    .dance-bee {
+      width:clamp(75px,14vw,120px); height:auto; opacity:0;
+      position: absolute; bottom: 0; left: 0;
+      transform-origin: bottom right;
+      filter:drop-shadow(0 0 18px rgba(255,247,120,0.5));
+      animation: hug-bee 3s ease-in-out infinite;
+    }
+    .dance-sf {
+      width:clamp(85px,16vw,135px); height:auto; opacity:0;
+      position: absolute; bottom: 0; right: 0;
+      transform-origin: bottom left;
+      filter:drop-shadow(0 0 18px rgba(255,247,120,0.4));
+      animation: hug-sf 3s ease-in-out infinite;
+    }
+    /* Bee leans right toward sunflower, bobs gently */
+    @keyframes hug-bee {
+      0%,100% { transform: rotate(18deg) translateY(0); }
+      50%      { transform: rotate(22deg) translateY(-6px); }
+    }
+    /* Sunflower leans left toward bee */
+    @keyframes hug-sf {
+      0%,100% { transform: rotate(-14deg) translateY(0); }
+      50%      { transform: rotate(-18deg) translateY(-4px); }
+    }
+    .dance-heart { position:absolute; top: 8%; left:50%; transform:translateX(-50%); font-size:2.4rem; opacity:0; animation:heart-dance-float 1.5s ease-in-out infinite; }
     @keyframes heart-dance-float { 0%{transform:translateX(-50%) translateY(0) scale(0.8);opacity:0;} 30%{opacity:1;} 60%{transform:translateX(-50%) translateY(-35px) scale(1.2);opacity:1;} 100%{transform:translateX(-50%) translateY(-70px) scale(0.6);opacity:0;} }
 
     .message-card {
@@ -654,12 +675,12 @@
     <div class="divider" style="color:#022658;margin:1.2rem auto;"></div>
 
     <div class="quote-block">
-      <div class="quote-en">"You wandered into my world like sunshine through a window — unexpected, warm, and impossible to ignore."</div>
+      <div class="quote-en">"You wandered into my world like radiant sunshine through a window — unexpected, warm, and impossible to ignore."</div>
       <div class="quote-kr">"너는 창문을 통해 들어오는 햇살처럼 내 세상에 불쑥 나타났어 — 예상치 못하게, 따뜻하게, 그리고 무시할 수 없게."</div>
     </div>
     <div class="quote-block">
-      <div class="quote-en">"I had been searching for something special for so long — and then there you were. 🌻"</div>
-      <div class="quote-kr">"오랫동안 특별한 무언가를 찾고 있었어 — 그리고 바로 거기 네가 있었어. 🌻"</div>
+      <div class="quote-en">"I felt drawn to you in a special sort of way. 🌻"</div>
+      <div class="quote-kr">"특별한 방식으로 너에게 끌렸어. 🌻"</div>
     </div>
   </div>
 
@@ -702,7 +723,7 @@
 
   <div class="cards-container" id="ch2-cards">
     <div class="reason-card" data-icon="☀️"><div class="card-en">"Your smile makes the whole world glow."</div><div class="card-kr">"네 미소가 온 세상을 빛나게 해."</div></div>
-    <div class="reason-card" data-icon="🌻"><div class="card-en">"You are my favorite kind of sunshine — warm, golden, and always welcome."</div><div class="card-kr">"너는 내가 가장 좋아하는 햇살이야 — 따뜻하고, 황금빛이고, 언제나 반가운."</div></div>
+    <div class="reason-card" data-icon="🌻"><div class="card-en">"You are my favorite kind of sunshine — radiant, warm, golden, and always welcome."</div><div class="card-kr">"너는 내가 가장 좋아하는 햇살이야 — 눈부시고, 따뜻하고, 황금빛이고, 언제나 반가운."</div></div>
     <div class="reason-card" data-icon="🐝"><div class="card-en">"Wherever you are, that's where I want to be."</div><div class="card-kr">"네가 있는 곳이라면 어디든 함께하고 싶어."</div></div>
     <div class="reason-card" data-icon="💛"><div class="card-en">"You make ordinary moments feel magical just by being in them."</div><div class="card-kr">"너는 그냥 함께 있는 것만으로 평범한 순간을 마법처럼 만들어줘."</div></div>
     <div class="reason-card" data-icon="✨"><div class="card-en">"I feel like the luckiest bee in the world when I'm around you."</div><div class="card-kr">"네 곁에 있을 때면 세상에서 가장 운 좋은 꿀벌이 된 것 같아."</div></div>
@@ -790,17 +811,6 @@
   <div class="message-card" id="message-card">
     <div class="message-en">"I'm the luckiest honeybee in the whole world. 🐝🌻<br/>Thank you for saying yes —<br/>I promise to make every day as bright as you are."</div>
     <div class="message-kr">"나는 세상에서 가장 운이 좋은 꿀벌이에요. 🐝🌻<br/>응 해줘서 고마워 —<br/>네가 빛나는 것처럼 매일을 빛나게 만들어줄게."</div>
-  </div>
-
-  <div class="secondary-msg" id="secondary-msg">
-    <div class="secondary-en">"My Sunflower, from this moment on,<br/>you're not just the flower I searched for —<br/>you're the whole garden. 🌻"</div>
-    <div class="secondary-kr">"나의 해바라기, 이 순간부터<br/>너는 내가 찾던 꽃이 아니라 —<br/>온 정원이야. 🌻"</div>
-  </div>
-
-  <div class="signature" id="signature">
-    <div class="signature-en">With all my heart,</div>
-    <div class="signature-kr">온 마음을 다해서</div>
-    <div class="bee-sign">🐝💛</div>
   </div>
 
   <button class="replay-btn" id="replay-btn" onclick="restartExperience()">

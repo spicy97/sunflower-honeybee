@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 220" id="sunflower-svg" aria-label="Sunflower character">
   <defs>
     <radialGradient id="centerGrad" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8B5E3C"/>
-      <stop offset="100%" stop-color="#5C3317"/>
+      <stop offset="0%" stop-color="#022658"/>
+      <stop offset="100%" stop-color="#011540"/>
     </radialGradient>
     <radialGradient id="petalGrad" cx="50%" cy="30%" r="60%">
       <stop offset="0%" stop-color="#FFEE44"/>
@@ -39,21 +39,13 @@
 
     <!-- Outer petals (layer 1) -->
     <g id="petals-outer">
-      <!-- top -->
       <ellipse cx="70" cy="52" rx="11" ry="24" fill="url(#petalGrad2)" transform="rotate(0 70 95)"/>
-      <!-- top-right -->
       <ellipse cx="88" cy="57" rx="11" ry="24" fill="url(#petalGrad2)" transform="rotate(45 70 95)"/>
-      <!-- right -->
       <ellipse cx="97" cy="73" rx="11" ry="24" fill="url(#petalGrad)" transform="rotate(90 70 95)"/>
-      <!-- bottom-right -->
       <ellipse cx="88" cy="91" rx="11" ry="24" fill="url(#petalGrad2)" transform="rotate(135 70 95)"/>
-      <!-- bottom -->
       <ellipse cx="70" cy="96" rx="11" ry="24" fill="url(#petalGrad)" transform="rotate(180 70 95)"/>
-      <!-- bottom-left -->
       <ellipse cx="52" cy="91" rx="11" ry="24" fill="url(#petalGrad2)" transform="rotate(225 70 95)"/>
-      <!-- left -->
       <ellipse cx="43" cy="73" rx="11" ry="24" fill="url(#petalGrad)" transform="rotate(270 70 95)"/>
-      <!-- top-left -->
       <ellipse cx="52" cy="57" rx="11" ry="24" fill="url(#petalGrad2)" transform="rotate(315 70 95)"/>
     </g>
 
@@ -85,14 +77,14 @@
     <!-- Eyes -->
     <circle cx="61" cy="90" r="5.5" fill="white"/>
     <circle cx="79" cy="90" r="5.5" fill="white"/>
-    <circle cx="62.5" cy="91" r="3.5" fill="#2a1a08"/>
-    <circle cx="80.5" cy="91" r="3.5" fill="#2a1a08"/>
+    <circle cx="62.5" cy="91" r="3.5" fill="#022658"/>
+    <circle cx="80.5" cy="91" r="3.5" fill="#022658"/>
     <!-- Pupils shine -->
     <circle cx="63.5" cy="89.5" r="1.2" fill="white"/>
     <circle cx="81.5" cy="89.5" r="1.2" fill="white"/>
 
     <!-- Smile -->
-    <path d="M 62 100 Q 70 108 78 100" stroke="#5C3317" stroke-width="2.5" fill="none" stroke-linecap="round"
+    <path d="M 62 100 Q 70 108 78 100" stroke="#022658" stroke-width="2.5" fill="none" stroke-linecap="round"
       id="sf-smile"/>
 
     <!-- Blush cheeks -->
