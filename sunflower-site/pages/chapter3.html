@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One Wish Left... 🌻</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+
+  <style>
+    body {
+      background: radial-gradient(ellipse at 50% 30%, #0d1a4a 0%, #020e2e 60%, #010818 100%);
+      color: #fffef0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Stars + deep night sky */
+    #stars-ch3 {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ---- Main wrapper ---- */
+    .ch3-wrapper {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem 6rem;
+      overflow: hidden;
+    }
+
+    /* Chapter tag */
+    .chapter-tag {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 247, 120, 0.4);
+      text-align: center;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* ---- Lantern scene ---- */
+    .lantern-scene {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .lantern {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      display: inline-block;
+      animation: float-lantern 3.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(255,200,80,0.7));
+    }
+
+    @keyframes float-lantern {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-18px) rotate(4deg); }
+    }
+
+    /* ---- Wish text lines ---- */
+    .wish-section {
+      position: relative;
+      z-index: 5;
+      max-width: 640px;
+      width: 90%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .wish-line {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.8rem, 5.5vw, 3.8rem);
+      color: #FFF778;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      text-shadow: 0 0 24px rgba(255,247,120,0.5);
+    }
+
+    .wish-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .wish-line.glow-strong {
+      text-shadow: 0 0 30px rgba(255,247,120,0.9), 0 0 60px rgba(255,247,120,0.4);
+    }
+
+    .wish-sub {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: rgba(255, 247, 120, 0.6);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+
+    .wish-sub.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Pause / shimmer divider */
+    .shimmer-pause {
+      width: 60px;
+      height: 2px;
+      margin: 1rem auto;
+      background: linear-gradient(90deg, transparent, #FFF778, transparent);
+      animation: shimmer-slide 2s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .shimmer-pause.show {
+      opacity: 1;
+    }
+
+    @keyframes shimmer-slide {
+      0%, 100% { background-position: -100px 0; opacity: 0.4; }
+      50% { background-position: 100px 0; opacity: 1; }
+    }
+
+    /* ---- Characters facing each other ---- */
+    .ch3-stage {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      margin: 2rem 0;
+      min-height: 200px;
+    }
+
+    .ch3-bee {
+      width: clamp(75px, 13vw, 120px);
+      height: auto;
+      opacity: 0;
+      transform: translateX(-60px);
+      filter: drop-shadow(0 8px 20px rgba(255,247,120,0.2));
+      animation: float-bee-ch3 3s ease-in-out infinite;
+    }
+
+    .ch3-sf {
+      width: clamp(90px, 15vw, 140px);
+      height: auto;
+      opacity: 0;
+      transform: translateX(60px);
+      filter: drop-shadow(0 8px 20px rgba(255,247,120,0.3));
+    }
+
+    @keyframes float-bee-ch3 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Hearts between characters */
+    .hearts-between {
+      position: absolute;
+      bottom: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .hearts-between.show {
+      opacity: 1;
+    }
+
+    .float-heart {
+      font-size: 1.6rem;
+      animation: heart-float-up var(--hdur, 2s) ease-in-out infinite;
+      animation-delay: var(--hdel, 0s);
+    }
+
+    @keyframes heart-float-up {
+      0%   { transform: translateY(0) scale(0.8); opacity: 0.6; }
+      50%  { transform: translateY(-20px) scale(1.1); opacity: 1; }
+      100% { transform: translateY(-40px) scale(0.6); opacity: 0; }
+    }
+
+    /* ---- The Question ---- */
+    .question-section {
+      position: relative;
+      z-index: 5;
+      max-width: 580px;
+      width: 90%;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .question-section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .question-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      color: #FFF778;
+      line-height: 1.4;
+      text-shadow: 0 0 30px rgba(255,247,120,0.7);
+      margin-bottom: 0.5rem;
+    }
+
+    .question-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+      color: rgba(255, 247, 120, 0.65);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ---- YES Buttons ---- */
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .btn-row.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .yes-btn {
+      padding: 1em 2.8em;
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
+      cursor: pointer;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .yes-btn-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.5em;
+      opacity: 0.8;
+      margin-top: 0.15em;
+      letter-spacing: 0.04em;
+    }
+
+    .yes-btn-1 {
+      background: linear-gradient(135deg, #FFF778, #F5C518);
+      color: #022658;
+      box-shadow: 0 6px 32px rgba(255,247,120,0.55);
+      animation: pulse-yes 2s ease-in-out infinite;
+    }
+
+    .yes-btn-2 {
+      background: linear-gradient(135deg, #022658, #0d3a7a);
+      color: #FFF778;
+      border: 2px solid rgba(255,247,120,0.5);
+      box-shadow: 0 6px 32px rgba(2,38,88,0.5);
+      animation: pulse-yes 2s ease-in-out infinite 0.3s;
+    }
+
+    @keyframes pulse-yes {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.03); }
+    }
+
+    .yes-btn-1:hover, .yes-btn-2:hover {
+      transform: translateY(-8px) scale(1.07) !important;
+      animation: none;
+    }
+
+    .yes-btn-1:hover {
+      box-shadow: 0 12px 40px rgba(255,247,120,0.8);
+    }
+
+    .yes-btn-2:hover {
+      background: linear-gradient(135deg, #FFF778, #F5C518);
+      color: #022658;
+      border-color: transparent;
+      box-shadow: 0 12px 40px rgba(255,247,120,0.6);
+    }
+
+    /* Back nav */
+    .back-link {
+      position: relative;
+      z-index: 5;
+      margin-top: 3rem;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.9rem;
+      color: rgba(255,247,120,0.35);
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: rgba(255,247,120,0.7);
+    }
+
+    /* Moon / glow orb backdrop */
+    .night-glow {
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(200px, 40vw, 400px);
+      height: clamp(200px, 40vw, 400px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,247,120,0.06) 0%, transparent 70%);
+      z-index: 0;
+      animation: night-glow-pulse 5s ease-in-out infinite;
+    }
+
+    @keyframes night-glow-pulse {
+      0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <button id="music-toggle" aria-label="Toggle music">🎵</button>
+  <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;"></div>
+  <div id="stars-ch3" class="stars"></div>
+
+  <div class="ch3-wrapper">
+
+    <!-- Night glow backdrop -->
+    <div class="night-glow" aria-hidden="true"></div>
+
+    <!-- Chapter tag -->
+    <p class="chapter-tag" id="ch3-tag">Chapter 3 · 제 3장</p>
+
+    <!-- Lantern -->
+    <div class="lantern-scene" id="lantern-scene">
+      <span class="lantern" aria-hidden="true" id="lantern-emoji">🏮</span>
+    </div>
+
+    <!-- Wish text lines -->
+    <div class="wish-section" id="wish-section">
+
+      <div class="wish-line" id="wish1">
+        "I have one wish left..."
+      </div>
+      <div class="wish-sub" id="wish1-kr">
+        "나에게 소원이 하나 남아있어..."
+      </div>
+
+      <div class="shimmer-pause" id="shimmer1"></div>
+
+      <div class="wish-line glow-strong" id="wish2" style="font-size: clamp(1.6rem, 4.5vw, 3.2rem);">
+        "...for you to be my girlfriend."
+      </div>
+      <div class="wish-sub" id="wish2-kr">
+        "...네가 내 여자친구가 되어주는 것."
+      </div>
+
+    </div>
+
+    <!-- Character stage -->
+    <div class="ch3-stage" id="ch3-stage">
+      <img class="ch3-bee" id="ch3-bee" src="../assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
+
+      <!-- Floating hearts between them -->
+      <div class="hearts-between" id="hearts-between">
+        <span class="float-heart" style="--hdur:2.2s;--hdel:0s;">💛</span>
+        <span class="float-heart" style="--hdur:2.8s;--hdel:0.5s;">🌻</span>
+        <span class="float-heart" style="--hdur:2s;--hdel:1s;">💛</span>
+      </div>
+
+      <img class="ch3-sf" id="ch3-sf" src="../assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
+    </div>
+
+    <!-- The Question -->
+    <div class="question-section" id="question-section">
+      <div class="question-en">
+        "So... will you be my girlfriend? 🌻🐝"
+      </div>
+      <div class="question-kr">
+        "그래서... 내 여자친구가 되어줄래? 🌻🐝"
+      </div>
+
+      <!-- YES / YES buttons -->
+      <div class="btn-row" id="btn-row">
+        <button class="yes-btn yes-btn-1" id="yes1" onclick="handleYes(event)" aria-label="Yes!">
+          Yes! 🌻
+          <span class="yes-btn-kr">응! 당연하지!</span>
+        </button>
+        <button class="yes-btn yes-btn-2" id="yes2" onclick="handleYes(event)" aria-label="Of course!">
+          Of course! 💛
+          <span class="yes-btn-kr">물론이지! 🐝</span>
+        </button>
+      </div>
+    </div>
+
+    <button class="back-link" onclick="navigateTo('chapter2.html')" aria-label="Go back">
+      ← go back · 이전으로
+    </button>
+
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../assets/js/particles.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // Stars
+    generateStars('stars-ch3', 100);
+
+    // Particles — stars + sparkles, dreamy
+    const particles = new ParticleSystem('particle-canvas');
+    particles.start('stars');
+
+    // ---- Reveal sequence ----
+    function runReveal() {
+      // Step 1: Chapter tag fades in
+      const tag = document.getElementById('ch3-tag');
+      tag.style.transition = 'opacity 0.8s ease';
+      tag.style.opacity = '0';
+      setTimeout(() => { tag.style.opacity = '1'; }, 300);
+
+      // Step 2: Lantern appears
+      const lanternScene = document.getElementById('lantern-scene');
+      lanternScene.style.opacity = '0';
+      lanternScene.style.transition = 'opacity 1s ease';
+      setTimeout(() => { lanternScene.style.opacity = '1'; }, 800);
+
+      // Step 3: First wish line
+      setTimeout(() => {
+        document.getElementById('wish1').classList.add('show');
+        document.getElementById('wish1-kr').classList.add('show');
+      }, 1600);
+
+      // Step 4: Shimmer pause
+      setTimeout(() => {
+        document.getElementById('shimmer1').classList.add('show');
+      }, 3000);
+
+      // Step 5: Second wish line — the reveal
+      setTimeout(() => {
+        document.getElementById('wish2').classList.add('show');
+        document.getElementById('wish2-kr').classList.add('show');
+        // Sparkle burst on reveal
+        particles.setMode('mixed');
+        particles.burst(window.innerWidth / 2, window.innerHeight * 0.45, 20, 'sparkle');
+      }, 4200);
+
+      // Step 6: Characters appear
+      setTimeout(() => {
+        const bee = document.getElementById('ch3-bee');
+        const sf  = document.getElementById('ch3-sf');
+        if (window.gsap) {
+          gsap.to(bee, { opacity: 1, x: 0, duration: 1.1, ease: 'power2.out' });
+          gsap.to(sf,  { opacity: 1, x: 0, duration: 1.1, ease: 'power2.out', delay: 0.25 });
+          // Heart eyes on bee
+          gsap.to(bee, {
+            filter: 'drop-shadow(0 8px 20px rgba(255,247,120,0.5)) brightness(1.15)',
+            duration: 0.8,
+            delay: 1,
+          });
+        } else {
+          bee.style.opacity = '1';
+          bee.style.transform = 'none';
+          sf.style.opacity = '1';
+          sf.style.transform = 'none';
+        }
+
+        // Show hearts between characters
+        setTimeout(() => {
+          document.getElementById('hearts-between').classList.add('show');
+        }, 1000);
+      }, 5500);
+
+      // Step 7: The Question + buttons appear
+      setTimeout(() => {
+        document.getElementById('question-section').classList.add('show');
+        setTimeout(() => {
+          document.getElementById('btn-row').classList.add('show');
+          particles.setMode('hearts');
+        }, 500);
+      }, 7000);
+    }
+
+    // ---- Handle YES click ----
+    function handleYes(e) {
+      const btn = e.currentTarget;
+
+      // Prevent double click
+      document.getElementById('yes1').disabled = true;
+      document.getElementById('yes2').disabled = true;
+
+      // Button celebration
+      if (window.gsap) {
+        gsap.to(btn, {
+          scale: 1.3,
+          duration: 0.3,
+          ease: 'back.out(3)',
+          yoyo: true,
+          repeat: 1,
+        });
+      }
+
+      // Heart burst at click position
+      particles.setMode('celebration');
+      particles.burst(e.clientX, e.clientY, 25, 'heart');
+      particles.burst(e.clientX, e.clientY, 15, 'sparkle');
+
+      // Navigate to response page after a beat
+      setTimeout(() => navigateTo('response.html', 800), 400);
+    }
+
+    // ---- Easter egg ----
+    initEasterEgg(document.getElementById('ch3-bee'));
+
+    // ---- Start sequence ----
+    runReveal();
+  </script>
+</body>
+</html>

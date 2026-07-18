@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>She Said YES! 🎉🌻</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+
+  <style>
+    body {
+      background: radial-gradient(ellipse at 50% 40%, #0d1f5a 0%, #022658 50%, #010f2e 100%);
+      color: #fffef0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #stars-resp {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ---- Wrapper ---- */
+    .resp-wrapper {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem 5rem;
+      overflow: hidden;
+      gap: 0;
+    }
+
+    /* ---- Big YES text ---- */
+    .yes-headline {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(4rem, 14vw, 10rem);
+      color: #FFF778;
+      text-align: center;
+      text-shadow:
+        0 0 30px rgba(255,247,120,0.9),
+        0 0 70px rgba(255,247,120,0.5),
+        0 0 120px rgba(255,247,120,0.25);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.4) rotate(-8deg);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      z-index: 10;
+      margin-bottom: 0.2rem;
+    }
+
+    .yes-headline.show {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .yes-emoji-row {
+      font-size: clamp(2rem, 6vw, 4rem);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      position: relative;
+      z-index: 10;
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+    }
+
+    .yes-emoji-row.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- Message card ---- */
+    .message-card {
+      max-width: 580px;
+      width: 90%;
+      background: rgba(255, 247, 120, 0.07);
+      border: 1px solid rgba(255, 247, 120, 0.25);
+      border-radius: 24px;
+      padding: 2.5rem 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 40px rgba(255,247,120,0.1), 0 0 80px rgba(255,247,120,0.05);
+      position: relative;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .message-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+      color: #FFF778;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .message-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: rgba(255, 247, 120, 0.65);
+      line-height: 2;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Dancing characters ---- */
+    .dance-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(1rem, 5vw, 4rem);
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .dance-bee {
+      width: clamp(80px, 14vw, 130px);
+      height: auto;
+      opacity: 0;
+      animation: dance-bee 0.6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 20px rgba(255,247,120,0.5));
+    }
+
+    .dance-sf {
+      width: clamp(90px, 16vw, 150px);
+      height: auto;
+      opacity: 0;
+      animation: dance-sf 0.5s ease-in-out infinite alternate 0.1s;
+      filter: drop-shadow(0 0 20px rgba(255,247,120,0.4));
+    }
+
+    @keyframes dance-bee {
+      from { transform: translateY(0) rotate(-8deg) scale(1); }
+      to   { transform: translateY(-18px) rotate(8deg) scale(1.08); }
+    }
+
+    @keyframes dance-sf {
+      from { transform: translateY(-4px) rotate(5deg) scale(1.04); }
+      to   { transform: translateY(4px) rotate(-5deg) scale(1); }
+    }
+
+    /* Heart between characters */
+    .dance-heart {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+      opacity: 0;
+      animation: heart-dance-float 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(255,100,150,0.8));
+    }
+
+    @keyframes heart-dance-float {
+      0%   { transform: translateX(-50%) translateY(0) scale(0.8); opacity: 0; }
+      30%  { opacity: 1; }
+      60%  { transform: translateX(-50%) translateY(-40px) scale(1.2); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-80px) scale(0.6); opacity: 0; }
+    }
+
+    /* ---- Secondary messages ---- */
+    .secondary-msg {
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      margin-top: 0.5rem;
+    }
+
+    .secondary-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .secondary-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1rem, 2.8vw, 1.7rem);
+      color: rgba(255, 247, 120, 0.85);
+      line-height: 1.6;
+    }
+
+    .secondary-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.78rem, 1.8vw, 1rem);
+      color: rgba(255, 247, 120, 0.5);
+      margin-top: 0.5rem;
+      line-height: 1.9;
+    }
+
+    /* ---- Signature ---- */
+    .signature {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      margin-top: 1.5rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .signature.show {
+      opacity: 1;
+    }
+
+    .signature-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+      color: #FFF778;
+      text-shadow: 0 0 15px rgba(255,247,120,0.5);
+    }
+
+    .signature-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.8rem, 1.8vw, 1rem);
+      color: rgba(255, 247, 120, 0.55);
+      margin-top: 0.3rem;
+      letter-spacing: 0.08em;
+    }
+
+    .bee-sign {
+      font-size: 2rem;
+      display: inline-block;
+      animation: sign-bounce 1s ease-in-out infinite alternate;
+      margin-top: 0.4rem;
+    }
+
+    @keyframes sign-bounce {
+      from { transform: rotate(-10deg) scale(0.95); }
+      to   { transform: rotate(10deg) scale(1.1); }
+    }
+
+    /* ---- Replay button ---- */
+    .replay-row {
+      position: relative;
+      z-index: 10;
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .replay-row.show {
+      opacity: 1;
+    }
+
+    .replay-btn {
+      padding: 0.8em 2.2em;
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+      background: rgba(255,247,120,0.12);
+      color: #FFF778;
+      border: 1.5px solid rgba(255,247,120,0.35);
+    }
+
+    .replay-btn:hover {
+      background: rgba(255,247,120,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(255,247,120,0.25);
+    }
+
+    .replay-btn-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.5em;
+      opacity: 0.65;
+      margin-top: 0.1em;
+    }
+
+    /* Glow rings around YES */
+    .glow-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(255,247,120,0.15);
+      animation: ring-expand 3s ease-out infinite;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @keyframes ring-expand {
+      0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <button id="music-toggle" aria-label="Toggle music">🎵</button>
+  <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;"></div>
+  <div id="stars-resp" class="stars"></div>
+
+  <div class="resp-wrapper">
+
+    <!-- Glow rings -->
+    <div class="glow-ring" style="width:300px;height:300px;top:35%;left:50%;animation-delay:0s;" aria-hidden="true"></div>
+    <div class="glow-ring" style="width:300px;height:300px;top:35%;left:50%;animation-delay:1s;" aria-hidden="true"></div>
+    <div class="glow-ring" style="width:300px;height:300px;top:35%;left:50%;animation-delay:2s;" aria-hidden="true"></div>
+
+    <!-- Big YES -->
+    <div class="yes-headline" id="yes-headline">
+      She said YES! 🎉
+    </div>
+    <div class="yes-emoji-row" id="yes-emojis">
+      🌻 💛 🐝 💛 🌻
+    </div>
+
+    <!-- Dancing characters -->
+    <div class="dance-stage" id="dance-stage">
+      <img class="dance-bee" id="dance-bee" src="../assets/svg/honeybee.svg" alt="Honeybee dancing" draggable="false" />
+      <div class="dance-heart" id="dance-heart">💛</div>
+      <img class="dance-sf" id="dance-sf" src="../assets/svg/sunflower.svg" alt="Sunflower dancing" draggable="false" />
+    </div>
+
+    <!-- Main message -->
+    <div class="message-card" id="message-card">
+      <div class="message-en">
+        "I'm the luckiest honeybee in the whole world. 🐝🌻<br/>
+        Thank you for saying yes —<br/>
+        I promise to make every day as bright as you are."
+      </div>
+      <div class="message-kr">
+        "나는 세상에서 가장 운이 좋은 꿀벌이에요. 🐝🌻<br/>
+        응 해줘서 고마워 —<br/>
+        네가 빛나는 것처럼 매일을 빛나게 만들어줄게."
+      </div>
+    </div>
+
+    <!-- Secondary message -->
+    <div class="secondary-msg" id="secondary-msg">
+      <div class="secondary-en">
+        "My Sunflower, from this moment on,<br/>
+        you're not just the flower I searched for —<br/>
+        you're the whole garden. 🌻"
+      </div>
+      <div class="secondary-kr">
+        "나의 해바라기, 이 순간부터<br/>
+        너는 내가 찾던 꽃이 아니라 —<br/>
+        온 정원이야. 🌻"
+      </div>
+    </div>
+
+    <!-- Signature -->
+    <div class="signature" id="signature">
+      <div class="signature-en">With all my heart,</div>
+      <div class="signature-kr">온 마음을 다해서</div>
+      <div class="bee-sign">🐝💛</div>
+    </div>
+
+    <!-- Replay / go back -->
+    <div class="replay-row" id="replay-row">
+      <button class="replay-btn" onclick="navigateTo('../index.html')" aria-label="Experience again">
+        ↩ Again from the beginning
+        <span class="replay-btn-kr">처음부터 다시 🌻</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="../assets/js/particles.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // Generate stars
+    generateStars('stars-resp', 90);
+
+    // Particle celebration
+    const particles = new ParticleSystem('particle-canvas');
+    particles.start('celebration');
+
+    // ---- Canvas confetti burst ----
+    function launchConfetti() {
+      if (!window.confetti) return;
+
+      const colors = ['#FFF778', '#F5C518', '#022658', '#ff6b9d', '#FFFFFF', '#FFD700'];
+
+      // Initial big burst
+      confetti({
+        particleCount: 120,
+        spread: 100,
+        origin: { x: 0.5, y: 0.4 },
+        colors,
+        startVelocity: 50,
+      });
+
+      // Sides
+      setTimeout(() => {
+        confetti({ particleCount: 60, angle: 60, spread: 60, origin: { x: 0, y: 0.6 }, colors });
+        confetti({ particleCount: 60, angle: 120, spread: 60, origin: { x: 1, y: 0.6 }, colors });
+      }, 300);
+
+      // Ongoing gentle shower
+      const end = Date.now() + 6000;
+      (function shower() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors,
+          gravity: 0.8,
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors,
+          gravity: 0.8,
+        });
+        if (Date.now() < end) requestAnimationFrame(shower);
+      })();
+    }
+
+    // ---- Reveal sequence ----
+    function runCelebration() {
+      // YES! pops in
+      setTimeout(() => {
+        document.getElementById('yes-headline').classList.add('show');
+        launchConfetti();
+        particles.burst(window.innerWidth / 2, window.innerHeight * 0.3, 30, 'heart');
+      }, 300);
+
+      // Emoji row
+      setTimeout(() => {
+        document.getElementById('yes-emojis').classList.add('show');
+      }, 900);
+
+      // Dancing characters appear
+      setTimeout(() => {
+        const bee = document.getElementById('dance-bee');
+        const sf  = document.getElementById('dance-sf');
+        const heart = document.getElementById('dance-heart');
+
+        if (window.gsap) {
+          gsap.to(bee, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(2)',
+          });
+          gsap.to(sf, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: 'back.out(2)',
+            delay: 0.2,
+          });
+          gsap.to(heart, {
+            opacity: 1,
+            duration: 0.5,
+            delay: 0.5,
+          });
+        } else {
+          bee.style.opacity = '1';
+          sf.style.opacity = '1';
+          heart.style.opacity = '1';
+        }
+
+        // Second confetti burst after characters appear
+        setTimeout(() => {
+          particles.burst(window.innerWidth / 2, window.innerHeight * 0.5, 20, 'heart');
+        }, 700);
+      }, 1500);
+
+      // Message card
+      setTimeout(() => {
+        document.getElementById('message-card').classList.add('show');
+      }, 2400);
+
+      // Secondary message
+      setTimeout(() => {
+        document.getElementById('secondary-msg').classList.add('show');
+      }, 3200);
+
+      // Signature
+      setTimeout(() => {
+        document.getElementById('signature').classList.add('show');
+      }, 4000);
+
+      // Replay button
+      setTimeout(() => {
+        document.getElementById('replay-row').classList.add('show');
+      }, 4800);
+
+      // Final confetti burst
+      setTimeout(() => {
+        if (window.confetti) {
+          confetti({
+            particleCount: 80,
+            spread: 120,
+            origin: { x: 0.5, y: 0.5 },
+            colors: ['#FFF778', '#F5C518', '#ff6b9d', '#FFFFFF'],
+            startVelocity: 40,
+          });
+        }
+        particles.setMode('mixed');
+        particles.burst(window.innerWidth / 2, window.innerHeight / 2, 40, 'heart');
+      }, 4500);
+    }
+
+    // Start on load
+    window.addEventListener('load', () => {
+      // Small delay for fonts to load
+      setTimeout(runCelebration, 200);
+    });
+
+    // Easter egg on dancing bee
+    initEasterEgg(document.getElementById('dance-bee'));
+  </script>
+</body>
+</html>

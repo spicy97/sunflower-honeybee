@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Sunflower 🌻</title>
+  <meta name="description" content="A special message for someone very special." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <style>
+    /* ---- Landing Page Specific ---- */
+    body {
+      overflow: hidden; /* No scroll on landing — it's a full-screen cinematic scene */
+    }
+
+    .landing-wrapper {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background: radial-gradient(ellipse at 50% 20%, #0d2060 0%, #022658 50%, #010e2a 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Stars layer */
+    #stars-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Ground / garden strip */
+    .garden-strip {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 22vh;
+      background: linear-gradient(180deg, #2d6e2d 0%, #1d4e1d 60%, #0f2e0f 100%);
+      border-radius: 40% 40% 0 0 / 15% 15% 0 0;
+      z-index: 2;
+    }
+
+    /* Grass blades */
+    .grass-blade {
+      position: absolute;
+      bottom: 100%;
+      width: 4px;
+      height: 30px;
+      background: linear-gradient(180deg, #4ebe4e, #2d6e2d);
+      border-radius: 2px 2px 0 0;
+      transform-origin: bottom center;
+      animation: sway-grass 2.5s ease-in-out infinite;
+    }
+
+    @keyframes sway-grass {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    /* Nope flowers */
+    .nope-flower {
+      position: absolute;
+      bottom: 16vh;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      z-index: 3;
+      transition: transform 0.3s ease, filter 0.5s ease;
+      cursor: default;
+      transform-origin: bottom center;
+    }
+
+    .nope-flower.rejected {
+      filter: grayscale(0.7) opacity(0.5);
+      transform: rotate(-15deg);
+    }
+
+    .nope-flower.nope-1 { left: 6%; animation: sway-flower 3.2s ease-in-out infinite; }
+    .nope-flower.nope-2 { left: 20%; animation: sway-flower 2.8s ease-in-out infinite 0.4s; }
+    .nope-flower.nope-3 { left: 72%; animation: sway-flower 3.5s ease-in-out infinite 0.2s; }
+    .nope-flower.nope-4 { left: 85%; animation: sway-flower 2.6s ease-in-out infinite 0.7s; }
+
+    @keyframes sway-flower {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+
+    /* Main sunflower (the hero) */
+    #main-sunflower {
+      position: absolute;
+      bottom: 14vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(110px, 18vw, 180px);
+      height: auto;
+      z-index: 4;
+      opacity: 0;
+      transform-origin: bottom center;
+    }
+
+    /* Honeybee character */
+    #main-bee {
+      position: absolute;
+      width: clamp(70px, 10vw, 110px);
+      height: auto;
+      z-index: 10;
+      opacity: 0;
+      top: 30%;
+      left: -150px;
+    }
+
+    /* Bee speech bubble (nope!) */
+    #speech-bubble {
+      position: absolute;
+      background: white;
+      color: #022658;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: 1.3rem;
+      padding: 0.4em 0.8em;
+      border-radius: 12px;
+      z-index: 11;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 14px;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid white;
+    }
+
+    /* Glow halo around main sunflower */
+    .sunflower-glow {
+      position: absolute;
+      bottom: 20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(160px, 26vw, 280px);
+      height: clamp(160px, 26vw, 280px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,247,120,0.25) 0%, rgba(255,247,120,0) 70%);
+      z-index: 3;
+      opacity: 0;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+      50% { transform: translateX(-50%) scale(1.12); opacity: 1; }
+    }
+
+    /* Center text content */
+    .landing-text {
+      position: relative;
+      z-index: 6;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      background: rgba(1, 14, 42, 0.55);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 247, 120, 0.15);
+      max-width: 500px;
+      width: 90%;
+      /* positioned at top-center, above garden */
+      position: absolute;
+      top: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+
+    .landing-title {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      color: #FFF778;
+      line-height: 1.2;
+      text-shadow: 0 0 20px rgba(255,247,120,0.6);
+    }
+
+    .landing-subtitle {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      color: rgba(255, 247, 120, 0.7);
+      margin-top: 0.4rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Begin button — appears after animation */
+    #begin-btn {
+      position: absolute;
+      bottom: 28vh;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+      opacity: 0;
+      pointer-events: none;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      padding: 0.9em 2.4em;
+      background: linear-gradient(135deg, #FFF778, #F5C518);
+      color: #022658;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      cursor: pointer;
+      box-shadow: 0 6px 30px rgba(255,247,120,0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #begin-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      animation: pulse-btn 2.2s ease-in-out infinite;
+    }
+
+    #begin-btn:hover {
+      transform: translateX(-50%) translateY(-4px) scale(1.06);
+      box-shadow: 0 10px 40px rgba(255,247,120,0.8);
+      animation: none;
+    }
+
+    .btn-kr {
+      display: block;
+      font-size: 0.6em;
+      font-family: 'Noto Serif KR', serif;
+      opacity: 0.75;
+      margin-top: 0.1em;
+      letter-spacing: 0.06em;
+    }
+
+    /* Fireflies */
+    .firefly {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #FFF778;
+      z-index: 3;
+      animation: firefly-float var(--fdur, 6s) ease-in-out infinite;
+      animation-delay: var(--fdel, 0s);
+      box-shadow: 0 0 6px 2px rgba(255,247,120,0.8);
+    }
+
+    @keyframes firefly-float {
+      0%   { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
+      25%  { transform: translate(var(--fx1, 20px), var(--fy1, -30px)) scale(1.2); opacity: 1; }
+      50%  { transform: translate(var(--fx2, -15px), var(--fy2, -60px)) scale(0.9); opacity: 0.6; }
+      75%  { transform: translate(var(--fx3, 30px), var(--fy3, -40px)) scale(1.1); opacity: 0.9; }
+      100% { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
+    }
+
+    /* Moon */
+    .moon {
+      position: absolute;
+      top: 6%;
+      right: 8%;
+      width: clamp(50px, 8vw, 90px);
+      height: clamp(50px, 8vw, 90px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FFFDE7, #FFF59D);
+      box-shadow: 0 0 30px rgba(255,247,120,0.4), 0 0 60px rgba(255,247,120,0.15);
+      z-index: 1;
+      animation: moon-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes moon-glow {
+      0%, 100% { box-shadow: 0 0 30px rgba(255,247,120,0.4), 0 0 60px rgba(255,247,120,0.15); }
+      50% { box-shadow: 0 0 40px rgba(255,247,120,0.6), 0 0 80px rgba(255,247,120,0.25); }
+    }
+
+    /* Hidden YT player div */
+    #yt-player { position: fixed; top: -9999px; left: -9999px; }
+  </style>
+</head>
+<body>
+
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Music Toggle -->
+  <button id="music-toggle" aria-label="Play music">🎵</button>
+
+  <!-- Hidden YouTube Player -->
+  <div id="yt-player"></div>
+
+  <!-- Landing Scene -->
+  <div class="landing-wrapper">
+
+    <!-- Stars -->
+    <div id="stars-bg" class="stars"></div>
+
+    <!-- Moon -->
+    <div class="moon" aria-hidden="true"></div>
+
+    <!-- Fireflies -->
+    <div class="firefly" style="left:12%;bottom:40%;--fdur:7s;--fdel:0s;--fx1:25px;--fy1:-35px;--fx2:-10px;--fy2:-55px;--fx3:20px;--fy3:-40px;" aria-hidden="true"></div>
+    <div class="firefly" style="left:28%;bottom:52%;--fdur:5.5s;--fdel:1.2s;--fx1:-20px;--fy1:-25px;--fx2:15px;--fy2:-50px;--fx3:-10px;--fy3:-35px;" aria-hidden="true"></div>
+    <div class="firefly" style="left:65%;bottom:45%;--fdur:8s;--fdel:0.5s;--fx1:15px;--fy1:-40px;--fx2:-25px;--fy2:-65px;--fx3:20px;--fy3:-45px;" aria-hidden="true"></div>
+    <div class="firefly" style="left:80%;bottom:55%;--fdur:6.5s;--fdel:2s;--fx1:-15px;--fy1:-30px;--fx2:20px;--fy2:-50px;--fx3:-10px;--fy3:-38px;" aria-hidden="true"></div>
+    <div class="firefly" style="left:45%;bottom:60%;--fdur:9s;--fdel:0.8s;--fx1:22px;--fy1:-28px;--fx2:-18px;--fy2:-55px;--fx3:12px;--fy3:-42px;" aria-hidden="true"></div>
+
+    <!-- Title Text (top) -->
+    <div class="landing-text" id="landing-text" aria-label="For my Sunflower">
+      <div class="landing-title" id="landing-title">For my Sunflower...</div>
+      <div class="landing-subtitle" id="landing-subtitle">나의 해바라기에게...</div>
+    </div>
+
+    <!-- "Nope" Flowers in garden -->
+    <div class="nope-flower nope-1" id="nope1" aria-hidden="true" title="Not this one...">🌹</div>
+    <div class="nope-flower nope-2" id="nope2" aria-hidden="true" title="Not this one...">🌷</div>
+    <div class="nope-flower nope-3" id="nope3" aria-hidden="true" title="Not this one...">🌸</div>
+    <div class="nope-flower nope-4" id="nope4" aria-hidden="true" title="Not this one...">💐</div>
+
+    <!-- Sunflower glow halo -->
+    <div class="sunflower-glow" id="sf-glow" aria-hidden="true"></div>
+
+    <!-- Main Sunflower Character -->
+    <img
+      id="main-sunflower"
+      src="assets/svg/sunflower.svg"
+      alt="Sunflower character — she blooms when the bee arrives"
+      draggable="false"
+    />
+
+    <!-- Honeybee Character -->
+    <img
+      id="main-bee"
+      src="assets/svg/honeybee.svg"
+      alt="Honeybee character — searching for his perfect flower"
+      draggable="false"
+    />
+
+    <!-- Speech Bubble -->
+    <div id="speech-bubble" role="status" aria-live="polite">🚫 Nope...</div>
+
+    <!-- Garden Ground -->
+    <div class="garden-strip" aria-hidden="true">
+      <!-- Grass blades generated by JS -->
+    </div>
+
+    <!-- Begin Button -->
+    <button id="begin-btn" aria-label="Begin the journey — 여정을 시작해요">
+      Begin our story 🌻
+      <span class="btn-kr">우리의 이야기를 시작해요</span>
+    </button>
+
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Our Scripts -->
+  <script src="assets/js/particles.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    // =====================================================
+    // LANDING PAGE ANIMATION SEQUENCE
+    // =====================================================
+
+    const bee = document.getElementById('main-bee');
+    const sf = document.getElementById('main-sunflower');
+    const sfGlow = document.getElementById('sf-glow');
+    const landingText = document.getElementById('landing-text');
+    const beginBtn = document.getElementById('begin-btn');
+    const bubble = document.getElementById('speech-bubble');
+    const nopes = [
+      document.getElementById('nope1'),
+      document.getElementById('nope2'),
+      document.getElementById('nope3'),
+      document.getElementById('nope4'),
+    ];
+
+    // Generate stars
+    generateStars('stars-bg', 80);
+
+    // Generate grass blades
+    const gardenStrip = document.querySelector('.garden-strip');
+    for (let i = 0; i < 28; i++) {
+      const blade = document.createElement('div');
+      blade.className = 'grass-blade';
+      blade.style.left = (2 + i * 3.5) + '%';
+      blade.style.height = (20 + Math.random() * 20) + 'px';
+      blade.style.animationDelay = (Math.random() * 2) + 's';
+      blade.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      gardenStrip.appendChild(blade);
+    }
+
+    // Start particle system (stars + sparkles)
+    const particles = new ParticleSystem('particle-canvas');
+    particles.start('stars');
+
+    // ---- Helper: move bee to a nope flower ----
+    function flyToFlower(flower, index, done) {
+      const rect = flower.getBoundingClientRect();
+      // Target: hover above the flower
+      const tx = rect.left + rect.width / 2 - bee.offsetWidth / 2;
+      const ty = rect.top - bee.offsetHeight - 20;
+
+      gsap.to(bee, {
+        left: tx + 'px',
+        top: ty + 'px',
+        duration: 1.1,
+        ease: 'power1.inOut',
+        onStart: () => {
+          // Reset bubble
+          gsap.to(bubble, { opacity: 0, duration: 0.15 });
+        },
+        onComplete: () => {
+          // Show speech bubble near bee
+          const beeRect = bee.getBoundingClientRect();
+          bubble.style.left = (beeRect.left + beeRect.width / 2 - 40) + 'px';
+          bubble.style.top = (beeRect.top - 50) + 'px';
+
+          const nopeTexts = ['🚫 Nope...', '😕 Not quite...', '🤔 Hmm...', '💭 Almost...'];
+          bubble.textContent = nopeTexts[index] || '🚫 Nope...';
+
+          // Bee shake (head shake)
+          gsap.timeline()
+            .to(bubble, { opacity: 1, duration: 0.2 })
+            .to(bee, { rotation: -12, duration: 0.08, ease: 'none' })
+            .to(bee, { rotation: 12, duration: 0.08, ease: 'none' })
+            .to(bee, { rotation: -10, duration: 0.08, ease: 'none' })
+            .to(bee, { rotation: 8, duration: 0.08, ease: 'none' })
+            .to(bee, { rotation: 0, duration: 0.08, ease: 'none' })
+            .to(bubble, { opacity: 0, duration: 0.3, delay: 0.4 })
+            .call(() => {
+              flower.classList.add('rejected');
+              done();
+            });
+        }
+      });
+
+      // Bob up and down while flying
+      gsap.to(bee, {
+        top: '-=8',
+        duration: 0.4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+
+    // ---- Main animation sequence ----
+    function runLandingSequence() {
+      const masterTl = gsap.timeline();
+
+      // 1. Fade in title text
+      masterTl.to(landingText, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' });
+
+      // 2. Bee flies in from left
+      masterTl.call(() => {
+        gsap.set(bee, {
+          opacity: 1,
+          left: '-120px',
+          top: (window.innerHeight * 0.32) + 'px',
+          position: 'fixed',
+          rotation: 0,
+        });
+        bee.style.position = 'fixed';
+        bubble.style.position = 'fixed';
+      });
+
+      masterTl.to(bee, {
+        left: '8%',
+        duration: 1.3,
+        ease: 'power2.out',
+      }, '+=0.5');
+
+      // 3. Visit nope flowers one by one
+      // We chain these manually with a custom promise-like callback queue
+      masterTl.call(() => {
+        let i = 0;
+
+        function visitNext() {
+          if (i >= nopes.length) {
+            // Done with nopes — fly to sunflower
+            afterNopes();
+            return;
+          }
+          gsap.killTweensOf(bee, 'top'); // stop bobbing
+          flyToFlower(nopes[i], i, () => {
+            i++;
+            setTimeout(visitNext, 200);
+          });
+        }
+
+        visitNext();
+      });
+
+      function afterNopes() {
+        // 4. Pause — bee looks confused/sad
+        gsap.timeline()
+          .to(bee, { rotation: -15, duration: 0.3, ease: 'power1.out' })
+          .to(bee, { rotation: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)', delay: 0.3 })
+
+          // 5. Sunflower blooms in center
+          .call(() => {
+            gsap.set(sf, { opacity: 0, scale: 0.3, transformOrigin: 'bottom center' });
+            sf.style.display = 'block';
+            gsap.to(sf, {
+              opacity: 1,
+              scale: 1,
+              duration: 1.2,
+              ease: 'elastic.out(1, 0.6)',
+              onStart: () => {
+                sfGlow.style.opacity = '0';
+                gsap.to(sfGlow, { opacity: 1, duration: 1.5 });
+              }
+            });
+          }, null, null, '+=0.5')
+
+          // 6. Bee freezes, does double-take
+          .call(() => {
+            gsap.killTweensOf(bee);
+            gsap.timeline()
+              .to(bee, { scale: 1.15, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 })
+              .to(bee, { rotation: 10, duration: 0.15, ease: 'none', yoyo: true, repeat: 1 });
+          }, null, null, '+=1.2')
+
+          // 7. Bee zooms to sunflower with heart eyes
+          .call(() => {
+            const sfRect = sf.getBoundingClientRect();
+            const targetLeft = sfRect.left + sfRect.width / 2 - bee.offsetWidth / 2 - 60;
+            const targetTop = sfRect.top + sfRect.height * 0.1;
+
+            gsap.killTweensOf(bee);
+            gsap.to(bee, {
+              left: targetLeft + 'px',
+              top: targetTop + 'px',
+              duration: 1.2,
+              ease: 'power2.inOut',
+              onComplete: () => {
+                // Heart eyes!
+                const img = bee;
+                // Show a heart bubble above bee
+                bubble.innerHTML = '💛 Found her!';
+                const br = bee.getBoundingClientRect();
+                bubble.style.left = (br.left - 10) + 'px';
+                bubble.style.top = (br.top - 55) + 'px';
+                gsap.timeline()
+                  .to(bubble, { opacity: 1, scale: 1.1, duration: 0.3, ease: 'back.out(2)' })
+                  .to(bubble, { opacity: 0, duration: 0.4, delay: 1 });
+
+                // Bee bounces with joy
+                gsap.to(bee, {
+                  y: -20,
+                  duration: 0.3,
+                  ease: 'power1.out',
+                  yoyo: true,
+                  repeat: 3,
+                  onComplete: showBeginBtn
+                });
+
+                // Particle hearts burst
+                particles.setMode('mixed');
+                particles.burst(br.left + br.width / 2, br.top + br.height / 2, 15, 'heart');
+              }
+            });
+          }, null, null, '+=0.6');
+      }
+
+      function showBeginBtn() {
+        beginBtn.classList.add('visible');
+        particles.setMode('mixed');
+      }
+    }
+
+    // ---- Begin Button Click ---- //
+    beginBtn.addEventListener('click', () => {
+      // Start music on interaction
+      MusicPlayer.play();
+      particles.setMode('celebration');
+      gsap.to(beginBtn, { opacity: 0, scale: 0.8, duration: 0.4 });
+      // Navigate to chapter 1
+      setTimeout(() => navigateTo('pages/chapter1.html'), 700);
+    });
+
+    // ---- Easter Egg on bee ----
+    initEasterEgg(bee);
+
+    // ---- Start the sequence after a brief moment ----
+    setTimeout(runLandingSequence, 600);
+  </script>
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Started 🌻</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+
+  <style>
+    body {
+      background: linear-gradient(160deg, #e8f5e9 0%, #fff9c4 40%, #fffef0 100%);
+      color: #022658;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      background: transparent;
+      padding: 0;
+    }
+
+    /* ---- Chapter header ---- */
+    .chapter-tag {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(2, 38, 88, 0.45);
+      margin-bottom: 0.3rem;
+    }
+
+    /* ---- Scene: sky / day background ---- */
+    .ch1-wrapper {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #b8e4f9 0%, #dff0fa 30%, #e8f5e9 60%, #c8e6c9 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Clouds */
+    .cloud {
+      position: absolute;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.85);
+      z-index: 1;
+      animation: drift-cloud var(--cdur, 18s) linear infinite;
+      filter: blur(1px);
+    }
+
+    @keyframes drift-cloud {
+      from { transform: translateX(-120%); }
+      to   { transform: translateX(110vw); }
+    }
+
+    /* Ground strip */
+    .ch1-ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 18vh;
+      background: linear-gradient(180deg, #66bb6a 0%, #388e3c 100%);
+      border-radius: 50% 50% 0 0 / 8% 8% 0 0;
+      z-index: 2;
+    }
+
+    /* Flowers in ground */
+    .ground-flower {
+      position: absolute;
+      bottom: 100%;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      z-index: 3;
+      animation: sway-sm 3s ease-in-out infinite;
+    }
+
+    @keyframes sway-sm {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+
+    /* ---- Character stage ---- */
+    .ch1-stage {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      height: 320px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      z-index: 5;
+      margin-top: auto;
+    }
+
+    .ch1-bee {
+      width: clamp(80px, 14vw, 130px);
+      height: auto;
+      margin-bottom: 14vh;
+      opacity: 0;
+      transform: translateX(-80px);
+    }
+
+    .ch1-sf {
+      width: clamp(90px, 16vw, 150px);
+      height: auto;
+      margin-bottom: 14vh;
+      opacity: 0;
+      transform: translateX(80px);
+    }
+
+    /* ---- Text section ---- */
+    .ch1-text-section {
+      position: relative;
+      z-index: 10;
+      max-width: 620px;
+      width: 90%;
+      margin: 3rem auto 0;
+      text-align: center;
+      padding: 2.5rem 2rem;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      border: 1px solid rgba(2, 38, 88, 0.12);
+      box-shadow: 0 8px 32px rgba(2, 38, 88, 0.08);
+    }
+
+    .ch1-main-line {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.5rem, 4.5vw, 3rem);
+      color: #022658;
+      line-height: 1.4;
+      margin-bottom: 0.6rem;
+    }
+
+    .ch1-kr-line {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: rgba(2, 38, 88, 0.6);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---- "First meeting" moment ---- */
+    .meet-moment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .meet-icon {
+      font-size: 3rem;
+      animation: pop-in 0.5s ease backwards;
+    }
+
+    @keyframes pop-in {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ---- Quote block ---- */
+    .quote-block {
+      background: rgba(2, 38, 88, 0.06);
+      border-left: 4px solid #FFF778;
+      border-radius: 0 12px 12px 0;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+
+    .quote-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: #022658;
+      line-height: 1.5;
+    }
+
+    .quote-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.8rem, 1.8vw, 1rem);
+      color: rgba(2, 38, 88, 0.55);
+      margin-top: 0.4rem;
+    }
+
+    /* ---- Nav row ---- */
+    .nav-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin: 2.5rem 0 4rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 0.75em 2em;
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav-btn-primary {
+      background: linear-gradient(135deg, #FFF778, #F5C518);
+      color: #022658;
+      box-shadow: 0 4px 20px rgba(245, 197, 24, 0.4);
+    }
+
+    .nav-btn-primary:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(245, 197, 24, 0.6);
+    }
+
+    .nav-btn-ghost {
+      background: transparent;
+      color: rgba(2, 38, 88, 0.5);
+      border: 1.5px solid rgba(2, 38, 88, 0.2);
+    }
+
+    .nav-btn-ghost:hover {
+      background: rgba(2, 38, 88, 0.06);
+      color: #022658;
+    }
+
+    .nav-btn-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.55em;
+      opacity: 0.7;
+      margin-top: 0.1em;
+    }
+
+    /* Music toggle on day pages */
+    #music-toggle {
+      border-color: rgba(2, 38, 88, 0.4);
+      color: #022658;
+      background: rgba(2, 38, 88, 0.08);
+    }
+
+    #music-toggle:hover {
+      background: rgba(2, 38, 88, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <button id="music-toggle" aria-label="Toggle music">🎵</button>
+  <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;"></div>
+
+  <div class="ch1-wrapper">
+
+    <!-- Clouds -->
+    <div class="cloud" style="width:140px;height:45px;top:8%;--cdur:22s;animation-delay:-5s;" aria-hidden="true"></div>
+    <div class="cloud" style="width:90px;height:32px;top:14%;--cdur:17s;animation-delay:-10s;" aria-hidden="true"></div>
+    <div class="cloud" style="width:180px;height:55px;top:5%;--cdur:28s;animation-delay:-18s;" aria-hidden="true"></div>
+    <div class="cloud" style="width:110px;height:38px;top:20%;--cdur:20s;animation-delay:-3s;" aria-hidden="true"></div>
+
+    <!-- Text content -->
+    <div style="position:relative;z-index:10;width:90%;max-width:680px;margin-top:5rem;">
+
+      <!-- Chapter tag -->
+      <div class="chapter-tag fade-in" style="text-align:center;margin-bottom:0.5rem;">
+        Chapter 1 &nbsp;·&nbsp; 제 1장
+      </div>
+
+      <!-- Main text card -->
+      <div class="ch1-text-section fade-in fade-in-delay-1">
+
+        <div class="ch1-main-line" id="tw-line1">
+          "From the moment I met you..."
+        </div>
+        <div class="ch1-kr-line" id="tw-kr1">
+          "처음 만난 그 순간부터..."
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="meet-moment fade-in fade-in-delay-2">
+          <div class="meet-icon">🌻✨🐝</div>
+        </div>
+
+        <div class="ch1-main-line fade-in fade-in-delay-2" style="font-size: clamp(1.3rem, 3.5vw, 2.4rem);">
+          "...everything felt a little brighter."
+        </div>
+        <div class="ch1-kr-line fade-in fade-in-delay-2">
+          "...모든 것이 조금 더 빛나 보였어."
+        </div>
+
+        <div class="divider" style="margin: 1.5rem auto;"></div>
+
+        <!-- Quote 1 -->
+        <div class="quote-block fade-in fade-in-delay-3">
+          <div class="quote-en">"You wandered into my world like sunshine through a window — unexpected, warm, and impossible to ignore."</div>
+          <div class="quote-kr">"너는 창문을 통해 들어오는 햇살처럼 내 세상에 불쑥 나타났어 — 예상치 못하게, 따뜻하게, 그리고 무시할 수 없게."</div>
+        </div>
+
+        <!-- Quote 2 -->
+        <div class="quote-block fade-in fade-in-delay-4">
+          <div class="quote-en">"I had been searching for something special for so long — and then there you were. 🌻"</div>
+          <div class="quote-kr">"오랫동안 특별한 무언가를 찾고 있었어 — 그리고 바로 거기 네가 있었어. 🌻"</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Character stage -->
+    <div class="ch1-stage" id="ch1-stage">
+      <img class="ch1-bee" id="ch1-bee" src="../assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
+      <img class="ch1-sf" id="ch1-sf" src="../assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
+    </div>
+
+    <!-- Ground -->
+    <div class="ch1-ground" aria-hidden="true">
+      <div class="ground-flower" style="left:5%;animation-delay:0.2s;">🌼</div>
+      <div class="ground-flower" style="left:18%;animation-delay:0.8s;">🌿</div>
+      <div class="ground-flower" style="left:32%;animation-delay:0.4s;">🌱</div>
+      <div class="ground-flower" style="left:58%;animation-delay:1.1s;">🌱</div>
+      <div class="ground-flower" style="left:72%;animation-delay:0.6s;">🌿</div>
+      <div class="ground-flower" style="left:88%;animation-delay:0.1s;">🌼</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-row" style="position:relative;z-index:20;">
+      <button class="nav-btn nav-btn-ghost" onclick="navigateTo('../index.html')" aria-label="Go back to beginning">
+        ← Back
+        <span class="nav-btn-kr">처음으로</span>
+      </button>
+      <button class="nav-btn nav-btn-primary" onclick="navigateTo('chapter2.html')" aria-label="Continue to next chapter">
+        Next →
+        <span class="nav-btn-kr">다음으로</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../assets/js/particles.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // Particle system — floating petals on day scene
+    const particles = new ParticleSystem('particle-canvas');
+    particles.start('petals');
+
+    // Animate characters in
+    window.addEventListener('load', () => {
+      const beeCh1 = document.getElementById('ch1-bee');
+      const sfCh1  = document.getElementById('ch1-sf');
+
+      if (window.gsap) {
+        // Delay slightly so page settle first
+        setTimeout(() => {
+          gsap.to(beeCh1, {
+            opacity: 1,
+            x: 0,
+            duration: 1.2,
+            ease: 'power2.out',
+          });
+          gsap.to(sfCh1, {
+            opacity: 1,
+            x: 0,
+            duration: 1.2,
+            ease: 'power2.out',
+            delay: 0.3,
+            onComplete: () => {
+              // Bee tilts toward sunflower
+              gsap.to(beeCh1, {
+                rotation: 12,
+                duration: 0.5,
+                ease: 'power1.inOut',
+                yoyo: true,
+                repeat: 1,
+              });
+            }
+          });
+        }, 400);
+      } else {
+        beeCh1.style.opacity = '1';
+        beeCh1.style.transform = 'none';
+        sfCh1.style.opacity = '1';
+        sfCh1.style.transform = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
