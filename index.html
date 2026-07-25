@@ -723,22 +723,17 @@
 
   <div class="cards-container" id="ch2-cards">
     <div class="reason-card" data-icon="☀️"><div class="card-en">"Your smile makes the whole world glow."</div><div class="card-kr">"네 미소가 온 세상을 빛나게 해."</div></div>
-    <div class="reason-card" data-icon="🌻"><div class="card-en">"You are my favorite kind of sunshine — radiant, warm, golden, and always welcome."</div><div class="card-kr">"너는 내가 가장 좋아하는 햇살이야 — 눈부시고, 따뜻하고, 황금빛이고, 언제나 반가운."</div></div>
     <div class="reason-card" data-icon="🐝"><div class="card-en">"Wherever you are, that's where I want to be."</div><div class="card-kr">"네가 있는 곳이라면 어디든 함께하고 싶어."</div></div>
-    <div class="reason-card" data-icon="💛"><div class="card-en">"You make ordinary moments feel magical just by being in them."</div><div class="card-kr">"너는 그냥 함께 있는 것만으로 평범한 순간을 마법처럼 만들어줘."</div></div>
+    <div class="reason-card" data-icon="🌻"><div class="card-en">"You make me feel on top of the world."</div><div class="card-kr">"너는 나를 세상 꼭대기에 있는 것처럼 느끼게 해줘."</div></div>
+    <div class="reason-card" data-icon="💛"><div class="card-en">"You give me all the confidence in the world."</div><div class="card-kr">"너는 나에게 세상 모든 자신감을 줘."</div></div>
     <div class="reason-card" data-icon="✨"><div class="card-en">"I feel like the luckiest bee in the world when I'm around you."</div><div class="card-kr">"네 곁에 있을 때면 세상에서 가장 운 좋은 꿀벌이 된 것 같아."</div></div>
-    <div class="reason-card" data-icon="🌸"><div class="card-en">"You are kind, beautiful, and so full of light — inside and out."</div><div class="card-kr">"너는 친절하고, 아름답고, 안팎이 모두 빛으로 가득해."</div></div>
     <div class="reason-card" data-icon="🍯"><div class="card-en">"Every day with you feels sweeter than the last."</div><div class="card-kr">"너와 함께하는 매일매일이 전날보다 더 달콤하게 느껴져."</div></div>
+    <div class="reason-card" data-icon="🌻🐝"><div class="card-en">"There's a whole world out there, but my favorite place is wherever you happen to be. 🌻🐝"</div><div class="card-kr">"세상이 넓고 넓지만, 내가 가장 좋아하는 곳은 바로 네가 있는 그 자리야. 🌻🐝"</div></div>
   </div>
 
   <div class="ch2-chars">
     <img class="ch2-bee" id="ch2-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
     <img class="ch2-sf"  id="ch2-sf"  src="assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
-  </div>
-
-  <div class="closing-quote" id="ch2-closing">
-    <div class="cq-en">"There's a whole world out there, but my favorite place<br/>is wherever you happen to be. 🌻🐝"</div>
-    <div class="cq-kr">"세상이 넓고 넓지만, 내가 가장 좋아하는 곳은<br/>바로 네가 있는 그 자리야. 🌻🐝"</div>
   </div>
 
   <div class="nav-row">
@@ -767,6 +762,10 @@
     <div class="shimmer-pause" id="shimmer1"></div>
     <div class="wish-line glow-strong" id="wish2" style="font-size:clamp(1.4rem,4.5vw,3rem);">"...for you to be my girlfriend."</div>
     <div class="wish-sub" id="wish2-kr">"...네가 내 여자친구가 되어주는 것."</div>
+
+    <div class="shimmer-pause" id="shimmer2"></div>
+    <div class="wish-line glow-strong" id="wish3" style="font-size:clamp(1.1rem,3.5vw,2.2rem);">"I wish for you to not only be my shadow, but to be my silhouette."</div>
+    <div class="wish-sub" id="wish3-kr">"나는 네가 나의 그림자가 아닌, 나의 실루엣이 되어주기를 바라."</div>
 
     <div class="ch3-stage">
       <img class="ch3-bee" id="ch3-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
@@ -1096,11 +1095,6 @@ function animateChapter2() {
   }, {threshold:0.2, root: document.getElementById('s2')});
   cards.forEach(c => cardObs.observe(c));
 
-  const cqObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) { document.getElementById('ch2-closing').classList.add('visible'); cqObs.disconnect(); }});
-  }, {threshold:0.3, root: document.getElementById('s2')});
-  cqObs.observe(document.getElementById('ch2-closing'));
-
   // Trigger first cards visible (they may already be in view)
   setTimeout(() => {
     cards.forEach((c,i) => { if(i < 2) c.classList.add('visible'); });
@@ -1132,6 +1126,13 @@ function animateChapter3() {
     particles.setMode('mixed');
     particles.burst(window.innerWidth/2, window.innerHeight*0.45, 18, 'sparkle');
   }, 3200);
+  // Third wish — silhouette quote
+  setTimeout(() => { document.getElementById('shimmer2').classList.add('show'); }, 4600);
+  setTimeout(() => {
+    document.getElementById('wish3').classList.add('show');
+    document.getElementById('wish3-kr').classList.add('show');
+    particles.burst(window.innerWidth/2, window.innerHeight*0.5, 10, 'sparkle');
+  }, 5600);
   setTimeout(() => {
     if (window.gsap) {
       gsap.to('#ch3-bee', {opacity:1, x:0, duration:1.1, ease:'power2.out'});
@@ -1141,11 +1142,11 @@ function animateChapter3() {
       document.getElementById('ch3-sf').style.opacity='1';
     }
     setTimeout(() => { document.getElementById('hearts-between').classList.add('show'); }, 900);
-  }, 4500);
+  }, 7000);
   setTimeout(() => {
     document.getElementById('question-section').classList.add('show');
     setTimeout(() => { document.getElementById('btn-row').classList.add('show'); particles.setMode('hearts'); }, 500);
-  }, 5800);
+  }, 8200);
 }
 
 function handleYes(e) {
