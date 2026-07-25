@@ -763,10 +763,6 @@
     <div class="wish-line glow-strong" id="wish2" style="font-size:clamp(1.4rem,4.5vw,3rem);">"...for you to be my girlfriend."</div>
     <div class="wish-sub" id="wish2-kr">"...네가 내 여자친구가 되어주는 것."</div>
 
-    <div class="shimmer-pause" id="shimmer2"></div>
-    <div class="wish-line glow-strong" id="wish3" style="font-size:clamp(1.1rem,3.5vw,2.2rem);">"I wish for you to not only be my shadow, but to be my silhouette."</div>
-    <div class="wish-sub" id="wish3-kr">"나는 네가 나의 그림자가 아닌, 나의 실루엣이 되어주기를 바라."</div>
-
     <div class="ch3-stage">
       <img class="ch3-bee" id="ch3-bee" src="assets/svg/honeybee.svg" alt="Honeybee" draggable="false" />
       <div class="hearts-between" id="hearts-between">
@@ -810,6 +806,11 @@
   <div class="message-card" id="message-card">
     <div class="message-en">"I'm the luckiest honeybee in the whole world. 🐝🌻<br/>Thank you for saying yes —<br/>I promise to make every day as bright as you are."</div>
     <div class="message-kr">"나는 세상에서 가장 운이 좋은 꿀벌이에요. 🐝🌻<br/>응 해줘서 고마워 —<br/>네가 빛나는 것처럼 매일을 빛나게 만들어줄게."</div>
+  </div>
+
+  <div class="secondary-msg" id="secondary-msg">
+    <div class="secondary-en">"I wish for you to not only be my shadow, but to be my silhouette."</div>
+    <div class="secondary-kr">"나는 네가 나의 그림자가 아닌, 나의 실루엣이 되어주기를 바라."</div>
   </div>
 
   <button class="replay-btn" id="replay-btn" onclick="restartExperience()">
@@ -1126,13 +1127,6 @@ function animateChapter3() {
     particles.setMode('mixed');
     particles.burst(window.innerWidth/2, window.innerHeight*0.45, 18, 'sparkle');
   }, 3200);
-  // Third wish — silhouette quote
-  setTimeout(() => { document.getElementById('shimmer2').classList.add('show'); }, 4600);
-  setTimeout(() => {
-    document.getElementById('wish3').classList.add('show');
-    document.getElementById('wish3-kr').classList.add('show');
-    particles.burst(window.innerWidth/2, window.innerHeight*0.5, 10, 'sparkle');
-  }, 5600);
   setTimeout(() => {
     if (window.gsap) {
       gsap.to('#ch3-bee', {opacity:1, x:0, duration:1.1, ease:'power2.out'});
@@ -1142,11 +1136,11 @@ function animateChapter3() {
       document.getElementById('ch3-sf').style.opacity='1';
     }
     setTimeout(() => { document.getElementById('hearts-between').classList.add('show'); }, 900);
-  }, 7000);
+  }, 4500);
   setTimeout(() => {
     document.getElementById('question-section').classList.add('show');
     setTimeout(() => { document.getElementById('btn-row').classList.add('show'); particles.setMode('hearts'); }, 500);
-  }, 8200);
+  }, 5800);
 }
 
 function handleYes(e) {
@@ -1197,9 +1191,8 @@ function animateResponse() {
     setTimeout(() => particles.burst(window.innerWidth/2, window.innerHeight*0.5, 18, 'heart'), 700);
   }, 1400);
   setTimeout(() => { document.getElementById('message-card').classList.add('show'); }, 2200);
-  setTimeout(() => { document.getElementById('secondary-msg').classList.add('show'); }, 3000);
-  setTimeout(() => { document.getElementById('signature').classList.add('show'); }, 3700);
-  setTimeout(() => { document.getElementById('replay-btn').classList.add('show'); }, 4400);
+  setTimeout(() => { document.getElementById('secondary-msg').classList.add('show'); }, 3200);
+  setTimeout(() => { document.getElementById('replay-btn').classList.add('show'); }, 4200);
   setTimeout(() => {
     if(window.confetti) confetti({particleCount:80, spread:120, origin:{x:0.5,y:0.5}, colors:['#FFF778','#F5C518','#ff6b9d','#FFFFFF'], startVelocity:40});
     particles.burst(window.innerWidth/2, window.innerHeight/2, 35, 'heart');
