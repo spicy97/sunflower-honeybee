@@ -474,34 +474,44 @@
     .yes-emoji-row { font-size:clamp(1.6rem,6vw,3.5rem); text-align:center; opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; position:relative; z-index:10; letter-spacing:0.25em; margin-bottom:1rem; }
     .yes-emoji-row.show { opacity:1; transform:translateY(0); }
 
-    /* Hug stage */
-    .dance-stage { position:relative; z-index:10; display:flex; justify-content:center; align-items:flex-end; margin:1rem 0; width:100%; max-width:360px; height: clamp(160px, 28vw, 220px); }
+    /* Hug stage — characters close together, leaning into each other */
+    .dance-stage {
+      position:relative; z-index:10;
+      display:flex; justify-content:center; align-items:flex-end;
+      margin:1rem 0; width:100%;
+      max-width:260px;
+      height: clamp(160px, 28vw, 220px);
+    }
     .dance-bee {
-      width:clamp(75px,14vw,120px); height:auto; opacity:0;
-      position: absolute; bottom: 0; left: 0;
+      width:clamp(70px,13vw,105px); height:auto; opacity:0;
+      position: absolute; bottom: 0;
+      /* pushed right toward center */
+      left: 0;
       transform-origin: bottom right;
       filter:drop-shadow(0 0 18px rgba(255,247,120,0.5));
       animation: hug-bee 3s ease-in-out infinite;
     }
     .dance-sf {
-      width:clamp(85px,16vw,135px); height:auto; opacity:0;
-      position: absolute; bottom: 0; right: 0;
+      width:clamp(80px,15vw,120px); height:auto; opacity:0;
+      position: absolute; bottom: 0;
+      /* pushed left toward center */
+      right: 0;
       transform-origin: bottom left;
       filter:drop-shadow(0 0 18px rgba(255,247,120,0.4));
       animation: hug-sf 3s ease-in-out infinite;
     }
-    /* Bee leans right toward sunflower, bobs gently */
+    /* Bee tilts strongly toward sunflower */
     @keyframes hug-bee {
-      0%,100% { transform: rotate(18deg) translateY(0); }
-      50%      { transform: rotate(22deg) translateY(-6px); }
+      0%,100% { transform: rotate(28deg) translateY(0) translateX(8px); }
+      50%      { transform: rotate(32deg) translateY(-5px) translateX(10px); }
     }
-    /* Sunflower leans left toward bee */
+    /* Sunflower tilts strongly toward bee */
     @keyframes hug-sf {
-      0%,100% { transform: rotate(-14deg) translateY(0); }
-      50%      { transform: rotate(-18deg) translateY(-4px); }
+      0%,100% { transform: rotate(-22deg) translateY(0) translateX(-8px); }
+      50%      { transform: rotate(-26deg) translateY(-3px) translateX(-10px); }
     }
-    .dance-heart { position:absolute; top: 8%; left:50%; transform:translateX(-50%); font-size:2.4rem; opacity:0; animation:heart-dance-float 1.5s ease-in-out infinite; }
-    @keyframes heart-dance-float { 0%{transform:translateX(-50%) translateY(0) scale(0.8);opacity:0;} 30%{opacity:1;} 60%{transform:translateX(-50%) translateY(-35px) scale(1.2);opacity:1;} 100%{transform:translateX(-50%) translateY(-70px) scale(0.6);opacity:0;} }
+    .dance-heart { position:absolute; top: 0%; left:50%; transform:translateX(-50%); font-size:2rem; opacity:0; animation:heart-dance-float 1.5s ease-in-out infinite; }
+    @keyframes heart-dance-float { 0%{transform:translateX(-50%) translateY(0) scale(0.8);opacity:0;} 30%{opacity:1;} 60%{transform:translateX(-50%) translateY(-30px) scale(1.2);opacity:1;} 100%{transform:translateX(-50%) translateY(-60px) scale(0.6);opacity:0;} }
 
     .message-card {
       max-width:540px; width:92%;
