@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Us 🌻🐝 — Together Since July 25, 2026</title>
+  <title>Us 🌻🐝 — Our Timeline</title>
   <meta name="description" content="Counting every beautiful second together." />
 
   <!-- Fonts -->
@@ -34,8 +34,7 @@
     /* ---- Moon ---- */
     .moon {
       position: fixed;
-      top: 5%;
-      right: 7%;
+      top: 5%; right: 7%;
       width: clamp(44px, 8vw, 80px);
       height: clamp(44px, 8vw, 80px);
       border-radius: 50%;
@@ -85,305 +84,13 @@
     }
     #music-toggle:hover { background: rgba(255,247,120,0.3); }
 
-    /* ---- Main layout ---- */
-    .page {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 3rem 1.2rem 4rem;
-      gap: 0;
-    }
-
-    /* ---- Header ---- */
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-      opacity: 0;
-      transform: translateY(-24px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .header.show { opacity: 1; transform: translateY(0); }
-
-    .tag-line {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.75rem, 2vw, 0.9rem);
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,247,120,0.45);
-      margin-bottom: 0.5rem;
-    }
-
-    .main-title {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(2.4rem, 8vw, 5rem);
-      color: #FFF778;
-      text-shadow: 0 0 28px rgba(255,247,120,0.65), 0 0 60px rgba(255,247,120,0.25);
-      line-height: 1.2;
-    }
-
-    .main-title-kr {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
-      color: rgba(255,247,120,0.6);
-      margin-top: 0.4rem;
-      letter-spacing: 0.07em;
-    }
-
-    /* ---- Start date ---- */
-    .start-date {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      color: rgba(255,247,120,0.8);
-      margin-top: 0.6rem;
-      letter-spacing: 0.04em;
-    }
-
-    /* ---- Counter card ---- */
-    .counter-card {
-      background: rgba(1,14,42,0.55);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,247,120,0.2);
-      border-radius: 28px;
-      padding: 2.2rem 2.6rem;
-      width: 100%;
-      max-width: 640px;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.4), 0 0 60px rgba(255,247,120,0.04);
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-      margin-bottom: 2rem;
-    }
-    .counter-card.show { opacity: 1; transform: translateY(0); }
-
-    .counter-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      text-align: center;
-    }
-
-    @media (max-width: 480px) {
-      .counter-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.2rem;
-      }
-      .counter-card { padding: 1.6rem 1.2rem; }
-    }
-
-    .counter-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .counter-value {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(2.8rem, 9vw, 5rem);
-      color: #FFF778;
-      text-shadow: 0 0 20px rgba(255,247,120,0.5);
-      line-height: 1;
-      min-width: 2ch;
-      transition: transform 0.15s ease;
-    }
-    .counter-value.tick {
-      transform: scale(1.12);
-    }
-
-    .counter-label {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.7rem, 1.8vw, 0.88rem);
-      color: rgba(255,247,120,0.55);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .counter-label-kr {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.6rem, 1.4vw, 0.72rem);
-      color: rgba(255,247,120,0.32);
-      letter-spacing: 0.06em;
-      margin-top: 0.1rem;
-    }
-
-    .counter-sep {
-      color: rgba(255,247,120,0.25);
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      font-family: 'Nanum Pen Script', cursive;
-      display: flex;
-      align-items: center;
-      padding-bottom: 1.4rem;
-    }
-    @media (max-width: 480px) { .counter-sep { display: none; } }
-
-    /* 4-column grid with separators */
-    .counter-grid-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.2rem;
-      flex-wrap: nowrap;
-    }
-    @media (max-width: 480px) {
-      .counter-grid-wrap {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.4rem;
-      }
-      .counter-sep { display: none; }
-    }
-
-    /* ---- Divider ---- */
-    .shimmer-line {
-      width: 70%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,247,120,0.35), transparent);
-      margin: 1.8rem auto;
-      border-radius: 1px;
-    }
-
-    /* ---- Total seconds mini ---- */
-    .total-seconds-wrap {
-      text-align: center;
-      margin-top: 0.5rem;
-    }
-    .total-label {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.7rem, 1.6vw, 0.82rem);
-      color: rgba(255,247,120,0.35);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
-    .total-value {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(1rem, 2.8vw, 1.4rem);
-      color: rgba(255,247,120,0.5);
-    }
-
-    /* ---- Characters ---- */
-    .chars-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 1.2rem;
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
-    }
-    .chars-row.show { opacity: 1; transform: translateY(0); }
-
-    .char-bee {
-      width: clamp(60px, 11vw, 95px);
-      height: auto;
-      filter: drop-shadow(0 6px 16px rgba(255,247,120,0.3));
-      animation: float-bee 3s ease-in-out infinite;
-    }
-    @keyframes float-bee {
-      0%,100% { transform: translateY(0) rotate(-3deg); }
-      50%      { transform: translateY(-10px) rotate(3deg); }
-    }
-
-    .char-sf {
-      width: clamp(75px, 13vw, 115px);
-      height: auto;
-      filter: drop-shadow(0 6px 16px rgba(255,247,120,0.35));
-      animation: sway-sf 3.5s ease-in-out infinite 0.4s;
-    }
-    @keyframes sway-sf {
-      0%,100% { transform: rotate(-4deg); }
-      50%      { transform: rotate(4deg); }
-    }
-
-    .char-hearts {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.2rem;
-      padding-bottom: 0.5rem;
-    }
-    .float-heart {
-      font-size: 1.3rem;
-      animation: heart-up var(--hdur,2.2s) ease-in-out infinite var(--hdel,0s);
-    }
-    @keyframes heart-up {
-      0%   { transform: translateY(0) scale(0.85); opacity: 0.6; }
-      50%  { transform: translateY(-18px) scale(1.1); opacity: 1; }
-      100% { transform: translateY(-36px) scale(0.6); opacity: 0; }
-    }
-
-    /* ---- Quote ---- */
-    .quote-wrap {
-      max-width: 540px;
-      width: 92%;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.9s ease 0.6s, transform 0.9s ease 0.6s;
-      margin-bottom: 2.4rem;
-    }
-    .quote-wrap.show { opacity: 1; transform: translateY(0); }
-
-    .quote-en {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(1.15rem, 3.5vw, 2rem);
-      color: #FFF778;
-      line-height: 1.55;
-      text-shadow: 0 0 20px rgba(255,247,120,0.35);
-    }
-    .quote-kr {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.78rem, 1.9vw, 0.98rem);
-      color: rgba(255,247,120,0.55);
-      margin-top: 0.55rem;
-      line-height: 1.9;
-      letter-spacing: 0.04em;
-    }
-
-    /* ---- Nav back button ---- */
-    .back-btn {
-      padding: 0.7em 1.9em;
-      border-radius: 50px;
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(0.95rem, 2.5vw, 1.3rem);
-      cursor: pointer;
-      border: 1.5px solid rgba(255,247,120,0.3);
-      background: rgba(255,247,120,0.08);
-      color: rgba(255,247,120,0.7);
-      text-decoration: none;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.3s ease;
-      opacity: 0;
-      transition: opacity 0.9s ease 0.9s, background 0.3s ease, transform 0.3s ease, color 0.3s ease;
-    }
-    .back-btn.show { opacity: 1; }
-    .back-btn:hover {
-      background: rgba(255,247,120,0.16);
-      color: #FFF778;
-      transform: translateY(-3px);
-    }
-    .back-btn-kr {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 0.52em;
-      opacity: 0.65;
-      margin-top: 0.15em;
-    }
-
     /* ---- Night glow orb ---- */
     .night-glow {
       position: fixed;
-      top: 15%;
-      left: 50%;
+      top: 15%; left: 50%;
       transform: translateX(-50%);
-      width: clamp(200px, 45vw, 420px);
-      height: clamp(200px, 45vw, 420px);
+      width: clamp(200px, 50vw, 480px);
+      height: clamp(200px, 50vw, 480px);
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255,247,120,0.05) 0%, transparent 70%);
       z-index: 1;
@@ -395,40 +102,314 @@
       50%      { opacity:1;   transform:translateX(-50%) scale(1.1); }
     }
 
-    /* ---- Glow rings ---- */
-    .glow-ring {
-      position: fixed;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,247,120,0.1);
-      animation: ring-expand 4s ease-out infinite;
-      pointer-events: none;
-      z-index: 1;
+    /* ---- Main layout ---- */
+    .page {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 3rem 1.2rem 5rem;
+      gap: 0;
     }
-    @keyframes ring-expand {
-      0%   { transform: translate(-50%,-50%) scale(0.3); opacity:0.6; }
-      100% { transform: translate(-50%,-50%) scale(2.8); opacity:0; }
+
+    /* ---- Page header ---- */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(-24px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .page-header.show { opacity: 1; transform: translateY(0); }
+
+    .tag-line {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.72rem, 1.8vw, 0.88rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,247,120,0.4);
+      margin-bottom: 0.5rem;
+    }
+    .main-title {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      color: #FFF778;
+      text-shadow: 0 0 28px rgba(255,247,120,0.65), 0 0 60px rgba(255,247,120,0.25);
+      line-height: 1.2;
+    }
+    .main-title-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+      color: rgba(255,247,120,0.55);
+      margin-top: 0.4rem;
+      letter-spacing: 0.07em;
+    }
+
+    /* ---- Characters ---- */
+    .chars-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s;
+    }
+    .chars-row.show { opacity: 1; transform: translateY(0); }
+    .char-bee {
+      width: clamp(55px, 10vw, 88px);
+      height: auto;
+      filter: drop-shadow(0 6px 16px rgba(255,247,120,0.3));
+      animation: float-bee 3s ease-in-out infinite;
+    }
+    @keyframes float-bee {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-10px) rotate(3deg); }
+    }
+    .char-sf {
+      width: clamp(68px, 12vw, 108px);
+      height: auto;
+      filter: drop-shadow(0 6px 16px rgba(255,247,120,0.35));
+      animation: sway-sf 3.5s ease-in-out infinite 0.4s;
+    }
+    @keyframes sway-sf {
+      0%,100% { transform: rotate(-4deg); }
+      50%      { transform: rotate(4deg); }
+    }
+    .char-hearts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      padding-bottom: 0.4rem;
+    }
+    .float-heart {
+      font-size: 1.2rem;
+      animation: heart-up var(--hdur,2.2s) ease-in-out infinite var(--hdel,0s);
+    }
+    @keyframes heart-up {
+      0%   { transform: translateY(0) scale(0.85); opacity: 0.6; }
+      50%  { transform: translateY(-18px) scale(1.1); opacity: 1; }
+      100% { transform: translateY(-36px) scale(0.6); opacity: 0; }
+    }
+
+    /* ---- Milestone cards wrapper ---- */
+    .milestones {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* ---- Individual milestone card ---- */
+    .milestone-card {
+      width: 100%;
+      background: rgba(1,14,42,0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,247,120,0.18);
+      border-radius: 28px;
+      padding: 1.8rem 2rem;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.35), 0 0 40px rgba(255,247,120,0.03);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .milestone-card.show { opacity: 1; transform: translateY(0); }
+
+    /* Accent left border color per card */
+    .milestone-card.met    { border-left: 4px solid rgba(100,180,255,0.5); }
+    .milestone-card.date   { border-left: 4px solid rgba(255,150,180,0.5); }
+    .milestone-card.dating { border-left: 4px solid rgba(255,247,120,0.55); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .card-icon { font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1; }
+    .card-title-wrap { flex: 1; }
+    .card-title {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      color: #FFF778;
+      text-shadow: 0 0 14px rgba(255,247,120,0.35);
+      line-height: 1.2;
+    }
+    .card-title-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.68rem, 1.5vw, 0.82rem);
+      color: rgba(255,247,120,0.45);
+      letter-spacing: 0.06em;
+      margin-top: 0.1rem;
+    }
+    .card-since {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.68rem, 1.5vw, 0.78rem);
+      color: rgba(255,247,120,0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    /* Counter grid */
+    .counter-grid-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15rem;
+    }
+    @media (max-width: 460px) {
+      .counter-grid-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .counter-sep { display: none; }
+    }
+
+    .counter-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .counter-value {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(2.2rem, 7.5vw, 4.2rem);
+      color: #FFF778;
+      text-shadow: 0 0 18px rgba(255,247,120,0.5);
+      line-height: 1;
+      transition: transform 0.15s ease;
+    }
+    .counter-value.tick { transform: scale(1.12); }
+
+    .counter-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.62rem, 1.5vw, 0.8rem);
+      color: rgba(255,247,120,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .counter-label-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.55rem, 1.2vw, 0.68rem);
+      color: rgba(255,247,120,0.28);
+      letter-spacing: 0.04em;
+    }
+    .counter-sep {
+      color: rgba(255,247,120,0.2);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-family: 'Nanum Pen Script', cursive;
+      display: flex;
+      align-items: center;
+      padding-bottom: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* Shimmer divider */
+    .shimmer-line {
+      width: 65%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,247,120,0.3), transparent);
+      margin: 1.4rem auto;
+      border-radius: 1px;
+    }
+
+    /* Total seconds */
+    .total-wrap { text-align: center; }
+    .total-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.62rem, 1.4vw, 0.76rem);
+      color: rgba(255,247,120,0.3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .total-value {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+      color: rgba(255,247,120,0.45);
+    }
+
+    /* ---- Quote ---- */
+    .quote-wrap {
+      max-width: 540px;
+      width: 92%;
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2.2rem;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .quote-wrap.show { opacity: 1; transform: translateY(0); }
+    .quote-en {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(1.15rem, 3.5vw, 2rem);
+      color: #FFF778;
+      line-height: 1.55;
+      text-shadow: 0 0 20px rgba(255,247,120,0.3);
+    }
+    .quote-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.78rem, 1.9vw, 0.98rem);
+      color: rgba(255,247,120,0.5);
+      margin-top: 0.5rem;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---- Back nav ---- */
+    .back-btn {
+      padding: 0.7em 1.9em;
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+      cursor: pointer;
+      border: 1.5px solid rgba(255,247,120,0.28);
+      background: rgba(255,247,120,0.07);
+      color: rgba(255,247,120,0.65);
+      text-decoration: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.9s ease, background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    }
+    .back-btn.show { opacity: 1; }
+    .back-btn:hover { background: rgba(255,247,120,0.15); color: #FFF778; transform: translateY(-3px); }
+    .back-btn-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.52em;
+      opacity: 0.65;
+      margin-top: 0.15em;
+    }
+
+    /* ---- Mobile padding ---- */
+    @media (max-width: 480px) {
+      .milestone-card { padding: 1.4rem 1.1rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Ambient background elements -->
 <div class="night-glow" aria-hidden="true"></div>
-<div class="glow-ring" style="width:260px;height:260px;top:40%;left:50%;animation-delay:0s;" aria-hidden="true"></div>
-<div class="glow-ring" style="width:260px;height:260px;top:40%;left:50%;animation-delay:1.3s;" aria-hidden="true"></div>
-<div class="glow-ring" style="width:260px;height:260px;top:40%;left:50%;animation-delay:2.6s;" aria-hidden="true"></div>
-
-<!-- Stars -->
 <div id="stars-layer" aria-hidden="true"></div>
-
-<!-- Moon -->
 <div class="moon" aria-hidden="true"></div>
 
 <!-- Fireflies -->
-<div class="firefly" style="left:10%;top:40%;--fdur:7s;--fdel:0s;  --fx1:22px;--fy1:-32px;--fx2:-12px;--fy2:-54px;--fx3:18px;--fy3:-38px;"></div>
-<div class="firefly" style="left:25%;top:55%;--fdur:5.5s;--fdel:1.1s;--fx1:-18px;--fy1:-22px;--fx2:14px;--fy2:-46px;--fx3:-8px;--fy3:-33px;"></div>
-<div class="firefly" style="left:72%;top:48%;--fdur:8s;--fdel:0.4s;  --fx1:14px;--fy1:-38px;--fx2:-22px;--fy2:-60px;--fx3:18px;--fy3:-42px;"></div>
-<div class="firefly" style="left:85%;top:62%;--fdur:6.2s;--fdel:1.9s;--fx1:-12px;--fy1:-28px;--fx2:18px;--fy2:-46px;--fx3:-8px;--fy3:-34px;"></div>
+<div class="firefly" style="left:10%;top:38%;--fdur:7s;--fdel:0s;  --fx1:22px;--fy1:-32px;--fx2:-12px;--fy2:-54px;--fx3:18px;--fy3:-38px;"></div>
+<div class="firefly" style="left:24%;top:55%;--fdur:5.5s;--fdel:1.1s;--fx1:-18px;--fy1:-22px;--fx2:14px;--fy2:-46px;--fx3:-8px;--fy3:-33px;"></div>
+<div class="firefly" style="left:72%;top:45%;--fdur:8s;--fdel:0.4s;  --fx1:14px;--fy1:-38px;--fx2:-22px;--fy2:-60px;--fx3:18px;--fy3:-42px;"></div>
+<div class="firefly" style="left:85%;top:64%;--fdur:6.2s;--fdel:1.9s;--fx1:-12px;--fy1:-28px;--fx2:18px;--fy2:-46px;--fx3:-8px;--fy3:-34px;"></div>
 
 <!-- Music toggle -->
 <button id="music-toggle" aria-label="Toggle music">🎵</button>
@@ -440,11 +421,10 @@
 <main class="page">
 
   <!-- Header -->
-  <div class="header" id="header">
-    <div class="tag-line">Since · 2026년 7월 25일부터</div>
+  <div class="page-header" id="page-header">
+    <div class="tag-line">Our Story · 우리의 이야기</div>
     <div class="main-title">Us 🌻🐝</div>
     <div class="main-title-kr">우리, 함께한 시간</div>
-    <div class="start-date">July 25, 2026 — forever counting 💛</div>
   </div>
 
   <!-- Characters -->
@@ -458,41 +438,136 @@
     <img class="char-sf"  src="../assets/svg/sunflower.svg" alt="Sunflower" draggable="false" />
   </div>
 
-  <!-- Counter card -->
-  <div class="counter-card" id="counter-card">
-    <div class="counter-grid-wrap" id="counter-grid">
-      <div class="counter-unit">
-        <div class="counter-value" id="cnt-days">0</div>
-        <div class="counter-label">Days</div>
-        <div class="counter-label-kr">일</div>
+  <!-- ---- All milestone cards ---- -->
+  <div class="milestones">
+
+    <!-- 1. Day we first met -->
+    <div class="milestone-card met" id="card-met">
+      <div class="card-header">
+        <div class="card-icon">✨</div>
+        <div class="card-title-wrap">
+          <div class="card-title">The day we first met</div>
+          <div class="card-title-kr">처음 만난 날 · 우리의 시작</div>
+        </div>
+        <div class="card-since">July 5, 2026</div>
       </div>
-      <div class="counter-sep">·</div>
-      <div class="counter-unit">
-        <div class="counter-value" id="cnt-hours">0</div>
-        <div class="counter-label">Hours</div>
-        <div class="counter-label-kr">시간</div>
+      <div class="counter-grid-wrap">
+        <div class="counter-unit">
+          <div class="counter-value" id="met-days">0</div>
+          <div class="counter-label">Days</div>
+          <div class="counter-label-kr">일</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="met-hours">0</div>
+          <div class="counter-label">Hours</div>
+          <div class="counter-label-kr">시간</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="met-minutes">0</div>
+          <div class="counter-label">Minutes</div>
+          <div class="counter-label-kr">분</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="met-seconds">0</div>
+          <div class="counter-label">Seconds</div>
+          <div class="counter-label-kr">초</div>
+        </div>
       </div>
-      <div class="counter-sep">·</div>
-      <div class="counter-unit">
-        <div class="counter-value" id="cnt-minutes">0</div>
-        <div class="counter-label">Minutes</div>
-        <div class="counter-label-kr">분</div>
-      </div>
-      <div class="counter-sep">·</div>
-      <div class="counter-unit">
-        <div class="counter-value" id="cnt-seconds">0</div>
-        <div class="counter-label">Seconds</div>
-        <div class="counter-label-kr">초</div>
+      <div class="shimmer-line"></div>
+      <div class="total-wrap">
+        <div class="total-label">Total moments since we met · 만난 후 총 순간</div>
+        <div class="total-value" id="met-total">—</div>
       </div>
     </div>
 
-    <div class="shimmer-line"></div>
-
-    <div class="total-seconds-wrap">
-      <div class="total-label">Total moments together · 함께한 총 순간들</div>
-      <div class="total-value" id="cnt-total">0 seconds of us 💛</div>
+    <!-- 2. First date -->
+    <div class="milestone-card date" id="card-date">
+      <div class="card-header">
+        <div class="card-icon">🌹</div>
+        <div class="card-title-wrap">
+          <div class="card-title">Our first date</div>
+          <div class="card-title-kr">첫 데이트 · 설레던 그날</div>
+        </div>
+        <div class="card-since">July 11, 2026</div>
+      </div>
+      <div class="counter-grid-wrap">
+        <div class="counter-unit">
+          <div class="counter-value" id="date-days">0</div>
+          <div class="counter-label">Days</div>
+          <div class="counter-label-kr">일</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="date-hours">0</div>
+          <div class="counter-label">Hours</div>
+          <div class="counter-label-kr">시간</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="date-minutes">0</div>
+          <div class="counter-label">Minutes</div>
+          <div class="counter-label-kr">분</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="date-seconds">0</div>
+          <div class="counter-label">Seconds</div>
+          <div class="counter-label-kr">초</div>
+        </div>
+      </div>
+      <div class="shimmer-line"></div>
+      <div class="total-wrap">
+        <div class="total-label">Total moments since our first date · 첫 데이트 후 총 순간</div>
+        <div class="total-value" id="date-total">—</div>
+      </div>
     </div>
-  </div>
+
+    <!-- 3. Official couple -->
+    <div class="milestone-card dating" id="card-dating">
+      <div class="card-header">
+        <div class="card-icon">💛</div>
+        <div class="card-title-wrap">
+          <div class="card-title">Together since 🌻🐝</div>
+          <div class="card-title-kr">사귄 날 · 우리가 하나가 된 날</div>
+        </div>
+        <div class="card-since">July 25, 2026</div>
+      </div>
+      <div class="counter-grid-wrap">
+        <div class="counter-unit">
+          <div class="counter-value" id="dating-days">0</div>
+          <div class="counter-label">Days</div>
+          <div class="counter-label-kr">일</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="dating-hours">0</div>
+          <div class="counter-label">Hours</div>
+          <div class="counter-label-kr">시간</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="dating-minutes">0</div>
+          <div class="counter-label">Minutes</div>
+          <div class="counter-label-kr">분</div>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <div class="counter-value" id="dating-seconds">0</div>
+          <div class="counter-label">Seconds</div>
+          <div class="counter-label-kr">초</div>
+        </div>
+      </div>
+      <div class="shimmer-line"></div>
+      <div class="total-wrap">
+        <div class="total-label">Total seconds of us · 우리가 함께한 총 순간들</div>
+        <div class="total-value" id="dating-total">—</div>
+      </div>
+    </div>
+
+  </div><!-- /milestones -->
 
   <!-- Quote -->
   <div class="quote-wrap" id="quote-wrap">
@@ -519,7 +594,7 @@
 // ---- Stars ----
 (function generateStars() {
   const container = document.getElementById('stars-layer');
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 110; i++) {
     const star = document.createElement('div');
     const size = 1 + Math.random() * 2.5;
     star.style.cssText = `
@@ -530,7 +605,7 @@
       border-radius:50%;
       background:#fff;
       opacity:${0.1+Math.random()*0.9};
-      animation: twinkle ${2+Math.random()*4}s ease-in-out infinite ${Math.random()*4}s;
+      animation:twinkle ${2+Math.random()*4}s ease-in-out infinite ${Math.random()*4}s;
     `;
     container.appendChild(star);
   }
@@ -548,55 +623,70 @@
   document.head.appendChild(style);
 })();
 
-// ---- Dating counter ----
-// Start of relationship: July 25, 2026, midnight local time
-const START_DATE = new Date('2026-07-25T00:00:00');
+// ---- Milestone dates ----
+// NOTE: "7/1//26" in feedback likely meant July 11, 2026 (the first date), adjust if needed
+const MILESTONES = {
+  met:    new Date('2026-07-05T00:00:00'),  // Day we first met
+  date:   new Date('2026-07-11T00:00:00'),  // First date (7/11/26)
+  dating: new Date('2026-07-25T00:00:00'),  // Official couple
+};
 
-function updateCounter() {
-  const now  = new Date();
-  const diff = Math.max(0, Math.floor((now - START_DATE) / 1000)); // total seconds
+function calcDiff(start) {
+  return Math.max(0, Math.floor((new Date() - start) / 1000));
+}
 
+function pad(n) {
+  return String(n).padStart(n >= 100 ? 3 : 2, '0');
+}
+
+function updateCard(prefix, startDate, tickId) {
+  const diff  = calcDiff(startDate);
   const days    = Math.floor(diff / 86400);
   const hours   = Math.floor((diff % 86400) / 3600);
   const minutes = Math.floor((diff % 3600)  / 60);
   const seconds = diff % 60;
 
-  const setVal = (id, val, prevVal) => {
+  const setVal = (id, val) => {
     const el = document.getElementById(id);
-    const str = String(val).padStart(val >= 100 ? 3 : 2, '0');
-    if (el.textContent !== str) {
+    const str = pad(val);
+    if (el && el.textContent !== str) {
       el.textContent = str;
-      // Tick animation only on seconds (and cascade)
-      if (id === 'cnt-seconds') {
+      if (id === tickId) {
         el.classList.remove('tick');
-        void el.offsetWidth; // reflow
+        void el.offsetWidth;
         el.classList.add('tick');
         setTimeout(() => el.classList.remove('tick'), 200);
       }
     }
   };
 
-  setVal('cnt-days',    days);
-  setVal('cnt-hours',   hours);
-  setVal('cnt-minutes', minutes);
-  setVal('cnt-seconds', seconds);
+  setVal(`${prefix}-days`,    days);
+  setVal(`${prefix}-hours`,   hours);
+  setVal(`${prefix}-minutes`, minutes);
+  setVal(`${prefix}-seconds`, seconds);
 
-  // Total seconds with commas
-  document.getElementById('cnt-total').textContent =
-    diff.toLocaleString() + (diff === 1 ? ' second of us 💛' : ' seconds of us 💛');
+  const tot = document.getElementById(`${prefix}-total`);
+  if (tot) tot.textContent = diff.toLocaleString() + (diff === 1 ? ' second 💛' : ' seconds 💛');
 }
 
-// Update immediately then every second
-updateCounter();
-setInterval(updateCounter, 1000);
+function updateAll() {
+  updateCard('met',    MILESTONES.met,    'met-seconds');
+  updateCard('date',   MILESTONES.date,   'date-seconds');
+  updateCard('dating', MILESTONES.dating, 'dating-seconds');
+}
+
+updateAll();
+setInterval(updateAll, 1000);
 
 // ---- Entrance animations ----
 function runEntrance() {
-  setTimeout(() => document.getElementById('header').classList.add('show'),      300);
-  setTimeout(() => document.getElementById('chars-row').classList.add('show'),   800);
-  setTimeout(() => document.getElementById('counter-card').classList.add('show'),1300);
-  setTimeout(() => document.getElementById('quote-wrap').classList.add('show'),  2000);
-  setTimeout(() => document.getElementById('back-btn').classList.add('show'),    2600);
+  setTimeout(() => document.getElementById('page-header').classList.add('show'),  300);
+  setTimeout(() => document.getElementById('chars-row').classList.add('show'),    800);
+  setTimeout(() => document.getElementById('card-met').classList.add('show'),    1200);
+  setTimeout(() => document.getElementById('card-date').classList.add('show'),   1550);
+  setTimeout(() => document.getElementById('card-dating').classList.add('show'), 1900);
+  setTimeout(() => document.getElementById('quote-wrap').classList.add('show'),  2500);
+  setTimeout(() => document.getElementById('back-btn').classList.add('show'),    3000);
 }
 runEntrance();
 
@@ -609,7 +699,7 @@ document.addEventListener('click', e => {
   setTimeout(() => el.remove(), 1200);
 });
 
-// ---- YouTube Music (same song as main site) ----
+// ---- YouTube Music ----
 const MusicPlayer = (() => {
   let player = null, ready = false, muted = false, started = false;
 

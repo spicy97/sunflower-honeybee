@@ -272,6 +272,32 @@
     #begin-btn:hover { animation:none; transform:translateX(-50%) translateY(-5px) scale(1.05); }
     .btn-kr { display:block; font-size:0.58em; font-family:'Noto Serif KR',serif; opacity:0.75; margin-top:0.1em; letter-spacing:0.05em; }
 
+    /* Landing — timeline link */
+    #landing-together-btn {
+      position: absolute;
+      bottom: 18vh; left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      padding: 0.55em 1.6em;
+      background: transparent;
+      color: rgba(255,247,120,0.65);
+      border: 1.5px solid rgba(255,247,120,0.28);
+      border-radius: 50px;
+      font-family: 'Nanum Pen Script', cursive;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      animation: fade-in-up 0.8s ease 5s forwards;
+    }
+    #landing-together-btn:hover { background: rgba(255,247,120,0.12); color: #FFF778; transform: translateX(-50%) translateY(-3px); }
+    @keyframes fade-in-up { from{opacity:0;transform:translateX(-50%) translateY(8px);} to{opacity:1;transform:translateX(-50%) translateY(0);} }
+
     /* ========================
        SECTION 1 — CHAPTER 1
        ======================== */
@@ -666,6 +692,12 @@
     Begin our story 🌻
     <span class="btn-kr">우리의 이야기를 시작해요</span>
   </button>
+
+  <!-- Together counter link -->
+  <a id="landing-together-btn" href="pages/together.html" aria-label="See our timeline">
+    🌻🐝 Our timeline
+    <span class="btn-kr">우리의 시간 보기 💛</span>
+  </a>
 </section>
 
 <!-- ============================================================
