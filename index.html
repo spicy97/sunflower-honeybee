@@ -546,6 +546,13 @@
     .replay-btn:hover { background:rgba(255,247,120,0.2); transform:translateY(-3px); box-shadow:0 6px 24px rgba(255,247,120,0.25); }
     .replay-btn-kr { font-family:'Noto Serif KR',serif; font-size:0.5em; opacity:0.65; margin-top:0.1em; }
 
+    /* Together button */
+    .together-btn { position:relative; z-index:10; margin-top:0.75rem; padding:0.85em 2.2em; border-radius:50px; font-family:'Nanum Pen Script',cursive; font-size:clamp(1rem,3vw,1.5rem); cursor:pointer; border:none; background:linear-gradient(135deg,#FFF778,#F5C518); color:#022658; display:inline-flex; flex-direction:column; align-items:center; text-decoration:none; opacity:0; box-shadow:0 6px 30px rgba(255,247,120,0.45); transition:opacity 0.8s ease, transform 0.3s ease, box-shadow 0.3s ease; animation:none; }
+    .together-btn.show { opacity:1; animation:pulse-together 2.5s ease-in-out infinite; }
+    @keyframes pulse-together { 0%,100%{box-shadow:0 6px 30px rgba(255,247,120,0.45); transform:translateY(0);} 50%{box-shadow:0 10px 40px rgba(255,247,120,0.75); transform:translateY(-4px);} }
+    .together-btn:hover { animation:none!important; transform:translateY(-5px) scale(1.05)!important; box-shadow:0 12px 40px rgba(255,247,120,0.8)!important; }
+    .together-btn-kr { font-family:'Noto Serif KR',serif; font-size:0.52em; opacity:0.75; margin-top:0.1em; letter-spacing:0.04em; }
+
     /* Night glow orb */
     .night-glow { position:absolute; top:10%; left:50%; transform:translateX(-50%); width:clamp(180px,38vw,360px); height:clamp(180px,38vw,360px); border-radius:50%; background:radial-gradient(circle,rgba(255,247,120,0.06) 0%,transparent 70%); z-index:0; animation:night-glow-pulse 5s ease-in-out infinite; }
     @keyframes night-glow-pulse { 0%,100%{opacity:0.7;transform:translateX(-50%) scale(1);} 50%{opacity:1;transform:translateX(-50%) scale(1.08);} }
@@ -827,6 +834,11 @@
     ↩ Again from the beginning
     <span class="replay-btn-kr">처음부터 다시 🌻</span>
   </button>
+
+  <a class="together-btn" id="together-btn" href="pages/together.html">
+    🌻🐝 See how long we've been together
+    <span class="together-btn-kr">우리 함께한 시간 보기 💛</span>
+  </a>
 </section>
 
 <!-- Libraries -->
@@ -1203,6 +1215,7 @@ function animateResponse() {
   setTimeout(() => { document.getElementById('message-card').classList.add('show'); }, 2200);
   setTimeout(() => { document.getElementById('secondary-msg').classList.add('show'); }, 3200);
   setTimeout(() => { document.getElementById('replay-btn').classList.add('show'); }, 4200);
+  setTimeout(() => { document.getElementById('together-btn').classList.add('show'); }, 4700);
   setTimeout(() => {
     if(window.confetti) confetti({particleCount:80, spread:120, origin:{x:0.5,y:0.5}, colors:['#FFF778','#F5C518','#ff6b9d','#FFFFFF'], startVelocity:40});
     particles.burst(window.innerWidth/2, window.innerHeight/2, 35, 'heart');
