@@ -73,6 +73,82 @@
     #music-toggle.day { border-color: #022658; color: #022658; background: rgba(2,38,88,0.1); }
     #music-toggle.day:hover { background: rgba(2,38,88,0.2); }
 
+    /* ---- Main menu ---- */
+    .main-menu {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 9998;
+      font-family: 'Nanum Myeongjo', Georgia, serif;
+    }
+    .main-menu-toggle {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1rem;
+      border: 2px solid #FFF778;
+      border-radius: 50px;
+      background: rgba(1,14,42,0.78);
+      color: #FFF778;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .main-menu-toggle:hover { background: rgba(2,38,88,0.95); transform: translateY(-2px); }
+    .main-menu-toggle:focus-visible,
+    .main-menu-link:focus-visible {
+      outline: 3px solid #F5C518;
+      outline-offset: 3px;
+    }
+    .main-menu-icon {
+      width: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .main-menu-icon span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+    .main-menu-panel {
+      position: absolute;
+      top: calc(100% + 0.65rem);
+      left: 0;
+      width: min(260px, calc(100vw - 2rem));
+      padding: 0.5rem;
+      border: 1px solid rgba(255,247,120,0.45);
+      border-radius: 20px;
+      background: rgba(1,14,42,0.96);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      backdrop-filter: blur(12px);
+    }
+    .main-menu-panel[hidden] { display: none; }
+    .main-menu-link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.85rem 1rem;
+      border: none;
+      border-radius: 14px;
+      background: transparent;
+      color: #FFFEF0;
+      font-family: inherit;
+      font-size: 1rem;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .main-menu-link:hover { background: rgba(255,247,120,0.14); color: #FFF778; }
+
     /* ---- Canvas ---- */
     #particle-canvas {
       position: fixed;
@@ -630,6 +706,9 @@
     }
     @media (max-width: 480px) {
       html { font-size:14px; }
+      .main-menu { top:0.6rem; left:0.6rem; }
+      .main-menu-toggle { min-height:36px; padding:0.5rem 0.8rem; font-size:0.9rem; }
+      .main-menu-panel { width:min(240px, calc(100vw - 1.2rem)); }
       .landing-title { font-size:clamp(1.6rem,8vw,2.5rem); }
       .ch2-title { font-size:clamp(1.6rem,7vw,2.5rem); }
       .wish-line { font-size:clamp(1.3rem,7vw,2.2rem); }
@@ -644,6 +723,24 @@
 <canvas id="particle-canvas" aria-hidden="true"></canvas>
 <button id="music-toggle" aria-label="Toggle music">🎵</button>
 <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
+
+<!-- Main menu -->
+<div class="main-menu">
+  <button type="button" class="main-menu-toggle" id="main-menu-toggle" aria-expanded="false" aria-controls="main-menu-panel">
+    <span class="main-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span>Menu</span>
+  </button>
+  <nav class="main-menu-panel" id="main-menu-panel" aria-label="Main navigation" hidden>
+    <a class="main-menu-link" href="pages/together.html">
+      <span aria-hidden="true">🌻🐝</span>
+      <span>Our Timeline</span>
+    </a>
+    <button type="button" class="main-menu-link" id="menu-begin-story">
+      <span aria-hidden="true">✨</span>
+      <span>Begin Our Story</span>
+    </button>
+  </nav>
+</div>
 
 <!-- Stars layers (shown on dark sections) -->
 <div id="stars-layer" class="stars-layer"></div>
@@ -1087,14 +1184,52 @@ function runLandingSequence() {
   }
 }
 
-// Begin button
-beginBtn.addEventListener('click', () => {
+// Begin button and main-menu story link
+function startStory() {
+  if (currentSection === 1 || (currentSection === 0 && beginBtn.disabled)) return;
+
   MusicPlayer.play();
   particles.setMode('mixed');
-  gsap.to(beginBtn, {opacity:0, scale:0.8, duration:0.4});
-  gsap.to(document.getElementById('s0'), {opacity:0, duration:0.7, onComplete:() => goToSection(1)});
-  // Prevent double click
-  beginBtn.disabled = true;
+
+  if (currentSection === 0) {
+    gsap.to(beginBtn, {opacity:0, scale:0.8, duration:0.4});
+    gsap.to(document.getElementById('s0'), {opacity:0, duration:0.7, onComplete:() => goToSection(1)});
+    // Prevent double click
+    beginBtn.disabled = true;
+  } else {
+    goToSection(1);
+  }
+}
+
+beginBtn.addEventListener('click', startStory);
+
+// ---- Main menu ----
+const mainMenu = document.querySelector('.main-menu');
+const mainMenuToggle = document.getElementById('main-menu-toggle');
+const mainMenuPanel = document.getElementById('main-menu-panel');
+
+function setMainMenuOpen(open, returnFocus = false) {
+  mainMenuToggle.setAttribute('aria-expanded', String(open));
+  mainMenuPanel.hidden = !open;
+  if (returnFocus) mainMenuToggle.focus();
+}
+
+mainMenuToggle.addEventListener('click', () => {
+  setMainMenuOpen(mainMenuPanel.hidden);
+});
+
+mainMenuPanel.addEventListener('click', event => {
+  if (event.target.closest('.main-menu-link')) setMainMenuOpen(false);
+});
+
+document.getElementById('menu-begin-story').addEventListener('click', startStory);
+
+document.addEventListener('click', event => {
+  if (!mainMenuPanel.hidden && !mainMenu.contains(event.target)) setMainMenuOpen(false);
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !mainMenuPanel.hidden) setMainMenuOpen(false, true);
 });
 
 // Start landing sequence
