@@ -667,28 +667,6 @@ p {
   }
 }
 
-/* ---------- Landing Page Mobile ---------- */
-@media (max-width: 768px) {
-  .garden-strip { height: 18vh !important; }
-  .nope-flower { bottom: 12vh !important; font-size: clamp(1.6rem, 6vw, 2.5rem) !important; }
-  .nope-flower.nope-3 { left: 68% !important; }
-  .nope-flower.nope-4 { left: 82% !important; }
-  #main-sunflower { bottom: 10vh !important; width: clamp(90px, 22vw, 140px) !important; }
-  .sunflower-glow { bottom: 14vh !important; width: clamp(120px, 36vw, 200px) !important; height: clamp(120px, 36vw, 200px) !important; }
-  #begin-btn { bottom: 24vh !important; font-size: clamp(1rem, 4.5vw, 1.4rem) !important; padding: 0.85em 1.8em !important; min-height: 52px !important; }
-  .landing-text { top: 4% !important; padding: 1rem 1.2rem !important; }
-  .landing-title { font-size: clamp(1.6rem, 7vw, 2.6rem) !important; }
-  .moon { width: 44px !important; height: 44px !important; top: 4% !important; right: 5% !important; }
-}
-
-@media (max-width: 480px) {
-  .garden-strip { height: 15vh !important; }
-  .nope-flower { bottom: 9vh !important; font-size: clamp(1.4rem, 7vw, 2rem) !important; }
-  #main-sunflower { bottom: 8vh !important; width: clamp(80px, 25vw, 120px) !important; }
-  #begin-btn { bottom: 20vh !important; }
-  .landing-text { top: 3% !important; }
-}
-
 /* ---------- Utility ---------- */
 .hidden { display: none !important; }
 .invisible { opacity: 0; pointer-events: none; }

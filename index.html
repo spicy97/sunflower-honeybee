@@ -73,82 +73,6 @@
     #music-toggle.day { border-color: #022658; color: #022658; background: rgba(2,38,88,0.1); }
     #music-toggle.day:hover { background: rgba(2,38,88,0.2); }
 
-    /* ---- Main menu ---- */
-    .main-menu {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 9998;
-      font-family: 'Nanum Myeongjo', Georgia, serif;
-    }
-    .main-menu-toggle {
-      min-height: 42px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.65rem 1rem;
-      border: 2px solid #FFF778;
-      border-radius: 50px;
-      background: rgba(1,14,42,0.78);
-      color: #FFF778;
-      font-family: inherit;
-      font-size: 1rem;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-    .main-menu-toggle:hover { background: rgba(2,38,88,0.95); transform: translateY(-2px); }
-    .main-menu-toggle:focus-visible,
-    .main-menu-link:focus-visible {
-      outline: 3px solid #F5C518;
-      outline-offset: 3px;
-    }
-    .main-menu-icon {
-      width: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .main-menu-icon span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      border-radius: 2px;
-      background: currentColor;
-    }
-    .main-menu-panel {
-      position: absolute;
-      top: calc(100% + 0.65rem);
-      left: 0;
-      width: min(260px, calc(100vw - 2rem));
-      padding: 0.5rem;
-      border: 1px solid rgba(255,247,120,0.45);
-      border-radius: 20px;
-      background: rgba(1,14,42,0.96);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-      backdrop-filter: blur(12px);
-    }
-    .main-menu-panel[hidden] { display: none; }
-    .main-menu-link {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      padding: 0.85rem 1rem;
-      border: none;
-      border-radius: 14px;
-      background: transparent;
-      color: #FFFEF0;
-      font-family: inherit;
-      font-size: 1rem;
-      text-align: left;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    .main-menu-link:hover { background: rgba(255,247,120,0.14); color: #FFF778; }
-
     /* ---- Canvas ---- */
     #particle-canvas {
       position: fixed;
@@ -157,222 +81,129 @@
       z-index: 0;
     }
 
-    /* ========================
-       SECTION 0 — LANDING
-       ======================== */
+    /* ---- Landing page main menu ---- */
     #s0 {
       background: radial-gradient(ellipse at 50% 20%, #0d2060 0%, #022658 50%, #010e2a 100%);
       justify-content: center;
+      padding: clamp(4.5rem, 9vh, 6.5rem) 1.25rem 2.5rem;
+      isolation: isolate;
+      scrollbar-width: none;
     }
-
-    .moon {
+    #s0::-webkit-scrollbar { display: none; }
+    #s0::before {
+      content: '';
       position: absolute;
-      top: 5%;
-      right: 7%;
-      width: clamp(44px, 8vw, 80px);
-      height: clamp(44px, 8vw, 80px);
+      top: 50%; left: 50%;
+      width: min(80vw, 700px); height: min(80vw, 700px);
+      transform: translate(-50%, -50%);
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #FFFDE7, #FFF59D);
-      box-shadow: 0 0 30px rgba(255,247,120,0.4);
-      z-index: 1;
-      animation: moon-glow 4s ease-in-out infinite;
-    }
-    @keyframes moon-glow {
-      0%,100% { box-shadow: 0 0 30px rgba(255,247,120,0.4); }
-      50% { box-shadow: 0 0 50px rgba(255,247,120,0.7); }
-    }
-
-    .firefly {
-      position: absolute;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #FFF778;
-      box-shadow: 0 0 6px 2px rgba(255,247,120,0.8);
-      animation: firefly-float var(--fdur,6s) ease-in-out infinite var(--fdel,0s);
-    }
-    @keyframes firefly-float {
-      0%   { transform: translate(0,0) scale(0.8); opacity:0.2; }
-      25%  { transform: translate(var(--fx1,20px),var(--fy1,-30px)) scale(1.2); opacity:1; }
-      50%  { transform: translate(var(--fx2,-15px),var(--fy2,-60px)) scale(0.9); opacity:0.6; }
-      75%  { transform: translate(var(--fx3,30px),var(--fy3,-40px)) scale(1.1); opacity:0.9; }
-      100% { transform: translate(0,0) scale(0.8); opacity:0.2; }
-    }
-
-    .garden-strip {
-      position: absolute;
-      bottom: 0; left: 0; width: 100%;
-      height: 20vh;
-      background: linear-gradient(180deg, #2d6e2d 0%, #1d4e1d 60%, #0f2e0f 100%);
-      border-radius: 40% 40% 0 0 / 15% 15% 0 0;
-      z-index: 2;
-    }
-
-    .grass-blade {
-      position: absolute; bottom: 100%;
-      width: 4px;
-      background: linear-gradient(180deg, #4ebe4e, #2d6e2d);
-      border-radius: 2px 2px 0 0;
-      transform-origin: bottom center;
-      animation: sway-grass 2.5s ease-in-out infinite;
-    }
-    @keyframes sway-grass { 0%,100% { transform:rotate(-5deg); } 50% { transform:rotate(5deg); } }
-
-    .nope-flower {
-      position: absolute;
-      bottom: 14vh;
-      font-size: clamp(1.6rem, 5vw, 3rem);
-      z-index: 3;
-      transform-origin: bottom center;
-      animation: sway-flower 3s ease-in-out infinite;
-      transition: filter 0.5s ease, transform 0.3s ease;
-    }
-    .nope-flower.rejected { filter: grayscale(0.7) opacity(0.5); transform: rotate(-15deg); }
-    .nope-flower.nope-1 { left:6%; }
-    .nope-flower.nope-2 { left:20%; }
-    .nope-flower.nope-3 { left:70%; }
-    .nope-flower.nope-4 { left:83%; }
-    @keyframes sway-flower { 0%,100% { transform:rotate(-4deg); } 50% { transform:rotate(4deg); } }
-
-    #main-sunflower {
-      position: absolute;
-      bottom: 12vh; left: 50%;
-      transform: translateX(-50%);
-      width: clamp(90px, 18vw, 160px);
-      height: auto;
-      z-index: 4;
-      opacity: 0;
-      transform-origin: bottom center;
-    }
-
-    .sunflower-glow {
-      position: absolute;
-      bottom: 16vh; left: 50%;
-      transform: translateX(-50%);
-      width: clamp(140px, 28vw, 260px);
-      height: clamp(140px, 28vw, 260px);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,247,120,0.22) 0%, transparent 70%);
-      z-index: 3;
-      opacity: 0;
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-    @keyframes pulse-glow {
-      0%,100% { transform:translateX(-50%) scale(1); opacity:0.7; }
-      50% { transform:translateX(-50%) scale(1.1); opacity:1; }
-    }
-
-    #main-bee {
-      position: fixed;
-      width: clamp(65px, 10vw, 100px);
-      height: auto;
-      z-index: 10;
-      opacity: 0;
-      top: 30%; left: -150px;
-    }
-
-    #speech-bubble {
-      position: fixed;
-      background: white;
-      color: #022658;
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: 1.2rem;
-      padding: 0.4em 0.8em;
-      border-radius: 12px;
-      z-index: 11;
-      opacity: 0;
+      background: radial-gradient(circle, rgba(255,247,120,0.1) 0%, transparent 68%);
       pointer-events: none;
-      white-space: nowrap;
+      z-index: -1;
     }
-    #speech-bubble::after {
-      content:''; position:absolute;
-      bottom:-8px; left:14px;
-      border:8px solid transparent;
-      border-top-color: white;
-      border-bottom: none;
-    }
-
-    .landing-text {
-      position: absolute;
-      top: 5%; left: 50%;
-      transform: translateX(-50%);
-      width: 90%; max-width: 480px;
+    .landing-menu-content {
+      position: relative;
+      z-index: 5;
+      width: min(100%, 620px);
+      margin: auto;
       text-align: center;
-      padding: 1.4rem 1.8rem;
-      background: rgba(1,14,42,0.55);
-      backdrop-filter: blur(6px);
-      border-radius: 20px;
-      border: 1px solid rgba(255,247,120,0.15);
-      z-index: 6;
-      opacity: 0;
+    }
+    .landing-characters {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .landing-characters img {
+      width: clamp(64px, 10vw, 92px);
+      height: auto;
+      filter: drop-shadow(0 8px 18px rgba(255,247,120,0.3));
+    }
+    .landing-character-heart { font-size:1.6rem; padding-bottom:1.2rem; }
+    .landing-kicker {
+      color: rgba(255,247,120,0.65);
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.72rem, 1.8vw, 0.88rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
     .landing-title {
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: clamp(1.8rem, 6vw, 3.5rem);
-      color: #FFF778;
-      text-shadow: 0 0 20px rgba(255,247,120,0.6);
+      font-size: clamp(3rem, 9vw, 5.5rem);
+      line-height: 1.05;
     }
-    .landing-subtitle {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      color: rgba(255,247,120,0.7);
+    .landing-subtitle { font-size:clamp(0.9rem, 2vw, 1.1rem); }
+    .landing-menu-prompt {
+      margin-top: 1.25rem;
+      color: rgba(255,254,240,0.8);
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+    }
+    .landing-menu-prompt-kr {
       margin-top: 0.3rem;
-      letter-spacing: 0.08em;
+      color: rgba(255,247,120,0.5);
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.8rem;
     }
-
-    #begin-btn {
-      position: absolute;
-      bottom: 25vh; left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-      opacity: 0;
-      pointer-events: none;
-      font-size: clamp(1rem, 3.5vw, 1.5rem);
-      padding: 0.9em 2.2em;
+    .landing-menu-options {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .landing-menu-option {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.15rem 1.35rem;
+      border: 1px solid rgba(255,247,120,0.45);
+      border-radius: 22px;
+      font-family: inherit;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .landing-menu-option.primary {
       background: linear-gradient(135deg, #FFF778, #F5C518);
       color: #022658;
-      border: none; border-radius: 50px;
+      box-shadow: 0 8px 30px rgba(255,247,120,0.2);
+    }
+    .landing-menu-option.secondary {
+      background: rgba(1,14,42,0.65);
+      color: #FFF778;
+      backdrop-filter: blur(8px);
+    }
+    .landing-menu-option:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(255,247,120,0.28);
+    }
+    .landing-menu-option.secondary:hover { background:rgba(2,38,88,0.9); }
+    .landing-menu-option:focus-visible {
+      outline: 3px solid #FFFEF0;
+      outline-offset: 4px;
+    }
+    .landing-menu-option-icon { font-size:2rem; line-height:1; }
+    .landing-menu-option-title {
+      display: block;
       font-family: 'Nanum Pen Script', cursive;
-      cursor: pointer;
-      box-shadow: 0 6px 30px rgba(255,247,120,0.5);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-size: clamp(1.45rem, 4vw, 1.85rem);
+      line-height: 1.1;
     }
-    #begin-btn.visible {
-      opacity: 1;
-      pointer-events: all;
-      animation: pulse-btn 2s ease-in-out infinite;
+    .landing-menu-option-kr {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.76rem;
+      opacity: 0.72;
     }
-    @keyframes pulse-btn {
-      0%,100% { box-shadow:0 6px 30px rgba(255,247,120,0.5); transform:translateX(-50%) translateY(0); }
-      50% { box-shadow:0 10px 40px rgba(255,247,120,0.8); transform:translateX(-50%) translateY(-4px); }
-    }
-    #begin-btn:hover { animation:none; transform:translateX(-50%) translateY(-5px) scale(1.05); }
-    .btn-kr { display:block; font-size:0.58em; font-family:'Noto Serif KR',serif; opacity:0.75; margin-top:0.1em; letter-spacing:0.05em; }
-
-    /* Landing — timeline link */
-    #landing-together-btn {
-      position: absolute;
-      bottom: 18vh; left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-      padding: 0.55em 1.6em;
-      background: transparent;
-      color: rgba(255,247,120,0.65);
-      border: 1.5px solid rgba(255,247,120,0.28);
-      border-radius: 50px;
+    .landing-menu-option-arrow { font-size:1.5rem; }
+    .landing-menu-footer {
+      margin-top: 1.5rem;
+      color: rgba(255,254,240,0.55);
       font-family: 'Nanum Pen Script', cursive;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      backdrop-filter: blur(4px);
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-      opacity: 0;
-      animation: fade-in-up 0.8s ease 5s forwards;
+      font-size: 1.1rem;
     }
-    #landing-together-btn:hover { background: rgba(255,247,120,0.12); color: #FFF778; transform: translateX(-50%) translateY(-3px); }
-    @keyframes fade-in-up { from{opacity:0;transform:translateX(-50%) translateY(8px);} to{opacity:1;transform:translateX(-50%) translateY(0);} }
 
     /* ========================
        SECTION 1 — CHAPTER 1
@@ -706,10 +537,12 @@
     }
     @media (max-width: 480px) {
       html { font-size:14px; }
-      .main-menu { top:0.6rem; left:0.6rem; }
-      .main-menu-toggle { min-height:36px; padding:0.5rem 0.8rem; font-size:0.9rem; }
-      .main-menu-panel { width:min(240px, calc(100vw - 1.2rem)); }
-      .landing-title { font-size:clamp(1.6rem,8vw,2.5rem); }
+      #s0 { padding:4rem 1rem 1.5rem; }
+      .landing-title { font-size:clamp(2.8rem,15vw,4rem); }
+      .landing-menu-options { gap:0.8rem; margin-top:1.5rem; }
+      .landing-menu-option { padding:1rem; gap:0.75rem; border-radius:18px; }
+      .landing-menu-option-icon { font-size:1.6rem; }
+      .landing-menu-footer { margin-top:1.2rem; }
       .ch2-title { font-size:clamp(1.6rem,7vw,2.5rem); }
       .wish-line { font-size:clamp(1.3rem,7vw,2.2rem); }
       .yes-headline { font-size:clamp(3rem,18vw,6rem); }
@@ -724,24 +557,6 @@
 <button id="music-toggle" aria-label="Toggle music">🎵</button>
 <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
 
-<!-- Main menu -->
-<div class="main-menu">
-  <button type="button" class="main-menu-toggle" id="main-menu-toggle" aria-expanded="false" aria-controls="main-menu-panel">
-    <span class="main-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
-    <span>Menu</span>
-  </button>
-  <nav class="main-menu-panel" id="main-menu-panel" aria-label="Main navigation" hidden>
-    <a class="main-menu-link" href="pages/together.html">
-      <span aria-hidden="true">🌻🐝</span>
-      <span>Our Timeline</span>
-    </a>
-    <button type="button" class="main-menu-link" id="menu-begin-story">
-      <span aria-hidden="true">✨</span>
-      <span>Begin Our Story</span>
-    </button>
-  </nav>
-</div>
-
 <!-- Stars layers (shown on dark sections) -->
 <div id="stars-layer" class="stars-layer"></div>
 
@@ -749,52 +564,38 @@
      SECTION 0 — LANDING
      ============================================================ -->
 <section id="s0" class="section active">
-  <div class="moon" aria-hidden="true"></div>
+  <div class="landing-menu-content">
+    <div class="landing-characters" aria-hidden="true">
+      <img src="assets/svg/honeybee.svg" alt="" draggable="false" />
+      <span class="landing-character-heart">💛</span>
+      <img src="assets/svg/sunflower.svg" alt="" draggable="false" />
+    </div>
+    <div class="landing-kicker">For my Sunflower</div>
+    <h1 class="landing-title">Our Story</h1>
+    <div class="landing-subtitle">우리의 이야기</div>
+    <p class="landing-menu-prompt">Where would you like to go?</p>
+    <p class="landing-menu-prompt-kr">어디로 가볼까요?</p>
 
-  <!-- Fireflies -->
-  <div class="firefly" style="left:12%;bottom:38%;--fdur:7s;--fdel:0s;--fx1:25px;--fy1:-35px;--fx2:-10px;--fy2:-55px;--fx3:20px;--fy3:-40px;"></div>
-  <div class="firefly" style="left:28%;bottom:50%;--fdur:5.5s;--fdel:1.2s;--fx1:-20px;--fy1:-25px;--fx2:15px;--fy2:-50px;--fx3:-10px;--fy3:-35px;"></div>
-  <div class="firefly" style="left:65%;bottom:44%;--fdur:8s;--fdel:0.5s;--fx1:15px;--fy1:-40px;--fx2:-25px;--fy2:-65px;--fx3:20px;--fy3:-45px;"></div>
-  <div class="firefly" style="left:80%;bottom:54%;--fdur:6.5s;--fdel:2s;--fx1:-15px;--fy1:-30px;--fx2:20px;--fy2:-50px;--fx3:-10px;--fy3:-38px;"></div>
-
-  <!-- Title text -->
-  <div class="landing-text" id="landing-text">
-    <div class="landing-title">For my Sunflower...</div>
-    <div class="landing-subtitle">나의 해바라기에게...</div>
+    <nav class="landing-menu-options" aria-label="Main navigation">
+      <button type="button" class="landing-menu-option primary" id="landing-begin-story">
+        <span class="landing-menu-option-icon" aria-hidden="true">🌻</span>
+        <span>
+          <span class="landing-menu-option-title">Begin Our Story</span>
+          <span class="landing-menu-option-kr">우리의 이야기를 시작해요</span>
+        </span>
+        <span class="landing-menu-option-arrow" aria-hidden="true">→</span>
+      </button>
+      <a class="landing-menu-option secondary" id="landing-timeline" href="pages/together.html">
+        <span class="landing-menu-option-icon" aria-hidden="true">🌻🐝</span>
+        <span>
+          <span class="landing-menu-option-title">Our Timeline</span>
+          <span class="landing-menu-option-kr">우리의 시간 보기</span>
+        </span>
+        <span class="landing-menu-option-arrow" aria-hidden="true">→</span>
+      </a>
+    </nav>
+    <p class="landing-menu-footer">Every moment with you is my favorite. 💛</p>
   </div>
-
-  <!-- Nope flowers -->
-  <div class="nope-flower nope-1" id="nope1" aria-hidden="true">🌹</div>
-  <div class="nope-flower nope-2" id="nope2" aria-hidden="true">🌷</div>
-  <div class="nope-flower nope-3" id="nope3" aria-hidden="true">🌸</div>
-  <div class="nope-flower nope-4" id="nope4" aria-hidden="true">💐</div>
-
-  <!-- Sunflower glow -->
-  <div class="sunflower-glow" id="sf-glow" aria-hidden="true"></div>
-
-  <!-- Main sunflower -->
-  <img id="main-sunflower" src="assets/svg/sunflower.svg" alt="Sunflower character" draggable="false" />
-
-  <!-- Bee -->
-  <img id="main-bee" src="assets/svg/honeybee.svg" alt="Honeybee character" draggable="false" />
-
-  <!-- Speech bubble -->
-  <div id="speech-bubble">🚫 Nope...</div>
-
-  <!-- Garden -->
-  <div class="garden-strip" id="garden-strip" aria-hidden="true"></div>
-
-  <!-- Begin button -->
-  <button id="begin-btn" aria-label="Begin the story">
-    Begin our story 🌻
-    <span class="btn-kr">우리의 이야기를 시작해요</span>
-  </button>
-
-  <!-- Together counter link -->
-  <a id="landing-together-btn" href="pages/together.html" aria-label="See our timeline">
-    🌻🐝 Our timeline
-    <span class="btn-kr">우리의 시간 보기 💛</span>
-  </a>
 </section>
 
 <!-- ============================================================
@@ -1081,159 +882,16 @@ document.addEventListener('click', e => {
 });
 
 // ========================
-// LANDING ANIMATION (S0)
+// LANDING MENU (S0)
 // ========================
-const bee = document.getElementById('main-bee');
-const sf  = document.getElementById('main-sunflower');
-const sfGlow = document.getElementById('sf-glow');
-const landingText = document.getElementById('landing-text');
-const beginBtn = document.getElementById('begin-btn');
-const bubble = document.getElementById('speech-bubble');
-const nopes = [document.getElementById('nope1'),document.getElementById('nope2'),document.getElementById('nope3'),document.getElementById('nope4')];
-
-// Grass blades
-const gardenStrip = document.getElementById('garden-strip');
-for (let i = 0; i < 24; i++) {
-  const blade = document.createElement('div');
-  blade.className = 'grass-blade';
-  blade.style.cssText = `left:${2+i*4}%;height:${18+Math.random()*18}px;animation-delay:${Math.random()*2}s;animation-duration:${2+Math.random()*1.5}s;`;
-  gardenStrip.appendChild(blade);
-}
-
-function flyBeeToFlower(flower, index, done) {
-  const rect = flower.getBoundingClientRect();
-  const tx = rect.left + rect.width/2 - bee.offsetWidth/2;
-  const ty = rect.top - bee.offsetHeight - 18;
-  gsap.to(bubble, { opacity:0, duration:0.15 });
-  gsap.to(bee, {
-    left: tx+'px', top: ty+'px', duration:1.0, ease:'power1.inOut',
-    onComplete: () => {
-      const br = bee.getBoundingClientRect();
-      bubble.style.left = (br.left + br.width/2 - 40)+'px';
-      bubble.style.top  = (br.top - 48)+'px';
-      bubble.textContent = ['🚫 Nope...','😕 Not quite...','🤔 Hmm...','💭 Almost...'][index];
-      gsap.timeline()
-        .to(bubble, {opacity:1, duration:0.2})
-        .to(bee, {rotation:-12, duration:0.08}, '<')
-        .to(bee, {rotation:12, duration:0.08})
-        .to(bee, {rotation:-8, duration:0.08})
-        .to(bee, {rotation:0, duration:0.1})
-        .to(bubble, {opacity:0, duration:0.3, delay:0.4})
-        .call(() => { flower.classList.add('rejected'); done(); });
-    }
-  });
-  gsap.to(bee, {top:'-=8', duration:0.4, ease:'sine.inOut', yoyo:true, repeat:-1});
-}
-
-function runLandingSequence() {
-  // Fade in title
-  gsap.to(landingText, {opacity:1, duration:1, ease:'power2.out', delay:0.4});
-
-  // Fly bee in
-  setTimeout(() => {
-    gsap.set(bee, {opacity:1, left:'-120px', top:(window.innerHeight*0.32)+'px', position:'fixed', rotation:0});
-    bubble.style.position = 'fixed';
-    gsap.to(bee, {left:'8%', duration:1.2, ease:'power2.out'});
-  }, 1200);
-
-  // Visit nope flowers
-  setTimeout(() => {
-    let i = 0;
-    function visitNext() {
-      if (i >= nopes.length) { afterNopes(); return; }
-      gsap.killTweensOf(bee, 'top');
-      flyBeeToFlower(nopes[i], i, () => { i++; setTimeout(visitNext, 180); });
-    }
-    visitNext();
-  }, 2800);
-
-  function afterNopes() {
-    gsap.timeline()
-      .to(bee, {rotation:-15, duration:0.3, ease:'power1.out'})
-      .to(bee, {rotation:0, duration:0.5, ease:'elastic.out(1,0.5)', delay:0.3})
-      .call(() => {
-        gsap.set(sf, {opacity:0, scale:0.3, transformOrigin:'bottom center'});
-        gsap.to(sf, {opacity:1, scale:1, duration:1.2, ease:'elastic.out(1,0.6)',
-          onStart: () => gsap.to(sfGlow, {opacity:1, duration:1.5})
-        });
-      }, null, null, '+=0.4')
-      .call(() => {
-        gsap.killTweensOf(bee);
-        const sfRect = sf.getBoundingClientRect();
-        const tx = sfRect.left + sfRect.width/2 - bee.offsetWidth/2 - 55;
-        const ty = sfRect.top + sfRect.height*0.1;
-        gsap.to(bee, {
-          left:tx+'px', top:ty+'px', duration:1.1, ease:'power2.inOut',
-          onComplete: () => {
-            bubble.innerHTML = '💛 Found her!';
-            const br = bee.getBoundingClientRect();
-            bubble.style.left = (br.left-10)+'px';
-            bubble.style.top  = (br.top-52)+'px';
-            gsap.timeline()
-              .to(bubble, {opacity:1, scale:1.1, duration:0.3, ease:'back.out(2)'})
-              .to(bubble, {opacity:0, duration:0.4, delay:0.9});
-            gsap.to(bee, {y:-18, duration:0.28, ease:'power1.out', yoyo:true, repeat:3, onComplete: showBeginBtn});
-            particles.burst(br.left+br.width/2, br.top+br.height/2, 12, 'heart');
-          }
-        });
-      }, null, null, '+=1.5');
-  }
-
-  function showBeginBtn() {
-    beginBtn.classList.add('visible');
-  }
-}
-
-// Begin button and main-menu story link
 function startStory() {
-  if (currentSection === 1 || (currentSection === 0 && beginBtn.disabled)) return;
-
+  if (currentSection === 1) return;
   MusicPlayer.play();
   particles.setMode('mixed');
-
-  if (currentSection === 0) {
-    gsap.to(beginBtn, {opacity:0, scale:0.8, duration:0.4});
-    gsap.to(document.getElementById('s0'), {opacity:0, duration:0.7, onComplete:() => goToSection(1)});
-    // Prevent double click
-    beginBtn.disabled = true;
-  } else {
-    goToSection(1);
-  }
+  goToSection(1);
 }
 
-beginBtn.addEventListener('click', startStory);
-
-// ---- Main menu ----
-const mainMenu = document.querySelector('.main-menu');
-const mainMenuToggle = document.getElementById('main-menu-toggle');
-const mainMenuPanel = document.getElementById('main-menu-panel');
-
-function setMainMenuOpen(open, returnFocus = false) {
-  mainMenuToggle.setAttribute('aria-expanded', String(open));
-  mainMenuPanel.hidden = !open;
-  if (returnFocus) mainMenuToggle.focus();
-}
-
-mainMenuToggle.addEventListener('click', () => {
-  setMainMenuOpen(mainMenuPanel.hidden);
-});
-
-mainMenuPanel.addEventListener('click', event => {
-  if (event.target.closest('.main-menu-link')) setMainMenuOpen(false);
-});
-
-document.getElementById('menu-begin-story').addEventListener('click', startStory);
-
-document.addEventListener('click', event => {
-  if (!mainMenuPanel.hidden && !mainMenu.contains(event.target)) setMainMenuOpen(false);
-});
-
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !mainMenuPanel.hidden) setMainMenuOpen(false, true);
-});
-
-// Start landing sequence
-setTimeout(runLandingSequence, 400);
+document.getElementById('landing-begin-story').addEventListener('click', startStory);
 
 
 // ========================
@@ -1399,26 +1057,9 @@ function restartExperience() {
   document.querySelectorAll('#ch1-bee,#ch1-sf,#ch2-bee,#ch2-sf,#ch3-bee,#ch3-sf,#dance-bee,#dance-sf,#dance-heart').forEach(e=>{e.style.opacity='0';});
   document.getElementById('yes1').disabled=false; document.getElementById('yes2').disabled=false;
 
-  // Reset landing
-  document.querySelectorAll('.nope-flower').forEach(e=>e.classList.remove('rejected'));
-  document.getElementById('main-sunflower').style.opacity='0';
-  document.getElementById('sf-glow').style.opacity='0';
-  document.getElementById('main-bee').style.opacity='0';
-  document.getElementById('speech-bubble').style.opacity='0';
-  document.getElementById('begin-btn').disabled=false;
-  document.getElementById('begin-btn').classList.remove('visible');
-  document.getElementById('landing-text').style.opacity='0';
-
-  // Back to section 0
-  sections[currentSection].classList.remove('active');
-  currentSection = 0;
-  sections[0].classList.add('active');
-  sections[0].scrollTop=0;
-
+  // Return to the landing-page menu
+  goToSection(0);
   particles.setMode('stars');
-  document.getElementById('music-toggle').className = '';
-
-  setTimeout(runLandingSequence, 400);
 }
 
 // ---- Global CSS for heart-rise ----
