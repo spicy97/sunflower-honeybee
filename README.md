@@ -5,16 +5,19 @@ A romantic, animated, bilingual (English + Korean) website asking "Sunflower" to
 ## 🗂️ Site Structure
 
 ```
-index.html              ← Landing: Bee wanders garden, finds his Sunflower
+index.html              ← Landing-page main menu
 pages/
   chapter1.html         ← "How It Started" — day scene, characters meet
   chapter2.html         ← "What You Mean to Me" — floating reason cards
   chapter3.html         ← "One Wish Left..." → The Question
   response.html         ← Celebration! She said YES! 🎉
+  together.html         ← "Our Time Together" — milestone counters
+  timeline.html         ← "Our Timeline" — chronological photo memories
 assets/
   css/styles.css        ← All global styles & animations
   js/main.js            ← Music, navigation, GSAP helpers, utilities
   js/particles.js       ← Canvas particle system (petals, hearts, confetti)
+  images/timeline/      ← Optimized photos for the scrollable timeline
   svg/honeybee.svg      ← Animated honeybee character (#022658)
   svg/sunflower.svg     ← Animated sunflower character (#FFF778)
 ```
@@ -50,7 +53,8 @@ assets/
 ## ✨ Features
 
 - 🌻 **Animated SVG characters** — honeybee (navy) and sunflower (yellow)
-- 🎬 **GSAP-powered animations** — bee wanders garden, visits nope flowers, finds sunflower
+- 🎬 **GSAP-powered chapter animations** — characters and story moments come to life
+- 📸 **Scrollable photo timeline** — chronological memories with full-size image viewing
 - 💛 **Bilingual text** — every line in English + Korean (한국어)
 - ✨ **Canvas particle system** — floating petals, sparkles, hearts, confetti
 - 🎵 **Background music** — "Sunflower" via YouTube embed
