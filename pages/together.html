@@ -84,6 +84,36 @@
     }
     #music-toggle:hover { background: rgba(255,247,120,0.3); }
 
+    /* ---- Tap to start Honeybee ---- */
+    #tap-overlay {
+      position:fixed;
+      inset:0;
+      z-index:10000;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:1.2rem;
+      padding:2rem;
+      background:radial-gradient(ellipse at 50% 40%, #0d1a4a 0%, #022658 60%, #010e2a 100%);
+      color:#FFF778;
+      text-align:center;
+      cursor:pointer;
+      user-select:none;
+      transition:opacity 0.7s ease;
+    }
+    #tap-overlay.leaving { opacity:0; pointer-events:none; }
+    #tap-overlay:focus-visible { outline:3px solid #F5C518; outline-offset:-8px; }
+    .tap-emoji {
+      font-size:clamp(4rem,15vw,7rem);
+      animation:tap-pulse 1.8s ease-in-out infinite;
+      filter:drop-shadow(0 0 24px rgba(255,247,120,0.7));
+    }
+    .tap-title { font-family:'Nanum Pen Script',cursive; font-size:clamp(1.6rem,5vw,2.4rem); text-shadow:0 0 16px rgba(255,247,120,0.5); }
+    .tap-subtitle { color:rgba(255,247,120,0.65); font-family:'Noto Serif KR',serif; font-size:clamp(.8rem,3vw,1rem); letter-spacing:.06em; }
+    @keyframes tap-pulse { 0%,100%{transform:scale(1) rotate(-4deg);} 50%{transform:scale(1.12) rotate(4deg);} }
+    @media (prefers-reduced-motion:reduce) { .tap-emoji { animation:none; } #tap-overlay { transition:none; } }
+
     /* ---- Night glow orb ---- */
     .night-glow {
       position: fixed;
@@ -412,8 +442,13 @@
 <div class="firefly" style="left:85%;top:64%;--fdur:6.2s;--fdel:1.9s;--fx1:-12px;--fy1:-28px;--fx2:18px;--fy2:-46px;--fx3:-8px;--fy3:-34px;"></div>
 
 <!-- Music toggle -->
-<button id="music-toggle" aria-label="Toggle music">🎵</button>
+<button id="music-toggle" aria-label="Play Honeybee by Olivia Rodrigo">🎵</button>
 <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
+<div id="tap-overlay" role="button" tabindex="0" aria-label="Play Honeybee and view Our Time Together">
+  <div class="tap-emoji" aria-hidden="true">🐝</div>
+  <div class="tap-title">Every second with you...</div>
+  <div class="tap-subtitle">Tap to continue · 계속하려면 탭하세요</div>
+</div>
 
 <!-- ============================================================
      MAIN PAGE
@@ -688,7 +723,6 @@ function runEntrance() {
   setTimeout(() => document.getElementById('quote-wrap').classList.add('show'),  2500);
   setTimeout(() => document.getElementById('back-btn').classList.add('show'),    3000);
 }
-runEntrance();
 
 // ---- Heart click effect ----
 document.addEventListener('click', e => {
@@ -714,8 +748,8 @@ const MusicPlayer = (() => {
   window.onYouTubeIframeAPIReady = function() {
     player = new YT.Player('yt-player', {
       height:'1', width:'1',
-      videoId: 'ApXoWvfEYVU',
-      playerVars: { autoplay:0, loop:1, playlist:'ApXoWvfEYVU', controls:0, disablekb:1, fs:0, iv_load_policy:3, modestbranding:1, rel:0 },
+      videoId: 'XezOkkUM--w', // honeybee — Olivia Rodrigo
+      playerVars: { autoplay:0, loop:1, playlist:'XezOkkUM--w', controls:0, disablekb:1, fs:0, iv_load_policy:3, modestbranding:1, rel:0 },
       events: {
         onReady: e => { ready = true; e.target.setVolume(40); if (started) e.target.playVideo(); },
         onStateChange: e => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
@@ -736,7 +770,10 @@ const MusicPlayer = (() => {
 
   function updateBtn() {
     const btn = document.getElementById('music-toggle');
-    if (btn) btn.textContent = muted ? '🔇' : '🎵';
+    if (btn) {
+      btn.textContent = muted ? '🔇' : '🎵';
+      btn.setAttribute('aria-label', muted ? 'Unmute Honeybee' : 'Mute Honeybee');
+    }
   }
 
   loadAPI();
@@ -746,6 +783,29 @@ const MusicPlayer = (() => {
 
   return { play };
 })();
+
+// A tap starts music reliably under browser autoplay rules, then reveals the page.
+const tapOverlay = document.getElementById('tap-overlay');
+document.body.style.overflow = 'hidden';
+
+function revealTogether() {
+  if (tapOverlay.classList.contains('leaving')) return;
+  MusicPlayer.play();
+  tapOverlay.classList.add('leaving');
+  runEntrance();
+  setTimeout(() => {
+    tapOverlay.remove();
+    document.body.style.overflow = '';
+  }, 700);
+}
+
+tapOverlay.addEventListener('click', revealTogether);
+tapOverlay.addEventListener('keydown', event => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    revealTogether();
+  }
+});
 </script>
 </body>
 </html>

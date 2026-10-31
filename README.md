@@ -45,10 +45,11 @@ assets/
 
 ## 🎵 Music
 
-"Sunflower" by Post Malone & Swae Lee plays via a hidden YouTube embed.
-- Music starts when the user clicks "Begin our story"
+Music plays via hidden YouTube embeds.
+- "Sunflower" by Post Malone & Swae Lee starts when the user clicks "Begin Our Story"
+- "Honeybee" by Olivia Rodrigo starts after the tap-to-continue interaction on "Our Time Together"
 - Toggle button (🎵) in the top-right corner on every page
-- Loops continuously across all pages
+- Tracks loop continuously
 
 ## ✨ Features
 
