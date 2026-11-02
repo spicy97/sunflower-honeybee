@@ -48,6 +48,7 @@ assets/
 Music plays via hidden YouTube embeds.
 - "Sunflower" by Post Malone & Swae Lee starts when the user clicks "Begin Our Story"
 - "Honeybee" by Olivia Rodrigo starts after the tap-to-continue interaction on "Our Time Together"
+- "Memories" by Maroon 5 plays on "Our Timeline" using the music toggle
 - Toggle button (🎵) in the top-right corner on every page
 - Tracks loop continuously
 

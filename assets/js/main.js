@@ -9,6 +9,7 @@ const MusicPlayer = (() => {
   let ready = false;
   let muted = false;
   let startedOnce = false;
+  const videoId = window.MUSIC_VIDEO_ID || 'ApXoWvfEYVU'; // Default: "Sunflower" by Post Malone & Swae Lee
 
   // Load YouTube IFrame API
   function loadAPI() {
@@ -24,11 +25,11 @@ const MusicPlayer = (() => {
     player = new YT.Player('yt-player', {
       height: '1',
       width: '1',
-      videoId: 'ApXoWvfEYVU', // "Sunflower" by Post Malone & Swae Lee
+      videoId,
       playerVars: {
         autoplay: 0,
         loop: 1,
-        playlist: 'ApXoWvfEYVU',
+        playlist: videoId,
         controls: 0,
         disablekb: 1,
         fs: 0,
